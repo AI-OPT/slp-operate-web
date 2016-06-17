@@ -390,77 +390,81 @@
 
 
 <div class="wrapper"><!--外围框架-->
-<!--右侧框架-->
- <div class="wrapper-right">
-	 <!--公告位置-->
-	 <%@ include file="/inc/public-msg.jsp" %>
-	 <!--公告位置结束-->
-    <!--标签-->
-    <div class="right-tags">
-        <ul>
-           <li>
-           	   <p class="none">您现在的位置：</p>
-	           <p><a href="#">商城商品管理</a>></p>
-	           <p>待编辑商品</p>
-           </li>
-        </ul>  
-    </div>
-   <!--标签结束-->
-   
-    <div class="form-wrapper"><!--白底内侧-->
-    		<div class="nav-tplist-wrapper"><!--白底内侧-->
-    			<div class="nav-tplist-title nav-tplist-title-border  nav-tplist-title-edit">
-                  <ul>
-                    <li><span>*</span>标注为必填项</li>
-                  </ul>
-              </div>
-       <div class="nav-form-title">商品基础信息</div> <!--标题-->    
-        <div class="nav-form nav-form-border"><!--查询条件-->    
-           		<ul>
-           		<li class="width-xlag">
-                    <p class="word"><b class="red">*</b>类目信息</p>
-                    <p><c:forEach var="catInfo" items="${catLinkList}">${catInfo.productCatName}&gt;</c:forEach></p>
-               </li>	
-              </ul>
-              <ul>
-                <li>
-                    <p class="word"><b class="red">*</b>商品类型</p>
-                    <p>${prodType}</p>
-                </li>  
-            </ul>  
-            <ul>
-                <li class="width-xlag">
-                    <p class="word"><b class="red">*</b>商品名称</p>
-                    <p><input type="text" name="prodName" class="int-xlarge" value="${productInfo.prodName}"></p>
-                </li>
-            </ul> 
-            <ul>
-                <li class="width-xlag">
-                    <p class="word">商品卖点</p>
-                    <p><textarea  class="textarea-xlarge">${productInfo.productSellPoint}</textarea></p>
-                </li>   
-            </ul>
-            <ul>
-                <li class="width-xlag">
-                    <p class="word"><b class="red">*</b>商品有效期</p>
-                    <p><input type="text" class="int-small" value="${productInfo.activeCycle}"></p>
-                    <p><select class="select-small">
-						<c:forEach var="unit" items="${prodUnits}">
-							<option value="${unit.columnValue}">${unit.columnDesc}</option>
-						</c:forEach>
-					</select></p>
-                </li>
-            </ul> 
-            <ul>
-                <li class="width-xlag">
-                    <p class="word"><b class="red">*</b>是否快充商品</p>
-                    <p><input type="radio" name="rechargeType" class="checkbox-small" <c:if test="${productInfo.rechargeType == 'D'}">checked</c:if>>是</p>
-                    <p><input type="radio" name="rechargeType" class="checkbox-small" <c:if test="${productInfo.rechargeType == 'C'}">checked</c:if>>否</p>
-                    <p><img src="${_slpres}/images/icon-a.png" />请完善此必填项信息</p>
-                </li>
-            </ul> 
-        </div>
-        <div class="nav-form-title">商品关键属性</div> <!--标题-->
+	<!--右侧框架-->
+	<div class="wrapper-right">
+		<!--公告位置-->
+		<%@ include file="/inc/public-msg.jsp" %>
+		<!--公告位置结束-->
+		<!--标签-->
+		<div class="right-tags">
+			<ul>
+				<li>
+					<p class="none">您现在的位置：</p>
+					<p><a href="#">商城商品管理</a>></p>
+					<p>待编辑商品</p>
+				</li>
+			</ul>
+		</div>
+		<!--标签结束-->
+
+		<div class="form-wrapper"><!--白底内侧-->
+			<div class="nav-tplist-wrapper"><!--白底内侧-->
+				<div class="nav-tplist-title nav-tplist-title-border  nav-tplist-title-edit">
+					<ul>
+						<li><span>*</span>标注为必填项</li>
+					</ul>
+				</div>
+				<div class="nav-form-title">商品基础信息</div> <!--标题-->
+				<div class="nav-form nav-form-border"><!--查询条件-->
+					<ul>
+						<li class="width-xlag">
+							<p class="word"><b class="red">*</b>类目信息</p>
+							<p><c:forEach var="catInfo"
+										  items="${catLinkList}">${catInfo.productCatName}&gt;</c:forEach></p>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							<p class="word"><b class="red">*</b>商品类型</p>
+							<p>${prodType}</p>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word"><b class="red">*</b>商品名称</p>
+							<p><input type="text" name="prodName" class="int-xlarge" value="${productInfo.prodName}">
+							</p>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word">商品卖点</p>
+							<p><textarea class="textarea-xlarge">${productInfo.productSellPoint}</textarea></p>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word"><b class="red">*</b>商品有效期</p>
+							<p><input type="text" class="int-small" value="${productInfo.activeCycle}"></p>
+							<p><select class="select-small">
+								<c:forEach var="unit" items="${prodUnits}">
+									<option value="${unit.columnValue}">${unit.columnDesc}</option>
+								</c:forEach>
+							</select></p>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word"><b class="red">*</b>是否快充商品</p>
+							<p><input type="radio" name="rechargeType" class="checkbox-small"
+									  <c:if test="${productInfo.rechargeType == 'D'}">checked</c:if>>是</p>
+							<p><input type="radio" name="rechargeType" class="checkbox-small"
+									  <c:if test="${productInfo.rechargeType == 'C'}">checked</c:if>>否</p>
+							<p><img src="${_slpres}/images/icon-a.png"/>请完善此必填项信息</p>
+						</li>
+					</ul>
+				</div>
+				<div class="nav-form-title">商品关键属性</div> <!--标题-->
 				<div class="nav-form nav-form-border"><!--关键属性显示-->
 					<c:forEach var="aav" items="${attrAndVal}">
 						<ul>
@@ -470,7 +474,8 @@
 									<%--多选--%>
 									<c:when test="${aav.key.attrType == '2'}">
 										<div class="cit-width">
-										<c:forEach var="attrVal" items="${aav.value}"><p>${attrVal.attrVal}</p></c:forEach>
+											<c:forEach var="attrVal" items="${aav.value}">
+												<p>${attrVal.attrVal}</p></c:forEach>
 										</div>
 									</c:when>
 									<c:otherwise>
@@ -482,232 +487,271 @@
 					</c:forEach>
 				</div>
 				<div class="nav-form-title">商品非关键属性</div> <!--标题-->
-        <div class="nav-form nav-form-border"><!--查询条件-->    
-              <ul>
-                <li>
-                    <p class="word"><b class="red">*</b>当月限充次数</p>
-                    <p><select class="select-medium"></select></p>
-                </li>  
-            </ul>  
-            <ul>
-                <li class="width-xlag">
-                    <p class="word"><b class="red">*</b>生效时间</p>
-                    <p><input type="text" class="int-xlarge"></p>
-                </li>
-            </ul> 
-            <ul>
-            		<li class="width-xlag">
-                    <p class="word"><b class="red">*</b>适用归属地</p>
-                    <p><input type="checkbox" class="checkbox-small">2G</p>
-                    <p><input type="checkbox" class="checkbox-small">3G</p>
-                    <p><input type="checkbox" class="checkbox-small">4G</p>
-               </li>    
-            </ul>
-           </div>
-           <div class="nav-form-title">其他设置</div> <!--标题-->    
-        <div class="nav-form nav-form-border"><!--查询条件-->   
-        		 <ul>
-                <li class="width-xlag">
-                    <p class="word">话费/流量适用号段</p>
-                </li>  
-           </ul>  
-            <ul>
-            		<li class="width-xlag">
-                    <p class="word"><b class="red">*</b>运营商</p>
-						<c:forEach var="orgId" items="${orgIds}">
-							<p><input type="radio" name="basicOrgId" <c:if test="${productInfo.basicOrgId == orgId.columnValue}">checked</c:if>
-									  class="checkbox-small" value="${orgId.columnValue}">${orgId.columnDesc}</p>
-						</c:forEach>
-              </li> 
-            </ul>
-       	  <ul>
-                <li class="width-xlag">
-                    <p class="word">选择商品目标受众类型</p>
-                </li>  
-           </ul>
-           <ul>
-            		<li class="width-xlag">
-                    <p class="word"><b class="red">*</b>个人用户</p>
-                    <p><input type="radio" class="checkbox-small">全部可见</p>
-                    <p><input type="radio" class="checkbox-small">全部不可见</p>
-                    <p><img src="${_slpres}/images/icon-a.png">请完善此必填项信息</p>
-              </li> 
-            </ul> 
-          	<ul>
-            		<li class="width-xlag">
-                    <p class="word"><b class="red">*</b>企业用户</p>
-                    <p><input type="radio" class="checkbox-small">全部企业可见</p>
-                    <p><input type="radio" class="checkbox-small">部分企业可见</p>
-                    <p><input type="radio" class="checkbox-small">全部企业不可见</p>
-                    <p><img src="${_slpres}/images/icon-a.png">请完善此必填项信息</p>
-                    <div class="cit-width cit-width-list2">
-                    <p class="width-xlag">已选中代理商20个<a href="#" class="modify">修改</a></p>
-                    <p>百度在线 （百度在线企业账户）</p>
-                    <p>百事（可乐百事）、</p>
-                    <p>宝马 （BMW-accuont)、</p>
-                    <p> C开头公司名称1（注册用户名）、</p>
-                    <p>C开头公司2 （注册用户名）、</p>
-                    <p>C开头公司3很长的公司注册名字换行（注册用户名）、</p>
-                    <p>D开头公司1（注册用户名）、</p>
-                    <p><a href="javascript:" class="zk">显示更多<i class="icon-angle-down"></i></a></p>
-                    </div>
-                    <div class="cit-width open" style="display:none;">
-                    <p>百度在线 （百度在线企业账户）</p>
-                    <p>百事（可乐百事）、</p>
-                    <p>宝马 （BMW-accuont)、</p>
-                    <p> C开头公司名称1（注册用户名）、</p>
-                    <p>C开头公司2 （注册用户名）、</p>
-                    <p>C开头公司3很长的公司注册名字换行（注册用户名）、</p>
-                    <p>D开头公司1（注册用户名）、</p>
-                    </div>
-              </li> 
-            </ul> 
-         	<ul>
-            		<li class="width-xlag">
-                    <p class="word"><b class="red">*</b>代理商用户</p>
-                    <p><input type="radio" class="checkbox-small">全部代理可见</p>
-                    <p><input type="radio" class="checkbox-small">部分代理可见</p>
-                    <p><input type="radio" class="checkbox-small">全部代理不可见</p>
-              </li>                      
-            </ul>
-            <ul>
-                <li class="width-xlag">
-                    <p class="word">亚信平台代销</p>
-                </li>  
-           </ul>
-           <ul>
-            		<li class="width-xlag">
-                    <p class="word"><b class="red">*</b>是否允许</p>
-                    <p><input type="radio" class="checkbox-small">不允许亚信代销</p>
-                    <p><input type="radio" class="checkbox-small">允许亚信代销</p>
-              </li> 
-           </ul>  
-            <ul>
-                <li class="width-xlag">
-                    <p class="word">商品目标地域</p>
-                </li>  
-           </ul>
-           <ul>
-            		<li class="width-xlag">
-                    <p class="word"><b class="red">*</b>选择商品目标地域</p>
-                    <p><input type="radio" name="radio"  class="checkbox-small radioc ">全国</p>
-                    <p><input type="radio" name="radio" class="checkbox-small radiod city">部分</p>
-                    <div id="check3"></div>
-                    <div id="check4" style="display:none;">
-                    <div class="cit-width cit-width-list2">
-                    <p class="width-xlag">已选中省份12个<a href="#"  class="city">修改</a></p>
-                    <p>北京市、</p>
-                    <p>广东市、</p>
-                    <p>重庆市、</p>
-                    <p>黑龙江省、</p>
-                    <p>天津市、</p>
-                    <p>广西、</p>
-                    <p>四川省、</p>
-                    <p>海南省、</p>
-                    <p>云南省、</p>
-                    <p><a href="javascript:" class="zk">显示更多<i class="icon-angle-down"></i></a></p>
-                    </div>
-                    <div class="cit-width open" style="display:none;">
-                    <p>北京市、</p>
-                    <p>广东市、</p>
-                    <p>重庆市、</p>
-                    <p>黑龙江省、</p>
-                    <p>天津市、</p>
-                    <p>广西、</p>
-                    <p>四川省、</p>
-                    <p>海南省、</p>
-                    <p>云南省、</p>
-                    </div>
-                    </div>
-              </li> 
-           </ul> 
-            <ul>
-                <li class="width-xlag">
-                    <p class="word">商品上架时间</p>
-                </li>  
-           </ul>
-           <ul>
-            		<li class="width-xlag">
-                    <p class="word"><b class="red">*</b>选择商品上架时间</p>
-                    <p><input type="radio" class="checkbox-small">立即上架</p>
-                    <p><input type="radio" class="checkbox-small">放入仓库</p>
-                    <p><input type="radio" class="checkbox-small">定时上架</p>
-                    <p><input type="text" class="int-small"><a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
-              </li>                    
-           </ul>  
-        </div>
-		<div class="nav-form-title">商品主图</div> <!--标题-->    
-	        <div class="nav-form nav-form-border"><!--查询条件-->    
-	              <ul>
-	                <li class="width-xlag">
-	                   提示：请上传商品主体正面照片jpg/png格式，不小于700x700px的方形图片，单张不能超过3M，最多6张。
- 					</li>  
-	            </ul>  
-	            <ul>
-	                <li class="width-xlag">
-	                    <p class="word"><b class="red">*</b>商品主图</p>
-	                    <div class="width-img">
-	                    <p class="img"><img src="${_slpres}/images/sp-03.png" /><i class="icon-remove-sign"></i></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03.png" /><i class="icon-remove-sign"></i></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03.png" /><i class="icon-remove-sign"></i></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03.png" /><i class="icon-remove-sign"></i></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03.png" /><i class="icon-remove-sign"></i></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03.png" /><i class="icon-remove-sign"></i></p>
-	                    </div>
-	                    <p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片" /><!--<input type="file" class="file">--></p>
-	                </li>
-	            </ul> 
-	            <ul>
-	                <li class="width-xlag">
-	                    <p class="word"><b class="red">*</b>红色</p>
-	                     <div class="width-img">
-	                    <p class="img"><img src="${_slpres}/images/sp-03.png" /><i class="icon-remove-sign"></i></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03.png" /><i class="icon-remove-sign"></i></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03.png" /><i class="icon-remove-sign"></i></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03.png" /><i class="icon-remove-sign"></i></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03-a.png" /></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03-a.png" /></p>
-	                    </div>
-	                    <p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片" /><!--<input type="file" class="file">--></p>
-	                </li>
-	            </ul> 
-	            <ul>
-	                <li class="width-xlag">
-	                    <p class="word"><b class="red">*</b>白色</p>
-	                    <div class="width-img">
-	                    <p class="img"><img src="${_slpres}/images/sp-03.png" /><i class="icon-remove-sign"></i></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03.png" /><i class="icon-remove-sign"></i></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03.png" /><i class="icon-remove-sign"></i></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03.png" /><i class="icon-remove-sign"></i></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03-a.png" /></p>
-	                    <p class="img"><img src="${_slpres}/images/sp-03-a.png" /></p>
-	                    </div>
-	                    <p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片" /><!--<input type="file" class="file">--></p>
-	                </li>
-	            </ul> 
-	           </div>
-         <div class="nav-form-title">商品详情图文描述</div> <!--标题-->      
-         <div class="nav-form"><!--查询条件-->    
-         	<ul>
-	             <li class="width-xlag">
-	                   <p><img src="${_slpres}/images/edit.png" /></p>
-	             </li>
-	         </ul> 
-	         <ul>
-	         	<li>
-	         		<p><input type="button" class="blling-btn width-btn" value="提交审核"></p>
-	         		<p><input type="button" class="blling-btn width-btn" value="保存"></p>
-	         		<p><input type="button" class="blling-btn width-btn" value="预览"></p>
-	         	</li>
-	         	
-	         </ul>
-         </div>	
-             
-    		</div>
+				<div class="nav-form nav-form-border"><!--查询条件-->
+					<c:forEach var="attr" items="${noKeyAttr}">
+						<ul>
+							<li class="width-xlag">
+						<p class="word">${attr.key.attrName}</p>
+						<c:choose>
+							<%-- 下拉选择 --%>
+							<c:when test="${attr.key.valueWay == '1'}">
+								<select class="select-medium">
+									<c:forEach var="valInfo" items="${attr.value}">
+										<option value="${valInfo.attrValId}"
+												<c:if test="${valInfo.productAttrValId}">selected</c:if>>${valInfo.attrVal}</option>
+									</c:forEach>
+								</select>
+							</c:when>
+							<%--多选--%>
+							<c:when test="${attr.key.valueWay == '2'}">
+								<div class="width-xlag">
+									<c:forEach var="valInfo" items="${attr.value}">
+										<p><input type="checkbox" class="checkbox-small"
+												  <c:if test="${valInfo.productAttrValId}">checked</c:if> >${valInfo.attrVal}</p>
+									</c:forEach>
+								</div>
+							</c:when>
+							<%--单行输入--%>
+							<c:when test="${attr.key.valueWay == '3'}">
+								<c:set var="valInfo" value="${attr.value.get(0)}"></c:set>
+								<p><input type="text" class="int-xlarge" <c:if test="${valInfo!=null}">value="${valInfo.attrVal}"</c:if> ></p>
+							</c:when>
+							<%--多行输入--%>
+							<c:when test="${attr.key.valueWay == '4'}">
+								<c:set var="valInfo" value="${attr.value.get(0)}"></c:set>
+								<p><textarea class="textarea-xlarge"><c:if test="${valInfo!=null}">${valInfo.attrVal}</c:if></textarea></p>
+							</c:when>
+						</c:choose>
+							</li>
+						</ul>
+					</c:forEach>
 
-    </div>
+				</div>
+				<div class="nav-form-title">其他设置</div> <!--标题-->
+				<div class="nav-form nav-form-border"><!--查询条件-->
+					<ul>
+						<li class="width-xlag">
+							<p class="word">话费/流量适用号段</p>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word"><b class="red">*</b>运营商</p>
+							<c:forEach var="orgId" items="${orgIds}">
+								<p><input type="radio" name="basicOrgId"
+										  <c:if test="${productInfo.basicOrgId == orgId.columnValue}">checked</c:if>
+										  class="checkbox-small" value="${orgId.columnValue}">${orgId.columnDesc}</p>
+							</c:forEach>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word">选择商品目标受众类型</p>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word"><b class="red">*</b>个人用户</p>
+							<p><input type="radio" class="checkbox-small">全部可见</p>
+							<p><input type="radio" class="checkbox-small">全部不可见</p>
+							<p><img src="${_slpres}/images/icon-a.png">请完善此必填项信息</p>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word"><b class="red">*</b>企业用户</p>
+							<p><input type="radio" class="checkbox-small">全部企业可见</p>
+							<p><input type="radio" class="checkbox-small">部分企业可见</p>
+							<p><input type="radio" class="checkbox-small">全部企业不可见</p>
+							<p><img src="${_slpres}/images/icon-a.png">请完善此必填项信息</p>
+							<div class="cit-width cit-width-list2">
+								<p class="width-xlag">已选中代理商20个<a href="#" class="modify">修改</a></p>
+								<p>百度在线 （百度在线企业账户）</p>
+								<p>百事（可乐百事）、</p>
+								<p>宝马 （BMW-accuont)、</p>
+								<p> C开头公司名称1（注册用户名）、</p>
+								<p>C开头公司2 （注册用户名）、</p>
+								<p>C开头公司3很长的公司注册名字换行（注册用户名）、</p>
+								<p>D开头公司1（注册用户名）、</p>
+								<p><a href="javascript:" class="zk">显示更多<i class="icon-angle-down"></i></a></p>
+							</div>
+							<div class="cit-width open" style="display:none;">
+								<p>百度在线 （百度在线企业账户）</p>
+								<p>百事（可乐百事）、</p>
+								<p>宝马 （BMW-accuont)、</p>
+								<p> C开头公司名称1（注册用户名）、</p>
+								<p>C开头公司2 （注册用户名）、</p>
+								<p>C开头公司3很长的公司注册名字换行（注册用户名）、</p>
+								<p>D开头公司1（注册用户名）、</p>
+							</div>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word"><b class="red">*</b>代理商用户</p>
+							<p><input type="radio" class="checkbox-small">全部代理可见</p>
+							<p><input type="radio" class="checkbox-small">部分代理可见</p>
+							<p><input type="radio" class="checkbox-small">全部代理不可见</p>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word">亚信平台代销</p>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word"><b class="red">*</b>是否允许</p>
+							<p><input type="radio" class="checkbox-small" name="isReplaceSell"
+									  <c:if test="${productInfo.isReplaceSell == 'Y'}">checked</c:if>>允许亚信代销</p>
+							<p><input type="radio" class="checkbox-small" name="isReplaceSell"
+									  <c:if test="${productInfo.isReplaceSell == 'N'}">checked</c:if>>不允许亚信代销</p>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word">商品目标地域</p>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word"><b class="red">*</b>选择商品目标地域</p>
+							<p><input type="radio" name="radio" class="checkbox-small radioc ">全国</p>
+							<p><input type="radio" name="radio" class="checkbox-small radiod city">部分</p>
+							<div id="check3"></div>
+							<div id="check4" style="display:none;">
+								<div class="cit-width cit-width-list2">
+									<p class="width-xlag">已选中省份12个<a href="#" class="city">修改</a></p>
+									<p>北京市、</p>
+									<p>广东市、</p>
+									<p>重庆市、</p>
+									<p>黑龙江省、</p>
+									<p>天津市、</p>
+									<p>广西、</p>
+									<p>四川省、</p>
+									<p>海南省、</p>
+									<p>云南省、</p>
+									<p><a href="javascript:" class="zk">显示更多<i class="icon-angle-down"></i></a></p>
+								</div>
+								<div class="cit-width open" style="display:none;">
+									<p>北京市、</p>
+									<p>广东市、</p>
+									<p>重庆市、</p>
+									<p>黑龙江省、</p>
+									<p>天津市、</p>
+									<p>广西、</p>
+									<p>四川省、</p>
+									<p>海南省、</p>
+									<p>云南省、</p>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word">商品上架时间</p>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word"><b class="red">*</b>选择商品上架时间</p>
+							<p><input type="radio" class="checkbox-small">立即上架</p>
+							<p><input type="radio" class="checkbox-small">放入仓库</p>
+							<p><input type="radio" class="checkbox-small">定时上架</p>
+							<p><input type="text" class="int-small"><a href="#" class="ccc"><i
+									class="icon-calendar"></i></a></p>
+						</li>
+					</ul>
+				</div>
+				<div class="nav-form-title">商品主图</div> <!--标题-->
+				<div class="nav-form nav-form-border"><!--查询条件-->
+					<ul>
+						<li class="width-xlag">
+							提示：请上传商品主体正面照片jpg/png格式，不小于700x700px的方形图片，单张不能超过3M，最多6张。
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word"><b class="red">*</b>商品主图</p>
+							<div class="width-img">
+								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
+								</p>
+								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
+								</p>
+								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
+								</p>
+								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
+								</p>
+								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
+								</p>
+								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
+								</p>
+							</div>
+							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片"/>
+								<!--<input type="file" class="file">--></p>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word"><b class="red">*</b>红色</p>
+							<div class="width-img">
+								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
+								</p>
+								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
+								</p>
+								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
+								</p>
+								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
+								</p>
+								<p class="img"><img src="${_slpres}/images/sp-03-a.png"/></p>
+								<p class="img"><img src="${_slpres}/images/sp-03-a.png"/></p>
+							</div>
+							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片"/>
+								<!--<input type="file" class="file">--></p>
+						</li>
+					</ul>
+					<ul>
+						<li class="width-xlag">
+							<p class="word"><b class="red">*</b>白色</p>
+							<div class="width-img">
+								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
+								</p>
+								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
+								</p>
+								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
+								</p>
+								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
+								</p>
+								<p class="img"><img src="${_slpres}/images/sp-03-a.png"/></p>
+								<p class="img"><img src="${_slpres}/images/sp-03-a.png"/></p>
+							</div>
+							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片"/>
+								<!--<input type="file" class="file">--></p>
+						</li>
+					</ul>
+				</div>
+				<div class="nav-form-title">商品详情图文描述</div> <!--标题-->
+				<div class="nav-form"><!--查询条件-->
+					<ul>
+						<li class="width-xlag">
+							<p><img src="${_slpres}/images/edit.png"/></p>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							<p><input type="button" class="blling-btn width-btn" value="提交审核"></p>
+							<p><input type="button" class="blling-btn width-btn" value="保存"></p>
+							<p><input type="button" class="blling-btn width-btn" value="预览"></p>
+						</li>
 
-    </div>
+					</ul>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
 </div>	
 <!-- footer -->
 <div class="footer">版权所有 © SLP版权归运营家所有</div>
