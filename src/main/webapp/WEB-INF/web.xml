@@ -11,7 +11,7 @@
         <filter-name>xss-firewall</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <filter>
+    <!--<filter>
         <filter-name>sessionFilter</filter-name>
         <filter-class>com.ai.opt.uni.session.filter.CacheSessionFilter</filter-class>
         <init-param>
@@ -22,7 +22,7 @@
     <filter-mapping>
         <filter-name>sessionFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
 
     <!-- <listener>
       <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>

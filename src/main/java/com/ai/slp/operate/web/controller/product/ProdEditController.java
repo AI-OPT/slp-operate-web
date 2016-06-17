@@ -101,6 +101,16 @@ public class ProdEditController {
         return "product/edit";
     }
 
+    /**
+     * 保持编辑信息
+     * @return
+     */
+    @RequestMapping("/save/{id}")
+    public String saveProductInfo(@PathVariable("id")String prodId,String detailConVal,Model uiModel){
+        System.out.println();
+        return "redirect:/prodedit/"+prodId;
+    }
+
     private Map<ProdCatAttrInfo,List<AttrValInfo>> getAttrAndVals(AttrMap attrMap){
         Map<ProdCatAttrInfo,List<AttrValInfo>> attrAndValMap = new HashMap<>();
         Set<Map.Entry<Long,List<Long>>> entrySet = attrMap.attrAndVal.entrySet();

@@ -9,4 +9,8 @@ public final class SysCommonConstants {
      * 公共中租户ID
      */
     public static final String COMMON_TENANT_ID = "SLP";
+
+    public static final class ProductImage {
+        public static final String IDPSNS = "slp-mall-web-idps";
+    }
 }

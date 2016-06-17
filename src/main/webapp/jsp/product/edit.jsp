@@ -280,6 +280,7 @@
 						<li><span>*</span>标注为必填项</li>
 					</ul>
 				</div>
+				<form id="prodForm" action="${_base}/prodedit/save/${productInfo.prodId}" method="post">
 				<div class="nav-form-title">商品基础信息</div> <!--标题-->
 				<div class="nav-form nav-form-border"><!--查询条件-->
 					<ul>
@@ -583,52 +584,55 @@
 					</ul>
 				</div>
 				<div class="nav-form-title">商品详情图文描述</div> <!--标题-->
-				<div class="nav-form"><!--查询条件-->
+				<div class="nav-form" id="detailDiv"><!--查询条件-->
 					<ul>
 						<li class="width-xlag">
-							<p><img src="${_slpres}/images/edit.png"/></p>
+							<p><div id="prodDetail"></div></p>
 						</li>
 					</ul>
+					<input type="hidden" name="detailConVal" id="detailConVal">
 					<ul>
 						<li>
-							<p><input type="button" class="blling-btn width-btn" value="提交审核"></p>
-							<p><input type="button" class="blling-btn width-btn" value="保存"></p>
-							<p><input type="button" class="blling-btn width-btn" value="预览"></p>
+							<p><input id="submit" type="button" class="blling-btn width-btn" value="提交审核"></p>
+							<p><input id="save" type="button" class="blling-btn width-btn" value="保存"></p>
+							<%--<p><input type="button" class="blling-btn width-btn" value="预览"></p>--%>
 						</li>
-
 					</ul>
 				</div>
-
+				</form>
 			</div>
-
 		</div>
-
 	</div>
 </div>	
 <!-- footer -->
 <div class="footer">版权所有 © SLP版权归运营家所有</div>
 </body>
-</html>
- <script type="text/javascript"> 
-window.onload = function(){	
-	var timer;
-	var elem = document.getElementById('elem');
-	var elem1 = document.getElementById('elem1');
-	var elem2 = document.getElementById('elem2');
-	elem2.innerHTML = elem1.innerHTML;
-	timer = setInterval(Scroll,40);
-	function Scroll(){
-		if(elem.scrollTop>=elem1.offsetHeight){
-			elem.scrollTop -= elem1.offsetHeight;
-		}else{
-			elem.scrollTop += 1;
-		}
-	}	
-	elem.onmouseover = function(){
-		clearInterval(timer);
-	}	
-	elem.onmouseout = function(){
+<script type="text/javascript">
+	var pager;
+	(function () {
+		var timer;
+		var elem = $('#elem');
+		var elem1 = $('#elem1');
+		var elem2 = $('#elem2');
+		elem2.innerHTML = elem1.innerHTML;
 		timer = setInterval(Scroll,40);
-	}
-}
+		function Scroll(){
+			if(elem.scrollTop>=elem1.offsetHeight){
+				elem.scrollTop -= elem1.offsetHeight;
+			}else{
+				elem.scrollTop += 1;
+			}
+		}
+		elem.onmouseover = function(){
+			clearInterval(timer);
+		}
+		elem.onmouseout = function(){
+			timer = setInterval(Scroll,40);
+		}
+		seajs.use('app/jsp/product/edit', function (ProductDetailPager) {
+			pager = new ProductDetailPager({element: document.body});
+			pager.render();
+		});
+	})();
 </script>
+</html>
