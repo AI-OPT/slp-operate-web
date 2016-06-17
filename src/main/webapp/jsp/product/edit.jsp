@@ -9,6 +9,7 @@
 	<link href="${_slpres }/styles/global.css" rel="stylesheet" type="text/css">
 	<link href="${_slpres }/styles/frame.css" rel="stylesheet" type="text/css">
 	<link href="${_slpres }/styles/modular.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="" ></script>
 </head>
 
 <body>
