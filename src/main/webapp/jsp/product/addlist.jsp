@@ -101,54 +101,6 @@
                             </tr>
                             <tr>
                                 <td>24343433</td>
-                                <td>话费</td>
-                                <td>虚拟</td>
-                                <td><img src="${_slpres}/images/sp-01.png"></td>
-                                <td>中国移动100元充值卡</td>
-                                <td>6000</td>
-                                <td>未编辑</td>
-                                <td>2016-3-18 13:25</td>
-                                <td>
-                                    <div>
-                                        <p><a href="${_base}/prodedit/3" class="blue-border">查看详情</a></p>
-                                        <p><a href="#" class="blue">查看商品</a></p>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>24343433</td>
-                                <td>流量</td>
-                                <td>虚拟</td>
-                                <td><img src="${_slpres}/images/sp-02.png"></td>
-                                <td>中国移动100元充值卡</td>
-                                <td>6000</td>
-                                <td>已保存</td>
-                                <td>2016-3-18 13:25</td>
-                                <td>
-                                    <div>
-                                        <p><a href="#" class="blue-border">查看详情</a></p>
-                                        <p><a href="#" class="blue">查看商品</a></p>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>24343433</td>
-                                <td>流量</td>
-                                <td>虚拟</td>
-                                <td><img src="${_slpres}/images/sp-02.png"></td>
-                                <td>中国移动100元充值卡</td>
-                                <td>6000</td>
-                                <td>已保存</td>
-                                <td>2016-3-18 13:25</td>
-                                <td>
-                                    <div>
-                                        <p><a href="#" class="blue-border">查看详情</a></p>
-                                        <p><a href="#" class="blue">查看商品</a></p>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>24343433</td>
                                 <td>流量</td>
                                 <td>虚拟</td>
                                 <td><img src="${_slpres}/images/sp-02.png"></td>
@@ -164,7 +116,6 @@
                                 </td>
                             </tr>
                         </table>
-
                     </div>
                     <!--结果表格结束-->
                     <div class="paging-large">
@@ -340,28 +291,40 @@
     </div>
 </div>
 </body>
-<script type="text/javascript">
-    window.onload = function () {
-        var timer;
-        var elem = document.getElementById('elem');
-        var elem1 = document.getElementById('elem1');
-        var elem2 = document.getElementById('elem2');
-        elem2.innerHTML = elem1.innerHTML;
-        timer = setInterval(Scroll, 40);
-        function Scroll() {
-            if (elem.scrollTop >= elem1.offsetHeight) {
-                elem.scrollTop -= elem1.offsetHeight;
-            } else {
-                elem.scrollTop += 1;
-            }
-        }
-
-        elem.onmouseover = function () {
-            clearInterval(timer);
-        }
-        elem.onmouseout = function () {
-            timer = setInterval(Scroll, 40);
-        }
-    }
-</script>
+	<script type="text/javascript">
+	    window.onload = function () {
+	        var timer;
+	        var elem = document.getElementById('elem');
+	        var elem1 = document.getElementById('elem1');
+	        var elem2 = document.getElementById('elem2');
+	        elem2.innerHTML = elem1.innerHTML;
+	        timer = setInterval(Scroll, 40);
+	        function Scroll() {
+	            if (elem.scrollTop >= elem1.offsetHeight) {
+	                elem.scrollTop -= elem1.offsetHeight;
+	            } else {
+	                elem.scrollTop += 1;
+	            }
+	        }
+	
+	        elem.onmouseover = function () {
+	            clearInterval(timer);
+	        }
+	        elem.onmouseout = function () {
+	            timer = setInterval(Scroll, 40);
+	        }
+	    }
+	</script>
+	<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		var pager;
+		var cartProdList = $.parseJSON('${cartProdList==null?"[]":cartProdList}');
+		var skuNumLimit = '${skuNumLimit}';
+		(function () {
+			seajs.use('app/jsp/product/addlist', function (AddlistPager) {
+				pager = new AddlistPager({element: document.body});
+				pager.render();
+			});
+		})();
+	</script>
 </html>
