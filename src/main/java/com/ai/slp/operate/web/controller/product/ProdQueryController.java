@@ -7,7 +7,6 @@ import com.ai.slp.product.api.productcat.param.ProductCatQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -20,7 +19,6 @@ import java.util.List;
 public class ProdQueryController {
 
     @RequestMapping("/add")
-    @ResponseBody
     public String editQuery(Model uiModel){
         IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
         ProductCatQuery catQuery = new ProductCatQuery();
