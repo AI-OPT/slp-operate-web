@@ -145,7 +145,7 @@ html,body {height:100%; }
 .medium-list-form label .ash{color:#666;font-size:12px;}
 .medium-list-form-center ul li{width:100%;text-align:center;}
 .medium-list-form-center ul .img img{border:1px solid #e7e7e7;}
-
+.table-oflow{height:251px;overflow-y:scroll;}
 
 /**弹出层中 800框架**/
 .eject-large{ width:800px; background:#fff; position:fixed;padding:20px 24px;top:50%;left:50%;margin-top:-320px;margin-left:-400px;z-index:99;display: none;}

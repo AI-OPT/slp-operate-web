@@ -6,7 +6,7 @@
             <A href="#">商城商品管理<span><img src="${_slpres}/images/left-sj.png"></span></A>
             <ul>
                 <li>
-                    <a href="#">待编辑商品</a>
+                    <a href="${_base}/prodquery/add">待编辑商品</a>
                 </li>
             </ul>
         </li>

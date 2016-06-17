@@ -3,8 +3,6 @@ package com.ai.slp.operate.web.controller.common;
 import com.ai.opt.sso.client.filter.SSOClientConstants;
 import com.ai.opt.sso.client.filter.SSOClientUser;
 import com.ai.opt.sso.client.filter.SSOClientUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,7 +14,7 @@ import java.io.IOException;
 
 @Controller
 public class LogoutController {
-	private static final Logger LOG = LoggerFactory.getLogger(LogoutController.class);
+//	private static final Logger LOG = LoggerFactory.getLogger(LogoutController.class);
 	@RequestMapping("/ssologout")
 	public void logout(HttpServletRequest request,HttpServletResponse response){
 		HttpSession session = request.getSession();
@@ -30,7 +28,7 @@ public class LogoutController {
 			}
 			response.sendRedirect(logOutServerUrl + "?service=" + logOutBackUrl);
 		} catch (IOException e) {
-			LOG.error("用户登出失败",e);
+//			LOG.error("用户登出失败",e);
 		}
 	}
 

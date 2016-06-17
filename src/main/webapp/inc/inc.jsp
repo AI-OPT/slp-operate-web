@@ -29,5 +29,9 @@
 <script src="${_base}/resources/spm_modules/seajs/seajs-css.js"></script>
 <script src="${_base}/resources/spm_modules/app/core/config.js"></script>
 
+<!-- UED -->
+<script src="${_slpres }/scripts/frame.js" type="text/javascript"></script>
+<script src="${_slpres }/scripts/metismenu.js"></script>
+
 <link rel="stylesheet" type="text/css" href="${_slpres}/styles/bootstrap.css">
 

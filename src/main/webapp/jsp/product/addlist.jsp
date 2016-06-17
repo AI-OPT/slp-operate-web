@@ -23,20 +23,7 @@
     <!--右侧框架-->
     <div class="wrapper-right">
         <!--公告位置-->
-        <div class="right-topnav">
-            <p class="gongg"><A href="#">［公告］:</A></p>
-            <div id="elem">
-                <ul id="elem1">
-                    <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-                    <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-                    <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-                    <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-                </ul>
-                <ul id="elem2">
-                </ul>
-            </div>
-            <p class="dclose"><A href="#"><i class="icon-remove"></i></A></p>
-        </div>
+        <%@ include file="/inc/public-msg.jsp" %>
         <!--公告位置结束-->
         <!--标签-->
         <div class="right-tags">
@@ -51,8 +38,6 @@
         </div>
 
         <!--标签结束-->
-        <!--查询区域-->
-        <!--查询区域结束-->
         <!--查询结果-->
         <div class="form-wrapper"><!--白底内侧-->
 
@@ -125,7 +110,7 @@
                                 <td>2016-3-18 13:25</td>
                                 <td>
                                     <div>
-                                        <p><a href="#" class="blue-border">查看详情</a></p>
+                                        <p><a href="${_base}/prodedit/3" class="blue-border">查看详情</a></p>
                                         <p><a href="#" class="blue">查看商品</a></p>
                                     </div>
                                 </td>
@@ -355,8 +340,6 @@
     </div>
 </div>
 </body>
-<script src="${_slpres }/scripts/frame.js" type="text/javascript"></script>
-<script src="${_slpres }/scripts/metismenu.js"></script>
 <script type="text/javascript">
     window.onload = function () {
         var timer;

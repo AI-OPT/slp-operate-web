@@ -72,7 +72,6 @@ dependencies {
     
     compile 'org.apache.hadoop:hadoop-common:2.7.1'
 
-
 	compile 'com.ai.opt.sdk:opt-sdk:2.0-SNAPSHOT'
 	compile 'com.ai.opt.xss.filter:opt-xss-firewall:1.0-SNAPSHOT'
 	compile 'com.ai.opt.uni.session:opt-uni-session:2.0-SNAPSHOT'
@@ -80,54 +79,19 @@ dependencies {
     compile "com.ai:ipaas-idps:0.3"
 	//cache
 	compile 'com.ai.runner.center.mmp:manager:1.0.0-SNAPSHOT'
-	//短信验证等
-	compile 'com.ai.opt.uac:account:2.0-SNAPSHOT'
-	//商品web
-	compile 'com.ai.slp.product:webfront:1.2-SNAPSHOT'
-	
+    //标准品
+    compile 'com.ai.slp.product:normproduct:1.0-SNAPSHOT'
+    //商品类目
+    compile 'com.ai.slp.product:productcat:1.0-SNAPSHOT'
+    //销售商品
+    compile 'com.ai.slp.product:product:1.0-SNAPSHOT'
+    //公共缓存
+    compile 'com.ai.slp.common:cache:1.0-SNAPSHOT'
 	//jersey
 	compile 'org.glassfish.jersey.core:jersey-client:2.9.1'
 	
 	compile 'com.ai.baas.smc:sysparamcache:2.0-SNAPSHOT'
-    //购物车
-    compile 'com.ai.slp.order:shopcart:1.0.1-SNAPSHOT'
-    //订单
-    compile 'com.ai.slp.order:orderlist:1.0-SNAPSHOT'
-	compile 'com.ai.slp.order:ordertradecenter:1.0.2-SNAPSHOT'
-	//安全设置
-	compile 'com.ai.slp.user:ucUserSecurity:1.0-SNAPSHOT'
-	//用户
-	compile 'com.ai.slp.user:ucuser:1.0-SNAPSHOT'
-	//通讯录组
-	compile 'com.ai.slp.user:ucuserphonebooks:1.0-SNAPSHOT'
-	//创建手机验证码
-	compile 'com.ai.slp.user:seq:1.0-SNAPSHOT'
-	//用户注册信息
-	compile 'com.ai.slp.user:register:1.0-SNAPSHOT'
-	//用户
-	compile 'com.ai.slp.user:ucuser:1.0-SNAPSHOT'
-	//创建手机验证码
-	compile 'com.ai.slp.user:seq:1.0-SNAPSHOT'
-    //订单支付
-    compile 'com.ai.slp.order:orderpay:1.0-SNAPSHOT'
-    //地区
-    compile 'com.ai.slp.common:area:1.0-SNAPSHOT'
-    //缓存
-    compile 'com.ai.slp.common:cache:1.0-SNAPSHOT'
-    compile 'com.ai.slp.common:servicenum:1.0.1-SNAPSHOT'
-    compile 'com.ai.slp.product:webfront:1.1-SNAPSHOT'
-	//账户余额 zhangzd
-	compile 'com.ai.slp.balance:fundquery:1.0-SNAPSHOT'
-	compile 'com.ai.slp.charge:paymentquery:1.0-SNAPSHOT'
-    //充值缴费
-    compile 'com.ai.slp.charge:payment:1.1-SNAPSHOT'
-    //存款取款
-    compile 'com.ai.slp.balance:deposit:1.0-SNAPSHOT'
-    //登录
-    compile 'com.ai.slp.user:login:1.0-SNAPSHOT'
-    //支付
-    compile 'com.ai.slp.balance:accountmaintain:1.0-SNAPSHOT'
-    compile 'com.ai.slp.balance:accountquery:1.0-SNAPSHOT'
+
     testCompile(
             "org.springframework:spring-test:4.1.7.RELEASE",
             "junit:junit:4.12"

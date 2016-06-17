@@ -1,6 +1,5 @@
 package com.ai.slp.operate.web.controller.account;
 
-import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,8 +12,6 @@ import java.util.Map;
 @RequestMapping("/payment")
 public class PayController {
 	//
-
-    private static final Logger LOG = Logger.getLogger(PayController.class);
 	private static final String ACCOUNT_ID = "1111";
 	private static final String TENANT_ID = "1111";
 	//

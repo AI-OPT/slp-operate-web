@@ -100,6 +100,7 @@
 .nav-form ul li .choice .close1{ margin-left:10px; font-size:12px; line-height:30px;color:#999;}
 .pst-bttton{width:100%; text-align:right; margin-top:20px; float:left; padding-bottom:10px;}
 .table-overflow{ overflow-y:scroll; height:552px;}
+
 /**查看路由商品**/
 .pst-table{ width:100%; float:left; margin-top:30px; border-bottom:1px solid #d7d7d7; padding-bottom:10px;}
 .pst-table ul{ float:left; width:100%;}
@@ -228,4 +229,6 @@
 .cit-width-list2{float:left;}
 .cit-width-list2 a{color:#1c9aec;margin-left:20px;}
 .nav-form-border .mt-5{margin-top:5px;}
-
+.nav-form ul li .img{position: relative;border:1px solid #e7e7e7;}
+.nav-form ul li .img .icon-remove-sign{position:absolute;right:-4px; top:-6px; cursor: pointer;color:#1295f2;}
+.nav-form ul li .width-img{width:550px;float:left;display: block;}

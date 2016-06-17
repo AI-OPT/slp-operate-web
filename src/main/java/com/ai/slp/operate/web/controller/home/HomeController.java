@@ -1,21 +1,20 @@
 package com.ai.slp.operate.web.controller.home;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 
+@Controller
 @RequestMapping("/home")
-@RestController
 public class HomeController {
-
-	private static final Logger LOGGER = Logger.getLogger(HomeController.class);
+	private static Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	@RequestMapping({"","/"})
-	public ModelAndView index(HttpServletRequest request) {
-		return new ModelAndView("jsp/home/index");
+	public String index(Model uiModel) {
+		return "forward:/prodquery/add";
 	}
 
 }
