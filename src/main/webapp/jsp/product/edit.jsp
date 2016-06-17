@@ -69,153 +69,18 @@
 			</div>
 
 			<div class="eject-large-list">
-			<div class="account-title eject-martop"><p>已选中<b>10个</b><a href="#" class="wnc">完成选择</a></p></div>
+			<div class="account-title eject-martop"><p><a href="#" class="wnc">完成选择</a></p></div>
 		    <div class="user-list-title-list">
+				<c:set value="0" var="areaNum"></c:set>
 		     	<ul>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>北京</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>上海</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>天津</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>山东</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>河南</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>湖北</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>重庆</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>河北</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>山西</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>北京</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>上海</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>天津</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>山东</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>河南</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>湖北</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>重庆</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>河北</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>山西</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>北京</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>上海</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>天津</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>山东</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>河南</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>湖北</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>重庆</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>河北</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>山西</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>海南</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>新疆</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>乌鲁木齐</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>山东</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>河南</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>湖北</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>重庆</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>河北</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>山西</p>
-		     		</li>
+					<c:forEach var="areaInfo" items="${otherSet.areaInfos}">
+						<li>
+						<p><input type="checkbox" class="checkbox-medium" <c:if test="${areaInfo.own}">checked</c:if>></p>
+						<p>${areaInfo.areaName}</p>
+						<c:if test="${areaInfo.own}"><c:set var="areaNum" value="${areaNum+1}"></c:set></c:if>
+						</li>
+					</c:forEach>
+
 		     	</ul>	
 		    </div> 	
 		     
@@ -616,33 +481,19 @@
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>选择商品目标地域</p>
-							<p><input type="radio" name="radio" class="checkbox-small radioc ">全国</p>
-							<p><input type="radio" name="radio" class="checkbox-small radiod city">部分</p>
+							<p><input type="radio" name="isSaleNationwide" class="checkbox-small radioc "
+									  <c:if test="${productInfo.isSaleNationwide == 'Y'}">checked</c:if> >全国</p>
+							<p><input type="radio" name="isSaleNationwide"class="checkbox-small radiod city"
+									  <c:if test="${productInfo.isSaleNationwide == 'N'}">checked</c:if> >部分</p>
 							<div id="check3"></div>
 							<div id="check4" style="display:none;">
 								<div class="cit-width cit-width-list2">
-									<p class="width-xlag">已选中省份12个<a href="#" class="city">修改</a></p>
-									<p>北京市、</p>
-									<p>广东市、</p>
-									<p>重庆市、</p>
-									<p>黑龙江省、</p>
-									<p>天津市、</p>
-									<p>广西、</p>
-									<p>四川省、</p>
-									<p>海南省、</p>
-									<p>云南省、</p>
-									<p><a href="javascript:" class="zk">显示更多<i class="icon-angle-down"></i></a></p>
-								</div>
-								<div class="cit-width open" style="display:none;">
-									<p>北京市、</p>
-									<p>广东市、</p>
-									<p>重庆市、</p>
-									<p>黑龙江省、</p>
-									<p>天津市、</p>
-									<p>广西、</p>
-									<p>四川省、</p>
-									<p>海南省、</p>
-									<p>云南省、</p>
+									<p class="width-xlag">已选中省份${areaNum}个<a href="#" class="city">修改</a></p>
+									<c:forEach var="areaInfo" items="${otherSet.areaInfos}">
+										<c:if test="${areaInfo.own}">
+										<p>${areaInfo.areaName}、</p>
+										</c:if>
+									</c:forEach>
 								</div>
 							</div>
 						</li>
