@@ -19,7 +19,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 	var prodDetail = 'prodDetail';
 	var editDom;
     //定义页面组件类
-    var ProductDeatilPager = Widget.extend({
+    var ProdEditPager = Widget.extend({
     	
     	Implements:SendMessageUtil,
     	//属性，使用时由类的构造函数传入
@@ -34,18 +34,18 @@ define('app/jsp/product/edit', function (require, exports, module) {
         },
     	//重写父类
     	setup: function () {
-    		ProductDeatilPager.superclass.setup.call(this);
+			ProdEditPager.superclass.setup.call(this);
 			editDom = CKEDITOR.replace(prodDetail);
 		},
     	//保存商品信息
-      	_saveProd:function(){
-			alert(editDom.getData());
+      	_saveProd:function() {
 			//获取editor中内容
 			$("#detailConVal").val(editDom.getData());
-			$("#prodForm").submit();
+			console.log($('#detailConVal').val());
+			$('#prodForm').submit();
 		}
     });
     
-    module.exports = ProductDeatilPager
+    module.exports = ProdEditPager
 });
 

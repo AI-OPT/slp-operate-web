@@ -1,6 +1,8 @@
 package com.ai.slp.operate.web.controller.product;
 
+import com.ai.opt.sdk.components.dss.DSSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.paas.ipaas.dss.base.interfaces.IDSSClient;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
 import com.ai.slp.operate.web.constants.ComCacheConstants;
@@ -20,11 +22,14 @@ import com.ai.slp.product.api.product.param.ProductInfoQuery;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -58,7 +63,7 @@ public class ProdEditController {
      * @return
      */
     @RequestMapping("/{id}")
-    public String editView(@PathVariable("id")String prodId,Model uiModel){
+    public String editView(@PathVariable("id")String prodId,String fileId,Model uiModel){
         initConsumer();
         //查询商品详情
         ProductInfoQuery infoQuery = new ProductInfoQuery();
@@ -98,6 +103,8 @@ public class ProdEditController {
         List<SysParam> basicOrgIds = cacheSV.getSysParams(SysCommonConstants.COMMON_TENANT_ID,
                 ComCacheConstants.TypeProduct.CODE,ComCacheConstants.TypeProduct.BASIC_ORG_ID);
         uiModel.addAttribute("orgIds",basicOrgIds);
+        //设置商品详情
+        setProdDetail(fileId,uiModel);
         return "product/edit";
     }
 
@@ -105,10 +112,13 @@ public class ProdEditController {
      * 保持编辑信息
      * @return
      */
-    @RequestMapping("/save/{id}")
-    public String saveProductInfo(@PathVariable("id")String prodId,String detailConVal,Model uiModel){
-        System.out.println();
-        return "redirect:/prodedit/"+prodId;
+    @RequestMapping("/save")
+    public String saveProductInfo(@RequestParam("prodId")String prodId, HttpServletRequest request, Model uiModel){
+        String detailConVal = request.getParameter("detailConVal");
+        IDSSClient client= DSSClientFactory.getDSSClient(SysCommonConstants.ProductDetail.DSSNS);
+        String fileId = client.save(detailConVal.getBytes(),System.currentTimeMillis()+"");
+        System.out.println("fileId="+fileId);
+        return "redirect:/prodedit/"+prodId+"?fileId="+fileId;
     }
 
     private Map<ProdCatAttrInfo,List<AttrValInfo>> getAttrAndVals(AttrMap attrMap){
@@ -125,4 +135,14 @@ public class ProdEditController {
         }
         return attrAndValMap;
     }
+
+    public void setProdDetail(String fileId,Model uiModel){
+        if (StringUtils.isBlank(fileId)){
+            return;
+        }
+        IDSSClient client= DSSClientFactory.getDSSClient(SysCommonConstants.ProductDetail.DSSNS);
+        byte[] prodDetail = client.read(fileId);
+        uiModel.addAttribute("prodDetail",new String(prodDetail));
+    }
+
 }

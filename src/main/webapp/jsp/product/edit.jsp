@@ -45,7 +45,7 @@
 				</div>
 				<div class="medium-list-form medium-list-form-center">
 					<ul>
-						<li class="img"><img src="../images/sp-04.png" /></li>
+						<li class="img"><img src="${_slpres}/images/sp-04.png" /></li>
 						<li><input type="button"  class="blling-btn qu-btn" value="上传图片"></li>
 					</ul>
 				</div>	
@@ -280,7 +280,8 @@
 						<li><span>*</span>标注为必填项</li>
 					</ul>
 				</div>
-				<form id="prodForm" action="${_base}/prodedit/save/${productInfo.prodId}" method="post">
+				<form id="prodForm" action="${_base}/prodedit/save" method="post">
+					<input type="hidden" name="prodId" value="${productInfo.prodId}">
 				<div class="nav-form-title">商品基础信息</div> <!--标题-->
 				<div class="nav-form nav-form-border"><!--查询条件-->
 					<ul>
@@ -587,13 +588,13 @@
 				<div class="nav-form" id="detailDiv"><!--查询条件-->
 					<ul>
 						<li class="width-xlag">
-							<p><div id="prodDetail"></div></p>
+							<p><div id="prodDetail">${prodDetail}</div></p>
 						</li>
 					</ul>
-					<input type="hidden" name="detailConVal" id="detailConVal">
+					<textarea style="display: none;" name="detailConVal" id="detailConVal"></textarea>
 					<ul>
 						<li>
-							<p><input id="submit" type="button" class="blling-btn width-btn" value="提交审核"></p>
+							<p><input id="submitAudit" type="button" class="blling-btn width-btn" value="提交审核"></p>
 							<p><input id="save" type="button" class="blling-btn width-btn" value="保存"></p>
 							<%--<p><input type="button" class="blling-btn width-btn" value="预览"></p>--%>
 						</li>
@@ -605,7 +606,7 @@
 	</div>
 </div>	
 <!-- footer -->
-<div class="footer">版权所有 © SLP版权归运营家所有</div>
+<%@ include file="/inc/foot.jsp" %>
 </body>
 <script type="text/javascript">
 	var pager;
@@ -629,8 +630,8 @@
 		elem.onmouseout = function(){
 			timer = setInterval(Scroll,40);
 		}
-		seajs.use('app/jsp/product/edit', function (ProductDetailPager) {
-			pager = new ProductDetailPager({element: document.body});
+		seajs.use('app/jsp/product/edit', function (ProdEditPager) {
+			pager = new ProdEditPager({element: document.body});
 			pager.render();
 		});
 	})();

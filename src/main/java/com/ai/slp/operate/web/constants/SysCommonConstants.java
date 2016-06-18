@@ -13,4 +13,8 @@ public final class SysCommonConstants {
     public static final class ProductImage {
         public static final String IDPSNS = "slp-mall-web-idps";
     }
+
+    public static final class ProductDetail{
+        public static final String DSSNS = "slp-product-detail-dss";
+    }
 }
