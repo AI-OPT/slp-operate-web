@@ -24,6 +24,7 @@ import com.ai.slp.product.api.product.param.*;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,15 +133,21 @@ public class ProdEditController {
         //若已经存在,则直接删除
         if (StringUtils.isNotBlank(fileId) && client.isIndexExist(fileId)){
             client.deleteById(fileId);
+            fileId = "";
         }
-        fileId = client.insert(detailConVal);
+        if (StringUtils.isNotBlank(detailConVal))
+            fileId = client.insert(detailConVal);
         logger.info("fileId="+fileId);
         editInfo.setProDetailContent(fileId);
         ProductInfoForUpdate prodInfo = new ProductInfoForUpdate();
         BeanUtils.copyProperties(prodInfo,editInfo);
+        //添加省份编码
+        if (StringUtils.isNotBlank(editInfo.getTargetProd()))
+            prodInfo.setProvCodes(JSON.parseArray(editInfo.getTargetProd(),Long.class));
         //保存商品详情信息
         BaseResponse response = productManagerSV.updateProduct(prodInfo);
         ResponseHeader header = response.getResponseHeader();
+
         //保存错误
         if (header!=null && !header.isSuccess()){
             responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "添加失败:"+header.getResultMessage());

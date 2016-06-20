@@ -31,6 +31,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
     	//事件代理
     	events: {
 			"click input:checkbox[name='targetProv']":"_showTarget",
+			"click #finishTarget":"_finishTarget",
 			//保存数据
 			"click #save":"_saveProd"
         },
@@ -41,6 +42,10 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			this._showPartTarget();
 			this._showTarget();
 
+		},
+		_finishTarget:function(){
+			$('.eject-mask').fadeOut(100);
+			$('.eject-large2').slideUp(150);
 		},
 		_showPartTarget:function(){
 			var partTarget = $("input[name='isSaleNationwide']:checked").val();

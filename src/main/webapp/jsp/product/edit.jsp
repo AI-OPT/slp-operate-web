@@ -72,7 +72,7 @@
 				<p class="img"><A href="#"></A></p>
 			</div>
 			<div class="eject-large-list">
-			<div class="account-title eject-martop"><p>已选中<b><span id="dialogAreaNum">10</span></b>个<a href="#" class="wnc">完成选择</a></p></div>
+			<div class="account-title eject-martop"><p>已选中<b><span id="dialogAreaNum">10</span></b>个<a id="finishTarget" href="#" class="wnc">完成选择</a></p></div>
 		    <div id="provAreaDiv" class="user-list-title-list">
 				<c:set value="0" var="areaNum"></c:set>
 		     	<ul>
@@ -493,7 +493,7 @@
 							<p class="word"><b class="red">*</b>选择商品目标地域</p>
 							<p><input type="radio" name="isSaleNationwide" class="checkbox-small radioc " value="Y"
 									  <c:if test="${productInfo.isSaleNationwide == 'Y'}">checked</c:if> >全国</p>
-							<p><input type="radio" name="isSaleNationwide"class="checkbox-small radiod city" value="N"
+							<p><input type="radio" name="isSaleNationwide"class="checkbox-small radiod" value="N"
 									  <c:if test="${productInfo.isSaleNationwide == 'N'}">checked</c:if> >部分</p>
 							<div id="check3"></div>
 							<div id="check4" style="display:none;">
