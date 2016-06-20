@@ -7,24 +7,49 @@ import java.sql.Timestamp;
  * Created by jackieliu on 16/6/20.
  */
 public class ProductEditInfo {
-
+    /**
+     * 商品标识
+     */
     private String prodId;
-
+    /**
+     * 商品名称
+     */
     private String prodName;
+    /**
+     * 商品卖点
+     */
     private String productSellPoint;
-
+    /**
+     * 有效期类型
+     */
     private String activeType;
+    /**
+     * 有效期周期
+     */
     private Short activeCycle;
+    /**
+     * 有效期单位
+     */
     private String unit;
-
+    /**
+     * 商品详情索引
+     */
     private String proDetailContent;
-
+    /**
+     * 是否全国销售
+     */
     private String isSaleNationwide;
-
+    /**
+     * 是否允许平台代售
+     */
     private String isReplaceSell;
-
+    /**
+     * 上架类型
+     */
     private String upshelfType;
-
+    /**
+     * 上架时间
+     */
     private Timestamp upTime;
 
     private String rechargeType;
@@ -36,6 +61,10 @@ public class ProductEditInfo {
     private String audiencesEnterprise;
 
     private String audiencesAgents;
+    /**
+     * 目标地域
+     */
+    private String targetProd;
 
     public String getProdId() {
         return prodId;
@@ -163,5 +192,13 @@ public class ProductEditInfo {
 
     public void setAudiencesAgents(String audiencesAgents) {
         this.audiencesAgents = audiencesAgents;
+    }
+
+    public String getTargetProd() {
+        return targetProd;
+    }
+
+    public void setTargetProd(String targetProd) {
+        this.targetProd = targetProd;
     }
 }

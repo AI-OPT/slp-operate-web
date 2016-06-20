@@ -1,3 +1,6 @@
+<%@ page import="com.ai.opt.sdk.components.idps.IDPSClientFactory" %>
+<%@ page import="com.ai.paas.ipaas.image.IImageClient" %>
+<%@ page import="com.ai.slp.operate.web.constants.SysCommonConstants" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html>
@@ -68,20 +71,19 @@
 				<p>选择省市</p>
 				<p class="img"><A href="#"></A></p>
 			</div>
-
 			<div class="eject-large-list">
-			<div class="account-title eject-martop"><p><a href="#" class="wnc">完成选择</a></p></div>
-		    <div class="user-list-title-list">
+			<div class="account-title eject-martop"><p>已选中<b><span id="dialogAreaNum">10</span></b>个<a href="#" class="wnc">完成选择</a></p></div>
+		    <div id="provAreaDiv" class="user-list-title-list">
 				<c:set value="0" var="areaNum"></c:set>
 		     	<ul>
 					<c:forEach var="areaInfo" items="${otherSet.areaInfos}">
 						<li>
-						<p><input type="checkbox" class="checkbox-medium" <c:if test="${areaInfo.own}">checked</c:if>></p>
+						<p><input type="checkbox" name="targetProv" class="checkbox-medium" value="${areaInfo.areaCode}"
+								   title="${areaInfo.areaName}" <c:if test="${areaInfo.own}">checked</c:if>></p>
 						<p>${areaInfo.areaName}</p>
 						<c:if test="${areaInfo.own}"><c:set var="areaNum" value="${areaNum+1}"></c:set></c:if>
 						</li>
 					</c:forEach>
-
 		     	</ul>	
 		    </div> 	
 		     
@@ -485,6 +487,7 @@
 							<p class="word">商品目标地域</p>
 						</li>
 					</ul>
+					<input type="hidden" id="targetProd" name="targetProd">
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>选择商品目标地域</p>
@@ -495,24 +498,20 @@
 							<div id="check3"></div>
 							<div id="check4" style="display:none;">
 								<div class="cit-width cit-width-list2">
-									<p class="width-xlag">已选中省份${areaNum}个<a href="#" class="city">修改</a></p>
-									<c:forEach var="areaInfo" items="${otherSet.areaInfos}">
-										<c:if test="${areaInfo.own}">
-										<p>${areaInfo.areaName}、</p>
-										</c:if>
-									</c:forEach>
+									<p class="width-xlag"><span id="areaNum">已选中省份${areaNum}个</span><a href="#" class="city">修改</a></p>
+									<span id="areaName"></span>
 								</div>
 							</div>
-						</li>
-					</ul>
-					<ul>
-						<li class="width-xlag">
-							<p class="word">商品上架时间</p>
 						</li>
 					</ul>
 					<%-- 目前全部是立即上架 --%>
 					<input type="hidden" name="upshelfType" value="1">
 					<%--<ul>
+						<li class="width-xlag">
+							<p class="word">商品上架时间</p>
+						</li>
+					</ul>
+					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>选择商品上架时间</p>
 							<p><input type="radio" class="checkbox-small">立即上架</p>
@@ -525,6 +524,12 @@
 				</div>
 				<div class="nav-form-title">商品主图</div> <!--标题-->
 				<div class="nav-form nav-form-border"><!--查询条件-->
+					<%
+						String picSize = "78*78";
+						IImageClient imageClient = IDPSClientFactory.getImageClient(SysCommonConstants.ProductImage.IDPSNS);
+						request.setAttribute("imgClient",imageClient);
+						request.setAttribute("picSize",picSize);
+					%>
 					<ul>
 						<li class="width-xlag">
 							提示：请上传商品主体正面照片jpg/png格式，不小于700x700px的方形图片，单张不能超过3M，最多6张。
@@ -534,61 +539,53 @@
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>商品主图</p>
 							<div class="width-img">
-								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
-								</p>
-								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
-								</p>
-								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
-								</p>
-								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
-								</p>
-								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
-								</p>
-								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
-								</p>
+								<c:set var="prodPicNum" value="${prodPic.size()}"></c:set>
+								<c:forEach var="valInd" begin="0" end="5">
+									<p class="img">
+										<c:choose>
+											<c:when test="${valInd<prodPicNum && prodPic.get(valInd)!=null}">
+												<c:set var="valInfo" value="${prodPic.get(valInd)}"></c:set>
+												<img src="<c:set value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/> "/><i class="icon-remove-sign"></i>
+											</c:when>
+											<c:otherwise>
+												<img src="${_slpres}/images/sp-03-a.png"/>
+											</c:otherwise>
+										</c:choose>
+
+									</p>
+								</c:forEach>
 							</div>
 							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片"/>
 								<!--<input type="file" class="file">--></p>
 						</li>
 					</ul>
+					<%-- 属性值图片 --%>
+					<c:set var="attrValPicMap" value="${otherSet.attrValPics}"></c:set>
+					<c:forEach var="attrValPicEnt" items="${attrValPicMap}">
 					<ul>
 						<li class="width-xlag">
-							<p class="word"><b class="red">*</b>红色</p>
+							<p class="word"><b class="red">*</b>${attrValPicEnt.key.attrVal}</p>
 							<div class="width-img">
-								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
-								</p>
-								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
-								</p>
-								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
-								</p>
-								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
-								</p>
-								<p class="img"><img src="${_slpres}/images/sp-03-a.png"/></p>
-								<p class="img"><img src="${_slpres}/images/sp-03-a.png"/></p>
+								<c:set var="attrValPic" value="${attrValPicEnt.value}"></c:set>
+								<c:set var="attrValSize" value="${attrValPic.size()}"></c:set>
+								<c:forEach var="valInd" begin="0" end="5">
+									<p class="img">
+										<c:choose>
+											<c:when test="${valInd<attrValSize && attrValPic.get(valInd)!=null}">
+												<c:set var="valInfo" value="${attrValPic.get(valInd)}"></c:set>
+												<img src="<c:set value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/> "/><i class="icon-remove-sign"></i>
+											</c:when>
+											<c:otherwise>
+												<img src="${_slpres}/images/sp-03-a.png"/>
+											</c:otherwise>
+										</c:choose>
+
+									</p>
+								</c:forEach>
 							</div>
-							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片"/>
-								<!--<input type="file" class="file">--></p>
 						</li>
 					</ul>
-					<ul>
-						<li class="width-xlag">
-							<p class="word"><b class="red">*</b>白色</p>
-							<div class="width-img">
-								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
-								</p>
-								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
-								</p>
-								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
-								</p>
-								<p class="img"><img src="${_slpres}/images/sp-03.png"/><i class="icon-remove-sign"></i>
-								</p>
-								<p class="img"><img src="${_slpres}/images/sp-03-a.png"/></p>
-								<p class="img"><img src="${_slpres}/images/sp-03-a.png"/></p>
-							</div>
-							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片"/>
-								<!--<input type="file" class="file">--></p>
-						</li>
-					</ul>
+					</c:forEach>
 				</div>
 				<div class="nav-form-title">商品详情图文描述</div> <!--标题-->
 				<div class="nav-form" id="detailDiv"><!--查询条件-->
@@ -597,6 +594,7 @@
 							<p><div id="prodDetail">${prodDetail}</div></p>
 						</li>
 					</ul>
+					<input type="hidden" name="proDetailContent" value="${productInfo.proDetailContent}">
 					<textarea style="display: none;" name="detailConVal" id="detailConVal"></textarea>
 					<ul>
 						<li>
@@ -616,6 +614,7 @@
 </body>
 <script type="text/javascript">
 	var pager;
+
 	(function () {
 		var timer;
 		var elem = $('#elem');

@@ -39,7 +39,7 @@ public class HomeController {
 			String fileName = file.getOriginalFilename();
 			String fileUid = imageClient.upLoadImage(file.getBytes(),fileName);
 			String imageUrl = imageClient.getImageUrl(fileUid, getFileExtName(fileName));
-			System.out.println("\rfileUid:"+fileUid+"\rfileUrl:"+imageUrl);
+			logger.info("\rfileUid:"+fileUid+"\rfileUrl:"+imageUrl);
 			strBuffer.append("<script type=\"text/javascript\">");
 			strBuffer.append("window.parent.CKEDITOR.tools.callFunction("+ckeditFuncNum+",'"+imageUrl+"','')");
 			strBuffer.append("</script>");

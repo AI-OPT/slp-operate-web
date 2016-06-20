@@ -1,7 +1,11 @@
 package com.ai.slp.operate.web.controller.product;
 
+import com.ai.opt.base.vo.BaseResponse;
+import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.dss.DSSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.util.BeanUtils;
+import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.paas.ipaas.dss.base.interfaces.IDSSClient;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
@@ -21,10 +25,14 @@ import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 
@@ -35,6 +43,7 @@ import java.util.*;
 @Controller
 @RequestMapping("/prodedit")
 public class ProdEditController {
+    private static Logger logger = LoggerFactory.getLogger(ProdEditController.class);
     IProductManagerSV productManagerSV;
     IProductSV productSV;
     ICacheSV cacheSV;
@@ -91,6 +100,9 @@ public class ProdEditController {
         //查询商品其他设置
         OtherSetOfProduct otherSet = productManagerSV.queryOtherSetOfProduct(infoQuery);
         uiModel.addAttribute("otherSet",otherSet);
+        //商品主图
+        uiModel.addAttribute("prodPic",otherSet.getProductPics());
+
         //有效期单位
         List<SysParam> prodUnits = cacheSV.getSysParams(SysCommonConstants.COMMON_TENANT_ID,
                 ComCacheConstants.TypeProduct.CODE,ComCacheConstants.TypeProduct.PROD_UNIT);
@@ -109,15 +121,31 @@ public class ProdEditController {
      * @return
      */
     @RequestMapping("/save")
-    public String saveProductInfo(ProductEditInfo editInfo, String detailConVal, Model uiModel){
+    @ResponseBody
+    public ResponseData<String> saveProductInfo(ProductEditInfo editInfo, String detailConVal, RedirectAttributes redirectModel){
+        String retStr = "redirect:/prodquery/add";
+        ResponseData<String> responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "添加成功");
         initConsumer();
-        ProductInfoForUpdate prodInfo = new ProductInfoForUpdate();
 
-        //保存商品详情信息
         IDSSClient client= DSSClientFactory.getDSSClient(SysCommonConstants.ProductDetail.DSSNS);
-        String fileId = client.save(detailConVal.getBytes(),System.currentTimeMillis()+"");
-        System.out.println("fileId="+fileId);
-        return "redirect:/prodedit/"+editInfo.getProdId()+"?fileId="+fileId;
+        String fileId = editInfo.getProDetailContent();
+        //若已经存在,则直接删除
+        if (StringUtils.isNotBlank(fileId) && client.isIndexExist(fileId)){
+            client.deleteById(fileId);
+        }
+        fileId = client.insert(detailConVal);
+        logger.info("fileId="+fileId);
+        editInfo.setProDetailContent(fileId);
+        ProductInfoForUpdate prodInfo = new ProductInfoForUpdate();
+        BeanUtils.copyProperties(prodInfo,editInfo);
+        //保存商品详情信息
+        BaseResponse response = productManagerSV.updateProduct(prodInfo);
+        ResponseHeader header = response.getResponseHeader();
+        //保存错误
+        if (header!=null && !header.isSuccess()){
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "添加失败:"+header.getResultMessage());
+        }
+        return responseData;
     }
 
     private Map<ProdCatAttrInfo,List<AttrValInfo>> getAttrAndVals(AttrMap attrMap){
