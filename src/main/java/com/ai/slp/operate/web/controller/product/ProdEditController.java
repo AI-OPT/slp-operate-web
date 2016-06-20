@@ -8,6 +8,7 @@ import com.ai.slp.common.api.cache.param.SysParam;
 import com.ai.slp.operate.web.constants.ComCacheConstants;
 import com.ai.slp.operate.web.constants.ProductCatConstants;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
+import com.ai.slp.operate.web.model.product.ProductEditInfo;
 import com.ai.slp.product.api.normproduct.interfaces.INormProductSV;
 import com.ai.slp.product.api.normproduct.param.AttrMap;
 import com.ai.slp.product.api.normproduct.param.AttrQuery;
@@ -15,10 +16,7 @@ import com.ai.slp.product.api.normproduct.param.AttrValInfo;
 import com.ai.slp.product.api.normproduct.param.ProdCatAttrInfo;
 import com.ai.slp.product.api.product.interfaces.IProductManagerSV;
 import com.ai.slp.product.api.product.interfaces.IProductSV;
-import com.ai.slp.product.api.product.param.OtherSetOfProduct;
-import com.ai.slp.product.api.product.param.ProdNoKeyAttr;
-import com.ai.slp.product.api.product.param.ProductInfo;
-import com.ai.slp.product.api.product.param.ProductInfoQuery;
+import com.ai.slp.product.api.product.param.*;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
@@ -27,9 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -113,12 +109,15 @@ public class ProdEditController {
      * @return
      */
     @RequestMapping("/save")
-    public String saveProductInfo(@RequestParam("prodId")String prodId, HttpServletRequest request, Model uiModel){
-        String detailConVal = request.getParameter("detailConVal");
+    public String saveProductInfo(ProductEditInfo editInfo, String detailConVal, Model uiModel){
+        initConsumer();
+        ProductInfoForUpdate prodInfo = new ProductInfoForUpdate();
+
+        //保存商品详情信息
         IDSSClient client= DSSClientFactory.getDSSClient(SysCommonConstants.ProductDetail.DSSNS);
         String fileId = client.save(detailConVal.getBytes(),System.currentTimeMillis()+"");
         System.out.println("fileId="+fileId);
-        return "redirect:/prodedit/"+prodId+"?fileId="+fileId;
+        return "redirect:/prodedit/"+editInfo.getProdId()+"?fileId="+fileId;
     }
 
     private Map<ProdCatAttrInfo,List<AttrValInfo>> getAttrAndVals(AttrMap attrMap){

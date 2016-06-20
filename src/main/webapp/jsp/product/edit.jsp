@@ -19,7 +19,7 @@
 <!-- 左侧菜单 -->
 <%@ include file="/inc/left-menu.jsp" %>
 <!-- 左侧菜单结束 -->
-<!--弹出删除弹出框  中-->
+<!--弹出上传图片  中-->
 <div class="eject-big">
 		<div class="eject-medium">
 			<div class="eject-medium-title">
@@ -60,8 +60,8 @@
 		</div>	
 		<div class="eject-mask"></div>	
 </div>
-<!--弹出删除弹出框  中结束-->		
-<!--弹出删除弹出框 大-->
+<!--弹出上传图片  中结束-->
+<!--弹出选择目标省份弹出框 大-->
 <div class="eject-big">
 		<div class="eject-large eject-large2">		
 			<div class="eject-large-title">
@@ -287,8 +287,10 @@
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>类目信息</p>
-							<p><c:forEach var="catInfo"
-										  items="${catLinkList}">${catInfo.productCatName}&gt;</c:forEach></p>
+							<p>
+							<c:forEach var="catInfo" items="${catLinkList}"
+							 varStatus="stat">${catInfo.productCatName}<c:if test="${!stat.last}">&gt;</c:if></c:forEach>
+							</p>
 						</li>
 					</ul>
 					<ul>
@@ -307,14 +309,16 @@
 					<ul>
 						<li class="width-xlag">
 							<p class="word">商品卖点</p>
-							<p><textarea class="textarea-xlarge">${productInfo.productSellPoint}</textarea></p>
+							<p><textarea name="productSellPoint" class="textarea-xlarge">${productInfo.productSellPoint}</textarea></p>
 						</li>
 					</ul>
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>商品有效期</p>
-							<p><input type="text" class="int-small" value="${productInfo.activeCycle}"></p>
-							<p><select class="select-small">
+							<%-- 目前指定周期类型为:灵活有效期 --%>
+							<input type="hidden" name="activeType" value="2">
+							<p><input type="text" name="activeCycle" class="int-small" value="${productInfo.activeCycle}"></p>
+							<p><select class="select-small" name="unit">
 								<c:forEach var="unit" items="${prodUnits}">
 									<option value="${unit.columnValue}">${unit.columnDesc}</option>
 								</c:forEach>
@@ -324,9 +328,9 @@
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>是否快充商品</p>
-							<p><input type="radio" name="rechargeType" class="checkbox-small"
+							<p><input type="radio" name="rechargeType" class="checkbox-small" value="D"
 									  <c:if test="${productInfo.rechargeType == 'D'}">checked</c:if>>是</p>
-							<p><input type="radio" name="rechargeType" class="checkbox-small"
+							<p><input type="radio" name="rechargeType" class="checkbox-small" value="C"
 									  <c:if test="${productInfo.rechargeType == 'C'}">checked</c:if>>否</p>
 							<p><img src="${_slpres}/images/icon-a.png"/>请完善此必填项信息</p>
 						</li>
@@ -420,17 +424,17 @@
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>个人用户</p>
-							<p><input type="radio" class="checkbox-small">全部可见</p>
-							<p><input type="radio" class="checkbox-small">全部不可见</p>
+							<p><input type="radio" class="checkbox-small" name="audiencesPerson" value="-1">全部可见</p>
+							<p><input type="radio" class="checkbox-small" name="audiencesPerson" value="0">全部不可见</p>
 							<p><img src="${_slpres}/images/icon-a.png">请完善此必填项信息</p>
 						</li>
 					</ul>
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>企业用户</p>
-							<p><input type="radio" class="checkbox-small">全部企业可见</p>
-							<p><input type="radio" class="checkbox-small">部分企业可见</p>
-							<p><input type="radio" class="checkbox-small">全部企业不可见</p>
+							<p><input type="radio" class="checkbox-small" name="audiencesEnterprise" value="-1">全部可见</p>
+							<p><input type="radio" class="checkbox-small" name="audiencesEnterprise" value="1">部分可见</p>
+							<p><input type="radio" class="checkbox-small" name="audiencesEnterprise" value="0">全部不可见</p>
 							<p><img src="${_slpres}/images/icon-a.png">请完善此必填项信息</p>
 							<div class="cit-width cit-width-list2">
 								<p class="width-xlag">已选中代理商20个<a href="#" class="modify">修改</a></p>
@@ -457,9 +461,9 @@
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>代理商用户</p>
-							<p><input type="radio" class="checkbox-small">全部代理可见</p>
-							<p><input type="radio" class="checkbox-small">部分代理可见</p>
-							<p><input type="radio" class="checkbox-small">全部代理不可见</p>
+							<p><input type="radio" class="checkbox-small" name="audiencesAgents" value="-1">全部可见</p>
+							<p><input type="radio" class="checkbox-small" name="audiencesAgents" value="1">部分可见</p>
+							<p><input type="radio" class="checkbox-small" name="audiencesAgents" value="0">全部不可见</p>
 						</li>
 					</ul>
 					<ul>
@@ -470,9 +474,9 @@
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>是否允许</p>
-							<p><input type="radio" class="checkbox-small" name="isReplaceSell"
+							<p><input type="radio" class="checkbox-small" name="isReplaceSell" value="Y"
 									  <c:if test="${productInfo.isReplaceSell == 'Y'}">checked</c:if>>允许亚信代销</p>
-							<p><input type="radio" class="checkbox-small" name="isReplaceSell"
+							<p><input type="radio" class="checkbox-small" name="isReplaceSell" value="N"
 									  <c:if test="${productInfo.isReplaceSell == 'N'}">checked</c:if>>不允许亚信代销</p>
 						</li>
 					</ul>
@@ -484,9 +488,9 @@
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>选择商品目标地域</p>
-							<p><input type="radio" name="isSaleNationwide" class="checkbox-small radioc "
+							<p><input type="radio" name="isSaleNationwide" class="checkbox-small radioc " value="Y"
 									  <c:if test="${productInfo.isSaleNationwide == 'Y'}">checked</c:if> >全国</p>
-							<p><input type="radio" name="isSaleNationwide"class="checkbox-small radiod city"
+							<p><input type="radio" name="isSaleNationwide"class="checkbox-small radiod city" value="N"
 									  <c:if test="${productInfo.isSaleNationwide == 'N'}">checked</c:if> >部分</p>
 							<div id="check3"></div>
 							<div id="check4" style="display:none;">
@@ -506,7 +510,9 @@
 							<p class="word">商品上架时间</p>
 						</li>
 					</ul>
-					<ul>
+					<%-- 目前全部是立即上架 --%>
+					<input type="hidden" name="upshelfType" value="1">
+					<%--<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>选择商品上架时间</p>
 							<p><input type="radio" class="checkbox-small">立即上架</p>
@@ -515,7 +521,7 @@
 							<p><input type="text" class="int-small"><a href="#" class="ccc"><i
 									class="icon-calendar"></i></a></p>
 						</li>
-					</ul>
+					</ul>--%>
 				</div>
 				<div class="nav-form-title">商品主图</div> <!--标题-->
 				<div class="nav-form nav-form-border"><!--查询条件-->

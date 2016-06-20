@@ -4,14 +4,6 @@
          id="WebApp_ID" version="3.0">
     <display-name>slp-operate-web</display-name>
     <filter>
-        <filter-name>testFilter</filter-name>
-        <filter-class>com.ai.slp.operate.web.filter.TestFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>testFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-    <filter>
         <filter-name>xss-firewall</filter-name>
         <filter-class>com.ai.net.xss.filter.XSSFilter</filter-class>
         <init-param>
