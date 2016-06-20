@@ -35,15 +35,15 @@ public class ProdQueryController {
         //查询根目录
         List<ProdCatInfo> productCatInfos = productCatSV.queryCatByNameOrFirst(catQuery);
         uiModel.addAttribute("catInfos",productCatInfos);
-        //获取根目录的第一个
-        ProdCatInfo prodCatInfo ＝ productCatInfos.get(0);
-		//判断当前类目是否有子分类
-		String isChild = prodCatInfo.getIsChild();
-		//如果有子分类
-		if(){
-			String productCatId = prodCatInfo.getProductCatId();
-			//通过父类目id查询子类目
-		}
+//        //获取根目录的第一个
+//        ProdCatInfo prodCatInfo ＝ productCatInfos.get(0);
+//		//判断当前类目是否有子分类
+//		String isChild = prodCatInfo.getIsChild();
+//		//如果有子分类
+//		if(){
+//			String productCatId = prodCatInfo.getProductCatId();
+//			//通过父类目id查询子类目
+//		}
         		
         return "product/addlist";
     }
