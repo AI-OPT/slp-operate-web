@@ -1,7 +1,5 @@
 package com.ai.slp.operate.web.controller.product;
 
-import com.ai.opt.base.vo.BaseResponse;
-import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.dss.DSSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.BeanUtils;
@@ -151,7 +149,7 @@ public class ProdEditController {
         //TODO... 正式环境需要取消注释
 //        if (StringUtils.isNotBlank(detailConVal))
 //            fileId = client.insert(detailConVal);
-        logger.info("fileId="+fileId);
+//        logger.info("fileId="+fileId);
         editInfo.setProDetailContent(fileId);
         ProductInfoForUpdate prodInfo = new ProductInfoForUpdate();
         BeanUtils.copyProperties(prodInfo,editInfo);
@@ -165,14 +163,14 @@ public class ProdEditController {
         if ("1".equals(editInfo.getAudiencesAgents()) && StringUtils.isNotBlank(editInfo.getAudiAgentIds()))
             prodInfo.setAgentIds(JSON.parseArray(editInfo.getAudiAgentIds(),String.class));
 
-        //保存商品详情信息
-        BaseResponse response = productManagerSV.updateProduct(prodInfo);
-        ResponseHeader header = response.getResponseHeader();
-
-        //保存错误
-        if (header!=null && !header.isSuccess()){
-            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "添加失败:"+header.getResultMessage());
-        }
+        //保存商品详情信息 TODO...
+//        BaseResponse response = productManagerSV.updateProduct(prodInfo);
+//        ResponseHeader header = response.getResponseHeader();
+//
+//        //保存错误
+//        if (header!=null && !header.isSuccess()){
+//            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "添加失败:"+header.getResultMessage());
+//        }
         return responseData;
     }
 

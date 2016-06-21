@@ -92,16 +92,16 @@
 		</div>	
 		<div class="eject-mask"></div>	
 </div>
-<!--弹出删除弹出框 大结束-->
-<!--弹出删除弹出框 大-->
+<!--弹出选择目标省份弹出框 大结束-->
+<!--弹出受众选择弹出框 大-->
 <div class="eject-big">
 		<div class="eject-large" >		
-			<div class="eject-large-title">
+			<div id="audiSelectTitle" class="eject-large-title">
 				<p>选择<span id="audiType"></span>受众用户</p>
 				<p class="img"><A href="#"></A></p>
 			</div>
 			<div class="eject-large-list">
-				<div class="account-title eject-martop"><p>已选中<b id="audiNum">10</b>个<a href="#" class="wnc">完成选择</a></p></div>
+				<div id="audiSelectFinish" class="account-title eject-martop"><p>已选中<b id="audiNum">10</b>个<a href="#" class="wnc">完成选择</a></p></div>
 				<div id="audiSelectedDiv" class="eject-large-contacts">
 				</div>
 		    <div class="search-firm">
@@ -236,7 +236,7 @@
 		</div>	
 		<div class="eject-mask"></div>	
 </div>
-<!--弹出删除弹出框 大结束-->
+<!--弹出受众选择弹出框 大结束-->
 
 
 <div class="wrapper"><!--外围框架-->
@@ -628,23 +628,29 @@
 		elem.onmouseout = function(){
 			timer = setInterval(Scroll,40);
 		};
-		$('#agentAudiDiv').delegate('.modify', 'click', function() {
-			$('.eject-mask').fadeIn(100);
-			$('.eject-large').slideDown(200);
-		});
+		<%-- 显示受众更多部分 --%>
 		$(".cit-width").delegate('.zk','click',function () {
 			$(this).children('i').toggleClass("icon-angle-down  icon-angle-up");
 			$(this).parents().children('.open').slideToggle(100);
 		});
+		<%-- 显示受众选择页面 --%>
 		$('.cit-width-list2').delegate('.modify','click',function(){
 			console.log("client:"+$(this).attr('audi'));
 			pager._showAudiSelect($(this).attr('audi'));
 		});
-		//删除受众用户
+		<%-- 删除受众用户 --%>
 		$('#audiSelectedDiv').delegate('.icon-remove-sign','click',function(){
 			console.log('the remode audi userId:'+$(this).attr('userId'));
 			pager._delAudi($(this).attr('userId'));
 			$(this).parent().parent().remove();
+		});
+		<%-- 关闭受众选择窗口 --%>
+		$('#audiSelectTitle').delegate('.img','click',function(){
+			pager._flushAudiInfo();
+		});
+		<%-- 完成受众选择 --%>
+		$('#audiSelectFinish').delegate('.wnc','click',function(){
+			pager._flushAudiInfo();
 		});
 		seajs.use('app/jsp/product/edit', function (ProdEditPager) {
 			pager = new ProdEditPager({element: document.body});

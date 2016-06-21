@@ -50,6 +50,18 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			this._changeAudiEnt();
 			this._changeAudiAgent();
 		},
+		//刷新受众信息
+		_flushAudiInfo:function(){
+			//企业
+			if (ProdEditPager.AUDI_ENT_TYPE==nowAudiType){
+				this._changeAudiEnt();
+			}//代理商
+			else if(ProdEditPager.AUDI_AGENT_TYPE==nowAudiType){
+				this._changeAudiAgent();
+			}
+			$('.eject-mask').fadeOut(100);
+			$('.eject-large').slideUp(150);
+		},
 		//显示受众用户选择窗口
 		_showAudiSelect:function(audiType){
 			console.log("show audi type:"+audiType);
@@ -83,13 +95,31 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			//企业
 			if (ProdEditPager.AUDI_ENT_TYPE==nowAudiType){
 				delete(audiEntObjs[userId]);
-				audNum = audiEntObjs.valueOf().length;
+				audNum = Object.keys(audiEntObjs).length;
 			}//代理商
 			else if(ProdEditPager.AUDI_AGENT_TYPE==nowAudiType){
 				delete(audiAgentObjs[userId]);
-				audNum = audiAgentObjs.valueOf().length;
+				audNum = Object.keys(audiAgentObjs).length;
+			}else {
+				return;
 			}
-			$('#audiNum').text(ind);
+			$('#audiNum').text(audNum);
+		},
+		//添加受众用户
+		_addAudi:function(userId,userName){
+			var audNum;
+			//企业
+			if (ProdEditPager.AUDI_ENT_TYPE==nowAudiType){
+				audiEntObjs[userId] = userName;
+				audNum = Object.keys(audiEntObjs).length;
+			}//代理商
+			else if(ProdEditPager.AUDI_AGENT_TYPE==nowAudiType){
+				audiAgentObjs[userId]=userName;
+				audNum = Object.keys(audiAgentObjs).length;
+			}else{
+				return;
+			}
+			$('#audiNum').text(audNum);
 		},
 		_showAudi:function(){
 			var partTarget = $("input:radio[name='audiencesEnterprise']:checked").val();
@@ -112,6 +142,8 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			//获取audiEntObjs
 			var ind = 0;
 			var audiId = [];
+			$('#entAudiDiv').empty();
+			$('#entAudiDivMore').empty();
 			for (var key in audiEntObjs) {
 				audiId.push(key);
 				if (ind < 20)
@@ -131,6 +163,8 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			//获取audiEntObjs
 			var ind = 0;
 			var audiId = [];
+			$('#agentAudiDiv').empty();
+			$('#agentAudiDivMore').empty();
 			for (var key in audiAgentObjs) {
 				audiId.push(key);
 				if (ind < 20)
