@@ -19,6 +19,8 @@ define('app/jsp/product/edit', function (require, exports, module) {
     var ajaxController = new AjaxController();
 	var prodDetail = 'prodDetail';
 	var editDom;
+	//当前操作受众类型
+	var nowAudiType;
 
     //定义页面组件类
     var ProdEditPager = Widget.extend({
@@ -27,6 +29,8 @@ define('app/jsp/product/edit', function (require, exports, module) {
     	attrs: {
     	},
     	Statics: {
+			AUDI_ENT_TYPE: "ent",
+			AUDI_AGENT_TYPE: "agent"
     	},
     	//事件代理
     	events: {
@@ -45,6 +49,47 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			this._showTarget();
 			this._changeAudiEnt();
 			this._changeAudiAgent();
+		},
+		//显示受众用户选择窗口
+		_showAudiSelect:function(audiType){
+			console.log("show audi type:"+audiType);
+			nowAudiType = audiType;
+			var audiMap;
+			var typeName;
+			//企业
+			if (ProdEditPager.AUDI_ENT_TYPE==audiType){
+				audiMap = audiEntObjs;
+				typeName = "企业";
+			}//代理商
+			else if(ProdEditPager.AUDI_AGENT_TYPE==audiType){
+				audiMap = audiAgentObjs;
+				typeName = "代理商";
+			}else
+				return;
+			var ind = 0;
+			for (var key in audiMap) {
+				$('#audiSelectedDiv').append("<p>"+audiMap[key]+"<a href=\"#\"><i class=\"icon-remove-sign\" userId='"+key+"'></i></a></p>");
+				ind ++;
+			}
+			$("#audiType").text(typeName);
+			$('#audiNum').text(ind);
+			$('.eject-mask').fadeIn(100);
+			$('.eject-large').slideDown(200);
+		},
+		//删除受众用户
+		_delAudi:function (userId){
+			console.log("del audi userId:"+userId);
+			var audNum;
+			//企业
+			if (ProdEditPager.AUDI_ENT_TYPE==nowAudiType){
+				delete(audiEntObjs[userId]);
+				audNum = audiEntObjs.valueOf().length;
+			}//代理商
+			else if(ProdEditPager.AUDI_AGENT_TYPE==nowAudiType){
+				delete(audiAgentObjs[userId]);
+				audNum = audiAgentObjs.valueOf().length;
+			}
+			$('#audiNum').text(ind);
 		},
 		_showAudi:function(){
 			var partTarget = $("input:radio[name='audiencesEnterprise']:checked").val();
@@ -67,15 +112,15 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			//获取audiEntObjs
 			var ind = 0;
 			var audiId = [];
-			for (var key in audiAgentObjs) {
+			for (var key in audiEntObjs) {
 				audiId.push(key);
 				if (ind < 20)
-					$('#entAudiDiv').append("<p>"+audiAgentObjs[key]+"、</p>");
+					$('#entAudiDiv').append("<p>"+audiEntObjs[key]+"、</p>");
 				else
-					$('#entAudiDivMore').append("<p>"+audiAgentObjs[key]+"、</p>");
+					$('#entAudiDivMore').append("<p>"+audiEntObjs[key]+"、</p>");
 				ind ++;
 			}
-			$('#entAudiDiv').prepend("<p class=\"width-xlag\">已选中"+audiId.length+"个<a href=\"#\" class=\"modify\">修改</a></p>");
+			$('#entAudiDiv').prepend("<p class=\"width-xlag\">已选中"+audiId.length+"个<a href=\"#\" class=\"modify\" audi=\""+ProdEditPager.AUDI_ENT_TYPE+"\" >修改</a></p>");
 			$('#audiEntIds').val(JSON.stringify(audiId));
 			if(audiId.length>20){
 				$('#entAudiDiv').append("<p><a href=\"javascript:void(0)\" class=\"zk\">显示更多<i class=\"icon-angle-down\"></i></a></p>");
@@ -94,7 +139,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 					$('#agentAudiDivMore').append("<p>"+audiAgentObjs[key]+"、</p>");
 				ind ++;
 			}
-			$('#agentAudiDiv').prepend("<p class=\"width-xlag\">已选中"+audiId.length+"个<a href=\"#\" class=\"modify\">修改</a></p>");
+			$('#agentAudiDiv').prepend("<p class=\"width-xlag\">已选中"+audiId.length+"个<a href=\"#\" class=\"modify\" audi=\""+ProdEditPager.AUDI_AGENT_TYPE+"\">修改</a></p>");
 			$('#audiAgentIds').val(JSON.stringify(audiId));
 			if(audiId.length>20){
 				$('#agentAudiDiv').append("<p><a href=\"javascript:\" class=\"zk\">显示更多<i class=\"icon-angle-down\"></i></a></p>");

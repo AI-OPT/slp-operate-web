@@ -97,35 +97,17 @@
 <div class="eject-big">
 		<div class="eject-large" >		
 			<div class="eject-large-title">
-				<p>选择代理商用户</p>
+				<p>选择<span id="audiType"></span>受众用户</p>
 				<p class="img"><A href="#"></A></p>
 			</div>
-
 			<div class="eject-large-list">
-				
-				<div class="account-title eject-martop"><p>已选中<b>10个</b><a href="#" class="wnc">完成选择</a></p></div>
-				<div class="eject-large-contacts">
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>	
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>	
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>	
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>	
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>	
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>	
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>	
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>	
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>	
-					<p>阿里巴巴集团<a href="#"><i class="icon-remove-sign"></i></a></p>	
+				<div class="account-title eject-martop"><p>已选中<b id="audiNum">10</b>个<a href="#" class="wnc">完成选择</a></p></div>
+				<div id="audiSelectedDiv" class="eject-large-contacts">
 				</div>
-			
 		    <div class="search-firm">
 		    		<p>搜索企业用户</p>
 		    		<p><input type="input" class="int-xlarge" /></p>
-		    		<p><input type="button" value="查询" class="blling-btn blue-btn"</p>
+		    		<p><input type="button" value="查询" class="blling-btn blue-btn"></p>
 		    </div>
 		    <div class="user-list-title-list">
 		     	<ul>
@@ -639,13 +621,13 @@
 			}else{
 				elem.scrollTop += 1;
 			}
-		}
+		};
 		elem.onmouseover = function(){
 			clearInterval(timer);
-		}
+		};
 		elem.onmouseout = function(){
 			timer = setInterval(Scroll,40);
-		}
+		};
 		$('#agentAudiDiv').delegate('.modify', 'click', function() {
 			$('.eject-mask').fadeIn(100);
 			$('.eject-large').slideDown(200);
@@ -653,6 +635,16 @@
 		$(".cit-width").delegate('.zk','click',function () {
 			$(this).children('i').toggleClass("icon-angle-down  icon-angle-up");
 			$(this).parents().children('.open').slideToggle(100);
+		});
+		$('.cit-width-list2').delegate('.modify','click',function(){
+			console.log("client:"+$(this).attr('audi'));
+			pager._showAudiSelect($(this).attr('audi'));
+		});
+		//删除受众用户
+		$('#audiSelectedDiv').delegate('.icon-remove-sign','click',function(){
+			console.log('the remode audi userId:'+$(this).attr('userId'));
+			pager._delAudi($(this).attr('userId'));
+			$(this).parent().parent().remove();
 		});
 		seajs.use('app/jsp/product/edit', function (ProdEditPager) {
 			pager = new ProdEditPager({element: document.body});

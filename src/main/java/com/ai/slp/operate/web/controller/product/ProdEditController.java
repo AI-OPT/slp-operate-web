@@ -105,11 +105,15 @@ public class ProdEditController {
         ProdAudiencesInfo audiPerson = otherSet.getPersonAudiences();
         uiModel.addAttribute("audiPerson",audiPerson==null?"0":audiPerson.getUserId());
         //企业受众
-        uiModel.addAttribute("audiEnt",audiType(otherSet.getEnterpriseMap()));
-        uiModel.addAttribute("audiEnts",audiStr(otherSet.getEnterpriseMap()));
+        Map<String,ProdAudiencesInfo> entMap = otherSet.getEnterpriseMap();
+        entMap = genDemoAudiData(20);//TODO... 正式需删除
+        uiModel.addAttribute("audiEnt",audiType(entMap));
+        uiModel.addAttribute("audiEnts",audiStr(entMap));
         //代理商受众
-        uiModel.addAttribute("audiAgent",audiType(otherSet.getAgentsMap()));
-        uiModel.addAttribute("audiAgents",audiStr(otherSet.getAgentsMap()));
+        Map<String,ProdAudiencesInfo> agentMap = otherSet.getEnterpriseMap();
+        agentMap = genDemoAudiData(35);//TODO... 正式需删除
+        uiModel.addAttribute("audiAgent",audiType(agentMap));
+        uiModel.addAttribute("audiAgents",audiStr(agentMap));
 
         //商品主图
         uiModel.addAttribute("prodPic",otherSet.getProductPics());
@@ -144,6 +148,7 @@ public class ProdEditController {
             client.deleteById(fileId);
             fileId = "";
         }
+        //TODO... 正式环境需要取消注释
 //        if (StringUtils.isNotBlank(detailConVal))
 //            fileId = client.insert(detailConVal);
         logger.info("fileId="+fileId);
@@ -218,16 +223,27 @@ public class ProdEditController {
     private String audiStr(Map<String,ProdAudiencesInfo> audiMap){
         Map<String,String> strMap = new HashMap<>();
         //不是全部可见,且具有受众用户
-        /*if (audiMap!=null && !audiMap.isEmpty() && !audiMap.containsKey("-1")){
+        if (audiMap!=null && !audiMap.isEmpty() && !audiMap.containsKey("-1")){
             Set<Map.Entry<String,ProdAudiencesInfo>> mapEntry = audiMap.entrySet();
             for (Map.Entry<String,ProdAudiencesInfo> entry:mapEntry){
                 strMap.put(entry.getKey(),entry.getValue().getUserName());
             }
-        }*/
-        for (int i = 1;i< 40;i++){
-            strMap.put(i+"id","test"+i);
         }
         return JSON.toJSONString(strMap);
     }
 
+    /**
+     * 产生测试数据
+     * @return
+     */
+    private Map<String,ProdAudiencesInfo> genDemoAudiData(int num){
+        Map<String,ProdAudiencesInfo> audiMap = new HashMap<>();
+        for (int i=0;i<num;i++){
+            ProdAudiencesInfo audInfo = new ProdAudiencesInfo();
+            audInfo.setUserId(i+"id");
+            audInfo.setUserName("test"+i);
+            audiMap.put(audInfo.getUserId(),audInfo);
+        }
+        return audiMap;
+    }
 }
