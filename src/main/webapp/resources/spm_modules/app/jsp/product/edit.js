@@ -31,6 +31,8 @@ define('app/jsp/product/edit', function (require, exports, module) {
     	//事件代理
     	events: {
 			"click input:checkbox[name='targetProv']":"_showTarget",
+			"click input:radio[name='audiencesEnterprise']":"_showAudi",
+			"click input:radio[name='audiencesAgents']":"_showAudi",
 			"click #finishTarget":"_finishTarget",
 			//保存数据
 			"click #save":"_saveProd"
@@ -43,6 +45,22 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			this._showTarget();
 			this._changeAudiEnt();
 			this._changeAudiAgent();
+		},
+		_showAudi:function(){
+			var partTarget = $("input:radio[name='audiencesEnterprise']:checked").val();
+			if ('1' == partTarget){
+				$('#entAudiDiv').show();
+			}else {
+				$('#entAudiDiv').hide();
+				$('#entAudiDivMore').hide();
+			}
+			var audiAgent = $("input:radio[name='audiencesAgents']:checked").val();
+			if ('1' == audiAgent){
+				$('#agentAudiDiv').show();
+			}else {
+				$('#agentAudiDiv').hide();
+				$('#agentAudiDivMore').hide();
+			}
 		},
 		//对企业受众进行处理
 		_changeAudiEnt:function(){
@@ -63,7 +81,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 				$('#entAudiDiv').append("<p><a href=\"javascript:void(0)\" class=\"zk\">显示更多<i class=\"icon-angle-down\"></i></a></p>");
 			}
 		},
-		//对企业受众进行处理
+		//对代理商受众进行处理
 		_changeAudiAgent:function(){
 			//获取audiEntObjs
 			var ind = 0;

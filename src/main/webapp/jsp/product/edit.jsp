@@ -646,6 +646,14 @@
 		elem.onmouseout = function(){
 			timer = setInterval(Scroll,40);
 		}
+		$('#agentAudiDiv').delegate('.modify', 'click', function() {
+			$('.eject-mask').fadeIn(100);
+			$('.eject-large').slideDown(200);
+		});
+		$(".cit-width").delegate('.zk','click',function () {
+			$(this).children('i').toggleClass("icon-angle-down  icon-angle-up");
+			$(this).parents().children('.open').slideToggle(100);
+		});
 		seajs.use('app/jsp/product/edit', function (ProdEditPager) {
 			pager = new ProdEditPager({element: document.body});
 			pager.render();
