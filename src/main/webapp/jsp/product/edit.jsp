@@ -423,51 +423,60 @@
 							<p class="word">选择商品目标受众类型</p>
 						</li>
 					</ul>
+					<%-- 个人用户 --%>
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>个人用户</p>
-							<p><input type="radio" class="checkbox-small" name="audiencesPerson" value="-1">全部可见</p>
-							<p><input type="radio" class="checkbox-small" name="audiencesPerson" value="0">全部不可见</p>
+							<p><input type="radio" class="checkbox-small" <c:if test="${audiPerson == '-1'}">checked</c:if>
+									  name="audiencesPerson" value="-1">全部可见</p>
+							<p><input type="radio" class="checkbox-small" <c:if test="${audiPerson != '-1'}">checked</c:if>
+									  name="audiencesPerson" value="0">全部不可见</p>
 							<p><img src="${_slpres}/images/icon-a.png">请完善此必填项信息</p>
 						</li>
 					</ul>
+					<%-- 企业用户 --%>
+					<input id="audiEntIds" name="audiEntIds" type="hidden">
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>企业用户</p>
-							<p><input type="radio" class="checkbox-small" name="audiencesEnterprise" value="-1">全部可见</p>
-							<p><input type="radio" class="checkbox-small" name="audiencesEnterprise" value="1">部分可见</p>
-							<p><input type="radio" class="checkbox-small" name="audiencesEnterprise" value="0">全部不可见</p>
+							<p><input type="radio" class="checkbox-small" <c:if test="${audiEnt == '-1'}">checked</c:if>
+									  name="audiencesEnterprise" value="-1">全部可见</p>
+							<p><input type="radio" class="checkbox-small" <c:if test="${audiEnt == '1'}">checked</c:if>
+									  name="audiencesEnterprise" value="1">部分可见</p>
+							<p><input type="radio" class="checkbox-small" <c:if test="${audiEnt != '1' && audiEnt != '-1'}">checked</c:if>
+									  name="audiencesEnterprise" value="0">全部不可见</p>
 							<p><img src="${_slpres}/images/icon-a.png">请完善此必填项信息</p>
-							<div class="cit-width cit-width-list2">
-								<p class="width-xlag">已选中代理商20个<a href="#" class="modify">修改</a></p>
-								<p>百度在线 （百度在线企业账户）</p>
-								<p>百事（可乐百事）、</p>
-								<p>宝马 （BMW-accuont)、</p>
-								<p> C开头公司名称1（注册用户名）、</p>
-								<p>C开头公司2 （注册用户名）、</p>
-								<p>C开头公司3很长的公司注册名字换行（注册用户名）、</p>
-								<p>D开头公司1（注册用户名）、</p>
-								<p><a href="javascript:" class="zk">显示更多<i class="icon-angle-down"></i></a></p>
+							<div id="entAudiDiv" class="cit-width cit-width-list2" <c:if test="${audiEnt != '1'}">style="display:none;"</c:if>>
+
 							</div>
-							<div class="cit-width open" style="display:none;">
-								<p>百度在线 （百度在线企业账户）</p>
-								<p>百事（可乐百事）、</p>
-								<p>宝马 （BMW-accuont)、</p>
-								<p> C开头公司名称1（注册用户名）、</p>
-								<p>C开头公司2 （注册用户名）、</p>
-								<p>C开头公司3很长的公司注册名字换行（注册用户名）、</p>
-								<p>D开头公司1（注册用户名）、</p>
+							<div id="entAudiDivMore" class="cit-width open" style="display:none;">
+
 							</div>
 						</li>
 					</ul>
+					<script id="cartProdTemple" type="text/template">
+
+					</script>
+					<%-- 代理商用户 --%>
+					<input id="audiAgentIds" name="audiAgentIds" type="hidden">
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>代理商用户</p>
-							<p><input type="radio" class="checkbox-small" name="audiencesAgents" value="-1">全部可见</p>
-							<p><input type="radio" class="checkbox-small" name="audiencesAgents" value="1">部分可见</p>
-							<p><input type="radio" class="checkbox-small" name="audiencesAgents" value="0">全部不可见</p>
+							<p><input type="radio" class="checkbox-small" <c:if test="${audiAgent == '-1'}">checked</c:if>
+									  name="audiencesAgents" value="-1">全部可见</p>
+							<p><input type="radio" class="checkbox-small" <c:if test="${audiAgent == '1'}">checked</c:if>
+									  name="audiencesAgents" value="1">部分可见</p>
+							<p><input type="radio" class="checkbox-small" <c:if test="${audiAgent != '1' && audiAgent != '-1'}">checked</c:if>
+									  name="audiencesAgents" value="0">全部不可见</p>
+							<div id="agentAudiDiv" class="cit-width cit-width-list2" <c:if test="${audiAgent != '1'}">style="display:none;"</c:if>>
+
+							</div>
+							<div id="agentAudiDivMore" class="cit-width open" style="display:none;">
+
+							</div>
 						</li>
 					</ul>
+					<%-- 亚信平台代销 --%>
 					<ul>
 						<li class="width-xlag">
 							<p class="word">亚信平台代销</p>
@@ -482,6 +491,7 @@
 									  <c:if test="${productInfo.isReplaceSell == 'N'}">checked</c:if>>不允许亚信代销</p>
 						</li>
 					</ul>
+					<%-- 目标地域 --%>
 					<ul>
 						<li class="width-xlag">
 							<p class="word">商品目标地域</p>
@@ -614,7 +624,8 @@
 </body>
 <script type="text/javascript">
 	var pager;
-
+	var audiEntObjs = $.parseJSON('${audiEnts}');
+	var audiAgentObjs = $.parseJSON('${audiAgents}');
 	(function () {
 		var timer;
 		var elem = $('#elem');

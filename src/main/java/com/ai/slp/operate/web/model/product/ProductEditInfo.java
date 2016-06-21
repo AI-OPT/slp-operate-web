@@ -59,12 +59,21 @@ public class ProductEditInfo {
     private String audiencesPerson;
 
     private String audiencesEnterprise;
+    /**
+     * 企业用户ID集合json
+     */
+    private String audiEntIds;
 
     private String audiencesAgents;
+    /**
+     * 代理商用户ID集合json
+     */
+    private String audiAgentIds;
     /**
      * 目标地域
      */
     private String targetProd;
+
 
     public String getProdId() {
         return prodId;
@@ -200,5 +209,21 @@ public class ProductEditInfo {
 
     public void setTargetProd(String targetProd) {
         this.targetProd = targetProd;
+    }
+
+    public String getAudiEntIds() {
+        return audiEntIds;
+    }
+
+    public void setAudiEntIds(String audiEntIds) {
+        this.audiEntIds = audiEntIds;
+    }
+
+    public String getAudiAgentIds() {
+        return audiAgentIds;
+    }
+
+    public void setAudiAgentIds(String audiAgentIds) {
+        this.audiAgentIds = audiAgentIds;
     }
 }

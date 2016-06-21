@@ -41,12 +41,53 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			editDom = CKEDITOR.replace(prodDetail);
 			this._showPartTarget();
 			this._showTarget();
-
+			this._changeAudiEnt();
+			this._changeAudiAgent();
 		},
+		//对企业受众进行处理
+		_changeAudiEnt:function(){
+			//获取audiEntObjs
+			var ind = 0;
+			var audiId = [];
+			for (var key in audiAgentObjs) {
+				audiId.push(key);
+				if (ind < 20)
+					$('#entAudiDiv').append("<p>"+audiAgentObjs[key]+"、</p>");
+				else
+					$('#entAudiDivMore').append("<p>"+audiAgentObjs[key]+"、</p>");
+				ind ++;
+			}
+			$('#entAudiDiv').prepend("<p class=\"width-xlag\">已选中"+audiId.length+"个<a href=\"#\" class=\"modify\">修改</a></p>");
+			$('#audiEntIds').val(JSON.stringify(audiId));
+			if(audiId.length>20){
+				$('#entAudiDiv').append("<p><a href=\"javascript:void(0)\" class=\"zk\">显示更多<i class=\"icon-angle-down\"></i></a></p>");
+			}
+		},
+		//对企业受众进行处理
+		_changeAudiAgent:function(){
+			//获取audiEntObjs
+			var ind = 0;
+			var audiId = [];
+			for (var key in audiAgentObjs) {
+				audiId.push(key);
+				if (ind < 20)
+					$('#agentAudiDiv').append("<p>"+audiAgentObjs[key]+"、</p>");
+				else
+					$('#agentAudiDivMore').append("<p>"+audiAgentObjs[key]+"、</p>");
+				ind ++;
+			}
+			$('#agentAudiDiv').prepend("<p class=\"width-xlag\">已选中"+audiId.length+"个<a href=\"#\" class=\"modify\">修改</a></p>");
+			$('#audiAgentIds').val(JSON.stringify(audiId));
+			if(audiId.length>20){
+				$('#agentAudiDiv').append("<p><a href=\"javascript:\" class=\"zk\">显示更多<i class=\"icon-angle-down\"></i></a></p>");
+			}
+		},
+		//完成目标地域选择
 		_finishTarget:function(){
 			$('.eject-mask').fadeOut(100);
 			$('.eject-large2').slideUp(150);
 		},
+		//显示目标地域的信息
 		_showPartTarget:function(){
 			var partTarget = $("input[name='isSaleNationwide']:checked").val();
 			if ('N' == partTarget){

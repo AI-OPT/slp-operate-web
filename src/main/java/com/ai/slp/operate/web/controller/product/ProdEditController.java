@@ -101,6 +101,16 @@ public class ProdEditController {
         //查询商品其他设置
         OtherSetOfProduct otherSet = productManagerSV.queryOtherSetOfProduct(infoQuery);
         uiModel.addAttribute("otherSet",otherSet);
+        //个人受众
+        ProdAudiencesInfo audiPerson = otherSet.getPersonAudiences();
+        uiModel.addAttribute("audiPerson",audiPerson==null?"0":audiPerson.getUserId());
+        //企业受众
+        uiModel.addAttribute("audiEnt",audiType(otherSet.getEnterpriseMap()));
+        uiModel.addAttribute("audiEnts",audiStr(otherSet.getEnterpriseMap()));
+        //代理商受众
+        uiModel.addAttribute("audiAgent",audiType(otherSet.getAgentsMap()));
+        uiModel.addAttribute("audiAgents",audiStr(otherSet.getAgentsMap()));
+
         //商品主图
         uiModel.addAttribute("prodPic",otherSet.getProductPics());
 
@@ -124,7 +134,6 @@ public class ProdEditController {
     @RequestMapping("/save")
     @ResponseBody
     public ResponseData<String> saveProductInfo(ProductEditInfo editInfo, String detailConVal, RedirectAttributes redirectModel){
-        String retStr = "redirect:/prodquery/add";
         ResponseData<String> responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "添加成功");
         initConsumer();
 
@@ -135,15 +144,22 @@ public class ProdEditController {
             client.deleteById(fileId);
             fileId = "";
         }
-        if (StringUtils.isNotBlank(detailConVal))
-            fileId = client.insert(detailConVal);
+//        if (StringUtils.isNotBlank(detailConVal))
+//            fileId = client.insert(detailConVal);
         logger.info("fileId="+fileId);
         editInfo.setProDetailContent(fileId);
         ProductInfoForUpdate prodInfo = new ProductInfoForUpdate();
         BeanUtils.copyProperties(prodInfo,editInfo);
         //添加省份编码
-        if (StringUtils.isNotBlank(editInfo.getTargetProd()))
+        if ("N".equals(editInfo.getIsSaleNationwide()) && StringUtils.isNotBlank(editInfo.getTargetProd()))
             prodInfo.setProvCodes(JSON.parseArray(editInfo.getTargetProd(),Long.class));
+        //添加企业受众
+        if ("1".equals(editInfo.getAudiencesEnterprise()) && StringUtils.isNotBlank(editInfo.getAudiEntIds()))
+            prodInfo.setEnterpriseIds(JSON.parseArray(editInfo.getAudiEntIds(),String.class));
+        //代理商受众
+        if ("1".equals(editInfo.getAudiencesAgents()) && StringUtils.isNotBlank(editInfo.getAudiAgentIds()))
+            prodInfo.setAgentIds(JSON.parseArray(editInfo.getAudiAgentIds(),String.class));
+
         //保存商品详情信息
         BaseResponse response = productManagerSV.updateProduct(prodInfo);
         ResponseHeader header = response.getResponseHeader();
@@ -177,6 +193,41 @@ public class ProdEditController {
         IDSSClient client= DSSClientFactory.getDSSClient(SysCommonConstants.ProductDetail.DSSNS);
         byte[] prodDetail = client.read(fileId);
         uiModel.addAttribute("prodDetail",new String(prodDetail));
+    }
+
+    private String audiType(Map<String,ProdAudiencesInfo> audiMap){
+        //默认不分可见
+        String audiEnt = "1";
+        //代理商受众
+        //为空表示全部不可见
+        if (audiMap==null || audiMap.isEmpty()){
+            audiEnt = "0";
+        }
+        //包含-1表示全部可见
+        else if(audiMap.containsKey("-1")){
+            audiEnt = "-1";
+        }
+        return audiEnt;
+    }
+
+    /**
+     * 获取受众json格式字符串
+     * @param audiMap
+     * @return
+     */
+    private String audiStr(Map<String,ProdAudiencesInfo> audiMap){
+        Map<String,String> strMap = new HashMap<>();
+        //不是全部可见,且具有受众用户
+        /*if (audiMap!=null && !audiMap.isEmpty() && !audiMap.containsKey("-1")){
+            Set<Map.Entry<String,ProdAudiencesInfo>> mapEntry = audiMap.entrySet();
+            for (Map.Entry<String,ProdAudiencesInfo> entry:mapEntry){
+                strMap.put(entry.getKey(),entry.getValue().getUserName());
+            }
+        }*/
+        for (int i = 1;i< 40;i++){
+            strMap.put(i+"id","test"+i);
+        }
+        return JSON.toJSONString(strMap);
     }
 
 }
