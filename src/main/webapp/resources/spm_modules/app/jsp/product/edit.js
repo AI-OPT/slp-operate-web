@@ -4,7 +4,6 @@ define('app/jsp/product/edit', function (require, exports, module) {
 		Events = require('arale-events/1.2.0/events'),
     Widget = require('arale-widget/1.2.0/widget'),
     Dialog = require("artDialog/src/dialog"),
-		Paging = require('paging/0.0.1/paging-debug'),
     AjaxController = require('opt-ajax/1.0.0/index');
 	require("ckeditor/ckeditor.js")
     require("jsviews/jsrender.min");
@@ -224,6 +223,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 		},
     	//保存商品信息
       	_saveProd:function() {
+			var _this = this;
 			//获取editor中内容
 			$("#detailConVal").val(editDom.getData());
 			console.log($('#detailConVal').val());
@@ -236,12 +236,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 				data:$('#prodForm').serializeArray(),
 				success: function(data){
 					if("0"===data.statusCode){
-						new Dialog({
-							content:"保存成功",
-							ok:function(){
-								this.close();
-							}
-						}).show();
+						_this._showMsg("保存成功");
 						//保存成功,跳转到列表页面
 						//window.location.href = _base+"/prodquery/add";
 					}
@@ -253,12 +248,8 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			var _this = this;
 			var selectName = $("#selectName").val();
 			if (selectName == null || '' == selectName) {
-				new Dialog({
-					context: "请输入要查询用户名",
-					ok: function () {
-						this.close();
-					}
-				}).show();
+				this._showMsg("请输入要查询用户名");
+				return;
 			}
 			$("#pagination-ul").runnerPagination({
 				url: _base + "/home/queryuser",
@@ -279,6 +270,14 @@ define('app/jsp/product/edit', function (require, exports, module) {
 					}
 				}
 			});
+		},
+		_showMsg:function(msg){
+			new Dialog({
+				context:msg,
+				ok:function(){
+					this.close();
+				}
+			}).show();
 		}
     });
     

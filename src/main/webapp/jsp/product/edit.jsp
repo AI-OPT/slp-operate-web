@@ -125,7 +125,7 @@
 </div>
 <script id="userListTemple" type="text/template">
 <li>
-	<p><input type="checkbox" class="checkbox-medium" value="{{:userId}}"></p>
+	<p><input type="checkbox" class="checkbox-medium" value="{{:userId}}" title="{{:userLoginName}}"></p>
 	<p>{{:userLoginName}}</p>
 </li>
 </script>
@@ -544,6 +544,16 @@
 		<%-- 完成受众选择 --%>
 		$('#audiSelectFinish').delegate('.wnc','click',function(){
 			pager._flushAudiInfo();
+		});
+		<%-- 选择受众 --%>
+		$('#userList').delegate('.checkbox-medium','click',function(){
+			var userId = $(this).val(),userName = $(this).attr('title');
+			console.log(userId+","+userName);
+			//若是选中,则添加,否则为删除
+			if($(this).checked)
+				pager._addAudi(userId,userName);
+			else
+				pager._delAudi(userId);
 		});
 		seajs.use('app/jsp/product/edit', function (ProdEditPager) {
 			pager = new ProdEditPager({element: document.body});
