@@ -7,6 +7,8 @@ import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.paas.ipaas.dss.base.interfaces.IDSSClient;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
+import com.ai.slp.common.api.cache.param.SysParamMultiCond;
+import com.ai.slp.common.api.cache.param.SysParamSingleCond;
 import com.ai.slp.operate.web.constants.ComCacheConstants;
 import com.ai.slp.operate.web.constants.ProductCatConstants;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
@@ -22,7 +24,6 @@ import com.ai.slp.product.api.product.param.*;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
-import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang.StringUtils;
@@ -50,7 +51,6 @@ public class ProdEditController {
     ICacheSV cacheSV;
     INormProductSV normProductSV;
     IProductCatSV productCatSV;
-    IUcUserSV ucUserSV;
 
     public void initConsumer() {
         if (productManagerSV == null)
@@ -63,8 +63,6 @@ public class ProdEditController {
             normProductSV = DubboConsumerFactory.getService(INormProductSV.class);
         if (productCatSV == null)
             productCatSV = DubboConsumerFactory.getService(IProductCatSV.class);
-        if (ucUserSV == null)
-            ucUserSV = DubboConsumerFactory.getService(IUcUserSV.class);
     }
     /**
      * 显示商品编辑页面
@@ -86,10 +84,13 @@ public class ProdEditController {
         catUniqueReq.setProductCatId(productInfo.getProductCatId());
         List<ProductCatInfo> catLinkList =productCatSV.queryLinkOfCatById(catUniqueReq);
         uiModel.addAttribute("catLinkList",catLinkList);
+        SysParamSingleCond paramSingleCond = new SysParamSingleCond();
+        paramSingleCond.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+        paramSingleCond.setTypeCode(ComCacheConstants.TypeProduct.CODE);
+        paramSingleCond.setParamCode(ComCacheConstants.TypeProduct.PROD_PRODUCT_TYPE);
+        paramSingleCond.setColumnValue(productInfo.getProductType());
         //商品类型
-        SysParam sysParam = cacheSV.getSysParam(
-                SysCommonConstants.COMMON_TENANT_ID, ComCacheConstants.TypeProduct.CODE,
-                ComCacheConstants.TypeProduct.PROD_PRODUCT_TYPE,productInfo.getProductType());
+        SysParam sysParam = cacheSV.getSysParamSingle(paramSingleCond);
         uiModel.addAttribute("prodType",sysParam.getColumnDesc());
         //标准品关键属性
         AttrQuery attrQuery = new AttrQuery();
@@ -109,25 +110,25 @@ public class ProdEditController {
         uiModel.addAttribute("audiPerson",audiPerson==null?"0":audiPerson.getUserId());
         //企业受众
         Map<String,ProdAudiencesInfo> entMap = otherSet.getEnterpriseMap();
-        entMap = genDemoAudiData(20);//TODO... 正式需删除
         uiModel.addAttribute("audiEnt",audiType(entMap));
         uiModel.addAttribute("audiEnts",audiStr(entMap));
         //代理商受众
         Map<String,ProdAudiencesInfo> agentMap = otherSet.getEnterpriseMap();
-        agentMap = genDemoAudiData(35);//TODO... 正式需删除
         uiModel.addAttribute("audiAgent",audiType(agentMap));
         uiModel.addAttribute("audiAgents",audiStr(agentMap));
 
         //商品主图
         uiModel.addAttribute("prodPic",otherSet.getProductPics());
-
+        SysParamMultiCond paramMultiCond = new SysParamMultiCond();
+        paramMultiCond.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+        paramMultiCond.setTypeCode(ComCacheConstants.TypeProduct.CODE);
+        paramMultiCond.setParamCode(ComCacheConstants.TypeProduct.PROD_UNIT);
         //有效期单位
-        List<SysParam> prodUnits = cacheSV.getSysParams(SysCommonConstants.COMMON_TENANT_ID,
-                ComCacheConstants.TypeProduct.CODE,ComCacheConstants.TypeProduct.PROD_UNIT);
+        List<SysParam> prodUnits = cacheSV.getSysParamList(paramMultiCond);
         uiModel.addAttribute("prodUnits",prodUnits);
         //运营商
-        List<SysParam> basicOrgIds = cacheSV.getSysParams(SysCommonConstants.COMMON_TENANT_ID,
-                ComCacheConstants.TypeProduct.CODE,ComCacheConstants.TypeProduct.BASIC_ORG_ID);
+        paramMultiCond.setParamCode(ComCacheConstants.TypeProduct.BASIC_ORG_ID);
+        List<SysParam> basicOrgIds = cacheSV.getSysParamList(paramMultiCond);
         uiModel.addAttribute("orgIds",basicOrgIds);
         //设置商品详情
         setProdDetail(fileId,uiModel);
@@ -151,6 +152,7 @@ public class ProdEditController {
             client.deleteById(fileId);
             fileId = "";
         }
+//        client.updateOrInsert()
         //TODO... 正式环境需要取消注释
 //        if (StringUtils.isNotBlank(detailConVal))
 //            fileId = client.insert(detailConVal);

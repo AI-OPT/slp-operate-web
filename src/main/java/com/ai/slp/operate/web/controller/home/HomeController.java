@@ -7,10 +7,10 @@ import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
-import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
-import com.ai.slp.user.api.ucuser.param.SearchUserListResponse;
-import com.ai.slp.user.api.ucuser.param.SearchUserRequest;
-import com.ai.slp.user.api.ucuser.param.UcUserInfoParams;
+import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
+import com.ai.slp.user.api.keyinfo.param.QueryGroupInfoRequest;
+import com.ai.slp.user.api.keyinfo.param.QueryGroupInfoResponse;
+import com.ai.slp.user.api.keyinfo.param.UcGroupKeyInfoVo;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,22 +61,22 @@ public class HomeController {
 
 	@RequestMapping("/queryuser")
 	@ResponseBody
-	public ResponseData<PageInfo<UcUserInfoParams>> queryUserList(Integer pageSize,Integer pageNo,String userType,String userName){
-		ResponseData<PageInfo<UcUserInfoParams>> responseData;
-		SearchUserRequest userRequest = new SearchUserRequest();
-		userRequest.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
-		userRequest.setPageNo(pageNo);
-		userRequest.setPageSize(pageSize);
-		userRequest.setUserType(userType);
-//		userRequest.setUserMp();
-		IUcUserSV ucUserSV = DubboConsumerFactory.getService(IUcUserSV.class);
-		SearchUserListResponse userListResponse = ucUserSV.searchUserList(userRequest);
-		ResponseHeader header = userListResponse.getResponseHeader();
+	public ResponseData<PageInfo<UcGroupKeyInfoVo>> queryUserList(Integer pageSize, Integer pageNo, String userType, String userName){
+		ResponseData<PageInfo<UcGroupKeyInfoVo>> responseData;
+		QueryGroupInfoRequest infoRequest = new QueryGroupInfoRequest();
+		infoRequest.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+		infoRequest.setPageNo(pageNo);
+		infoRequest.setPageSize(pageSize);
+		infoRequest.setCustName(userName);
+		infoRequest.setUserType(userType);
+		IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
+		QueryGroupInfoResponse infoResponse = ucKeyInfoSV.queryGroupInfo(infoRequest);
+		ResponseHeader header = infoResponse.getResponseHeader();
 		if (header!=null && header.isSuccess()){
-			responseData = new ResponseData<PageInfo<UcUserInfoParams>>(ResponseData.AJAX_STATUS_SUCCESS,
-					"查询成功",userListResponse.getPageInfo());
+			responseData = new ResponseData<PageInfo<UcGroupKeyInfoVo>>(ResponseData.AJAX_STATUS_SUCCESS,
+					"查询成功",infoResponse.getPageInfo());
 		}else {
-			responseData = new ResponseData<PageInfo<UcUserInfoParams>>(ResponseData.AJAX_STATUS_FAILURE,
+			responseData = new ResponseData<PageInfo<UcGroupKeyInfoVo>>(ResponseData.AJAX_STATUS_FAILURE,
 					"查询失败:"+header.getResultMessage());
 		}
 		return responseData;

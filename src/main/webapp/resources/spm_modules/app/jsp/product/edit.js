@@ -65,6 +65,10 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			else if(ProdEditPager.AUDI_AGENT_TYPE==nowAudiType){
 				this._changeAudiAgent();
 			}
+			//清除已有搜索
+			$('#userList').text("请输入用户名进行搜索");
+			$('#selectName').val('');
+			$('#pagination-ul').empty();
 			$('.eject-mask').fadeOut(100);
 			$('.eject-large').slideUp(150);
 		},

@@ -125,8 +125,8 @@
 </div>
 <script id="userListTemple" type="text/template">
 <li>
-	<p><input type="checkbox" class="checkbox-medium" value="{{:userId}}" title="{{:userLoginName}}"></p>
-	<p>{{:userLoginName}}</p>
+	<p><input type="checkbox" class="checkbox-medium" value="{{:userId}}" title="{{:custName}}"></p>
+	<p>{{:custName}}</p>
 </li>
 </script>
 <!--弹出受众选择弹出框 大结束-->
