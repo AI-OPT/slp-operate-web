@@ -22,6 +22,7 @@ import com.ai.slp.product.api.product.param.*;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
+import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -48,6 +49,7 @@ public class ProdEditController {
     ICacheSV cacheSV;
     INormProductSV normProductSV;
     IProductCatSV productCatSV;
+    IUcUserSV ucUserSV;
 
     public void initConsumer() {
         if (productManagerSV == null)
@@ -60,6 +62,8 @@ public class ProdEditController {
             normProductSV = DubboConsumerFactory.getService(INormProductSV.class);
         if (productCatSV == null)
             productCatSV = DubboConsumerFactory.getService(IProductCatSV.class);
+        if (ucUserSV == null)
+            ucUserSV = DubboConsumerFactory.getService(IUcUserSV.class);
     }
     /**
      * 显示商品编辑页面

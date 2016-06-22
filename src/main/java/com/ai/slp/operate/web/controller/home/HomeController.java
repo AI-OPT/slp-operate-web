@@ -1,8 +1,16 @@
 package com.ai.slp.operate.web.controller.home;
 
+import com.ai.opt.base.vo.PageInfo;
+import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
+import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
+import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
+import com.ai.slp.user.api.ucuser.param.SearchUserListResponse;
+import com.ai.slp.user.api.ucuser.param.SearchUserRequest;
+import com.ai.slp.user.api.ucuser.param.UcUserInfoParams;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +57,29 @@ public class HomeController {
 			strBuffer.append("<font color=\"red\" size=\"2\">*上传文件错误</font>");
 		}
 		return strBuffer.toString();
+	}
+
+	@RequestMapping("/queryuser")
+	@ResponseBody
+	public ResponseData<PageInfo<UcUserInfoParams>> queryUserList(Integer pageSize,Integer pageNo,String userType,String userName){
+		ResponseData<PageInfo<UcUserInfoParams>> responseData;
+		SearchUserRequest userRequest = new SearchUserRequest();
+		userRequest.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+		userRequest.setPageNo(pageNo);
+		userRequest.setPageSize(pageSize);
+		userRequest.setUserType(userType);
+//		userRequest.setUserMp();
+		IUcUserSV ucUserSV = DubboConsumerFactory.getService(IUcUserSV.class);
+		SearchUserListResponse userListResponse = ucUserSV.searchUserList(userRequest);
+		ResponseHeader header = userListResponse.getResponseHeader();
+		if (header!=null && header.isSuccess()){
+			responseData = new ResponseData<PageInfo<UcUserInfoParams>>(ResponseData.AJAX_STATUS_SUCCESS,
+					"查询成功",userListResponse.getPageInfo());
+		}else {
+			responseData = new ResponseData<PageInfo<UcUserInfoParams>>(ResponseData.AJAX_STATUS_FAILURE,
+					"查询失败:"+header.getResultMessage());
+		}
+		return responseData;
 	}
 
 	private String getFileExtName(String fileName){

@@ -105,137 +105,30 @@
 				<div id="audiSelectedDiv" class="eject-large-contacts">
 				</div>
 		    <div class="search-firm">
-		    		<p>搜索企业用户</p>
-		    		<p><input type="input" class="int-xlarge" /></p>
-		    		<p><input type="button" value="查询" class="blling-btn blue-btn"></p>
+		    		<p>搜索<span id="selectType"></span>用户</p>
+		    		<p><input id="selectName" type="input" class="int-xlarge" /></p>
+		    		<p><input id="searchBut" type="button" value="查询" class="blling-btn blue-btn"></p>
 		    </div>
 		    <div class="user-list-title-list">
-		     	<ul>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>企业注册名称（注册账户用户名）</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>奥迪集团</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>阿里巴巴集团(alibabacompany)</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>企业注册名称（注册账户用户名）</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>企业注册名称（注册账户用户名）</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>奥德赛网络科技有限公司(德赛奥账户)</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>企业注册名称（注册账户用户名）</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>奥迪集团</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>阿里巴巴集团(alibabacompany)</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>企业注册名称（注册账户用户名）</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>企业注册名称（注册账户用户名）</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>奥德赛网络科技有限公司(德赛奥账户)</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>企业注册名称（注册账户用户名）</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>奥迪集团</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>阿里巴巴集团(alibabacompany)</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>企业注册名称（注册账户用户名）</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>企业注册名称（注册账户用户名）</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>奥德赛网络科技有限公司(德赛奥账户)</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>企业注册名称（注册账户用户名）</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>奥迪集团</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>阿里巴巴集团(alibabacompany)</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>企业注册名称（注册账户用户名）</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>企业注册名称（注册账户用户名）</p>
-		     		</li>
-		     		<li>
-		     			<p><input type="checkbox" class="checkbox-medium"/></p>
-		     			<p>奥德赛网络科技有限公司(德赛奥账户)</p>
-		     		</li>
-		     		
-		     	</ul>	
+		     	<ul id="userList">请输入用户名进行搜索</ul>
 		    </div> 	
 		     
 			</div>	
 		 <!--分页-->
 	    <div class="paging-large">
-	            <ul>
-	                <li>共100页</li>
-	                <li class="prev-up"><a href="#">&lt;上一页</a> </li>
-	                <li class="active"> <a href="#">1 </a> </li>
-	                <li> <a href="#">2 </a> </li>
-	                <li> <a href="#">3</a> </li>
-	                <li><span>....</span></li>
-	                <li> <a href="#">6</a> </li>
-	                <li> <a href="#">7</a> </li>
-	                <li class="next-down"><a href="#">下一页&gt;</a> </li>
-	                 <li>
-	                    <span>到</span>
-	                    <span><input type="text" class="int-verysmall"></span>
-	                    <span>页</span>
-	                    <span class="btn-span"><a class="but-determine">确定</a></span>
-	                </li>
+	            <ul id="pagination-ul">
 	             </ul>
 	      </div>     
 		
 		</div>	
 		<div class="eject-mask"></div>	
 </div>
+<script id="userListTemple" type="text/template">
+<li>
+	<p><input type="checkbox" class="checkbox-medium" value="{{:userId}}"></p>
+	<p>{{:userLoginName}}</p>
+</li>
+</script>
 <!--弹出受众选择弹出框 大结束-->
 
 

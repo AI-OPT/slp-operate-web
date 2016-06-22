@@ -4,6 +4,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 		Events = require('arale-events/1.2.0/events'),
     Widget = require('arale-widget/1.2.0/widget'),
     Dialog = require("artDialog/src/dialog"),
+		Paging = require('paging/0.0.1/paging-debug'),
     AjaxController = require('opt-ajax/1.0.0/index');
 	require("ckeditor/ckeditor.js")
     require("jsviews/jsrender.min");
@@ -21,6 +22,8 @@ define('app/jsp/product/edit', function (require, exports, module) {
 	var editDom;
 	//当前操作受众类型
 	var nowAudiType;
+	//查询受众用户类型
+	var selectUserType;
 
     //定义页面组件类
     var ProdEditPager = Widget.extend({
@@ -29,8 +32,11 @@ define('app/jsp/product/edit', function (require, exports, module) {
     	attrs: {
     	},
     	Statics: {
+			DEFAULT_PAGE_SIZE: 30,
 			AUDI_ENT_TYPE: "ent",
-			AUDI_AGENT_TYPE: "agent"
+			AUDI_AGENT_TYPE: "agent",
+			USER_ENT_TYPE: "11",
+			USER_AGENT_TYPE: "13"
     	},
     	//事件代理
     	events: {
@@ -38,6 +44,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			"click input:radio[name='audiencesEnterprise']":"_showAudi",
 			"click input:radio[name='audiencesAgents']":"_showAudi",
 			"click #finishTarget":"_finishTarget",
+			"click #searchBut":"_searchBtnClick",
 			//保存数据
 			"click #save":"_saveProd"
         },
@@ -72,10 +79,12 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			if (ProdEditPager.AUDI_ENT_TYPE==audiType){
 				audiMap = audiEntObjs;
 				typeName = "企业";
+				selectUserType = ProdEditPager.USER_ENT_TYPE;
 			}//代理商
 			else if(ProdEditPager.AUDI_AGENT_TYPE==audiType){
 				audiMap = audiAgentObjs;
 				typeName = "代理商";
+				selectUserType = ProdEditPager.USER_AGENT_TYPE;
 			}else
 				return;
 			var ind = 0;
@@ -84,6 +93,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 				ind ++;
 			}
 			$("#audiType").text(typeName);
+			$("#selectType").text(typeName);
 			$('#audiNum').text(ind);
 			$('.eject-mask').fadeIn(100);
 			$('.eject-large').slideDown(200);
@@ -234,6 +244,38 @@ define('app/jsp/product/edit', function (require, exports, module) {
 						}).show();
 						//保存成功,跳转到列表页面
 						//window.location.href = _base+"/prodquery/add";
+					}
+				}
+			});
+		},
+		//查询用户
+		_searchBtnClick: function() {
+			var _this = this;
+			var selectName = $("#selectName").val();
+			if (selectName == null || '' == selectName) {
+				new Dialog({
+					context: "请输入要查询用户名",
+					ok: function () {
+						this.close();
+					}
+				}).show();
+			}
+			$("#pagination-ul").runnerPagination({
+				url: _base + "/home/queryuser",
+				method: "POST",
+				dataType: "json",
+				processing: true,
+				data: {"userName":selectName,"userType":selectUserType},
+				pageSize: ProdEditPager.DEFAULT_PAGE_SIZE,
+				visiblePages: 5,
+				message: "正在为您查询数据..",
+				render: function (data) {
+					if (data != null && data != 'undefined' && data.length > 0) {
+						var template = $.templates("#userListTemple");
+						var htmlOutput = template.render(data);
+						$("#userList").html(htmlOutput);
+					} else {
+						$("#userList").html("没有搜索到相关信息");
 					}
 				}
 			});
