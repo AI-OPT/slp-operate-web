@@ -77,17 +77,17 @@ define('app/jsp/product/edit', function (require, exports, module) {
 		},
 		//显示受众用户选择窗口
 		_showAudiSelect:function(audiType){
-			console.log("show audi type:"+audiType);
 			nowAudiType = audiType;
+			console.log("show audi type:"+nowAudiType);
 			var audiMap;
 			var typeName;
 			//企业
-			if (ProdEditPager.AUDI_ENT_TYPE==audiType){
+			if (ProdEditPager.AUDI_ENT_TYPE==nowAudiType){
 				audiMap = audiEntObjs;
 				typeName = "企业";
 				selectUserType = ProdEditPager.USER_ENT_TYPE;
 			}//代理商
-			else if(ProdEditPager.AUDI_AGENT_TYPE==audiType){
+			else if(ProdEditPager.AUDI_AGENT_TYPE==nowAudiType){
 				audiMap = audiAgentObjs;
 				typeName = "代理商";
 				selectUserType = ProdEditPager.USER_AGENT_TYPE;
@@ -464,6 +464,33 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			imgObj.attr('imgId',filePosition);
 			imgObj.attr('imgType',fileType);
 			imgObj.attr('src',imgUrl);
+			//添加删除按钮
+			imgObj.next().attr('class','icon-remove-sign');
+		},
+		//删除图片
+		_delProdPic:function(attrValId,picInd){
+			//获取当前对象
+			var imgObj = $('#prodPicId'+attrValId+'ind'+picInd);
+			//下一个图片对象
+			var imgNextObj = $('#prodPicId'+attrValId+'ind'+(picInd+1));
+			if (imgNextObj!=null && imgNextObj!=undefined){
+				var imgId = imgNextObj.attr('imgId');
+				var imgType = imgNextObj.attr('imgType');
+				if (imgId!=null && imgId!=undefined && imgId!=''
+					&&imgType!=null && imgType!=undefined && imgType!='' ){
+					//替换当前
+					imgObj.attr('src',imgNextObj.attr('src'));
+					imgObj.attr('imgId',imgNextObj.attr('imgId'));
+					imgObj.attr('imgType',imgNextObj.attr('imgType'));
+					this._delProdPic(attrValId,(picInd+1));
+					return;
+				}
+			}
+			//若都不符合则设置当前为删除
+			imgObj.attr('src',_base+'/resources/slpoperate/images/sp-03-a.png');
+			imgObj.attr('imgId','');
+			imgObj.attr('imgType','');
+			imgObj.next().removeClass();//移除删除按钮
 		},
 		_showMsg:function(msg){
 			var msg = Dialog({

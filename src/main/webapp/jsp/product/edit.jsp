@@ -435,11 +435,13 @@
 											<c:when test="${valInd<prodPicNum && prodPic.get(valInd)!=null}">
 												<c:set var="valInfo" value="${prodPic.get(valInd)}"></c:set>
 												<img src="<c:set value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/>"
-													 attrVal="0" picInd="${valInd}"/><i class="icon-remove-sign"></i>
+													 attrVal="0" picInd="${valInd}" id="prodPicId0ind${valInd}"/>
+												<i class="icon-remove-sign"></i>
 											</c:when>
 											<c:otherwise>
 												<img src="${_slpres}/images/sp-03-a.png" imgId="" imgType=""
-													 attrVal="0" picInd="${valInd}"/>
+													 attrVal="0" picInd="${valInd}" id="prodPicId0ind${valInd}"/>
+												<i></i>
 											</c:otherwise>
 										</c:choose>
 
@@ -466,11 +468,12 @@
 											<c:when test="${valInd<attrValSize && attrValPic.get(valInd)!=null}">
 												<c:set var="valInfo" value="${attrValPic.get(valInd)}"></c:set>
 												<img src="<c:set value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/>" imgId="${valInfo.vfsId}"
-													 imgType="${valInfo.picType}" attrVal="${attrValPicEnt.key.attrValId}" picInd="${valInd}"/><i class="icon-remove-sign"></i>
+													 imgType="${valInfo.picType}" attrVal="${attrValPicEnt.key.attrValId}" picInd="${valInd}"
+													 id="prodPicId${attrValPicEnt.key.attrValId}ind${valInd}" /><i class="icon-remove-sign"></i>
 											</c:when>
 											<c:otherwise>
-												<img src="${_slpres}/images/sp-03-a.png" imgId="" imgType=""
-													 attrVal="${attrValPicEnt.key.attrValId}" picInd="${valInd}"/>
+												<img src="${_slpres}/images/sp-03-a.png" id="prodPicId${attrValPicEnt.key.attrValId}ind${valInd}" imgId="" imgType=""
+													 attrVal="${attrValPicEnt.key.attrValId}" picInd="${valInd}"/><i></i>
 											</c:otherwise>
 										</c:choose>
 
@@ -572,6 +575,15 @@
 			picAttrVal = $(this).attr('attrVal');
 			console.log("图片上传属性值:"+picAttrVal);
 			return $("#uploadFile").click();
+		});
+		<%-- 图片删除 --%>
+		$(".img").delegate("i[class='icon-remove-sign']","click",function(){
+			//获得当前删除图标的上一个图片对象
+			var imgObj = $(this).prev();
+			var valDefId = imgObj.attr('attrVal');
+			var attrInd = Number(imgObj.attr('picInd'));
+			console.log("attrValDefId:"+imgObj.attr('attrVal')+"index:"+attrInd);
+			pager._delProdPic(valDefId,attrInd);
 		});
 		seajs.use('app/jsp/product/edit', function (ProdEditPager) {
 			pager = new ProdEditPager({element: document.body});
