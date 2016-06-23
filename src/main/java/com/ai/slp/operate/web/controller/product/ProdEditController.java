@@ -152,7 +152,7 @@ public class ProdEditController {
             client.deleteById(fileId);
             fileId = "";
         }
-//        client.updateOrInsert()
+
         //TODO... 正式环境需要取消注释
 //        if (StringUtils.isNotBlank(detailConVal))
 //            fileId = client.insert(detailConVal);

@@ -182,10 +182,10 @@ jQuery(document).ready(function($) {
 })
 //中弹出框600 通讯录详情 批量导入弹出
 jQuery(document).ready(function($) {
-	$('.upload').click(function(){
-	$('.eject-mask').fadeIn(100);
-	$('.eject-medium').slideDown(200);
-	})
+	//$('.upload').click(function(){
+	//$('.eject-mask').fadeIn(100);
+	//$('.eject-medium').slideDown(200);
+	//})
 	$('.eject-medium-title .img').click(function(){
 	$('.eject-mask').fadeOut(100);
 	$('.eject-medium').slideUp(150);

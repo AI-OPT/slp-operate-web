@@ -35,7 +35,9 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			AUDI_ENT_TYPE: "ent",
 			AUDI_AGENT_TYPE: "agent",
 			USER_ENT_TYPE: "11",
-			USER_AGENT_TYPE: "13"
+			USER_AGENT_TYPE: "13",
+			FILE_MAX_SIZE:3,
+			FILE_TYPES:['.jpg','.png']
     	},
     	//事件代理
     	events: {
@@ -44,6 +46,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			"click input:radio[name='audiencesAgents']":"_showAudi",
 			"click #finishTarget":"_finishTarget",
 			"click #searchBut":"_searchBtnClick",
+			"change #uploadFile":"_uploadFile",
 			//保存数据
 			"click #save":"_saveProd"
         },
@@ -274,6 +277,104 @@ define('app/jsp/product/edit', function (require, exports, module) {
 					}
 				}
 			});
+		},
+		//上传文件
+		_uploadFile:function(){
+			var _this = this;
+			var checkFileData = this._checkFileData();
+			if(!checkFileData){
+				return false;
+			}
+			var form = new FormData();
+			form.append("uploadFile", document.getElementById("uploadFile").files[0]);
+
+			// XMLHttpRequest 对象
+			var xhr = new XMLHttpRequest();
+			var uploadURL = _base+"/home/upImg";
+			xhr.open("post", uploadURL, true);
+
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4) {// 4 = "loaded"
+					if (xhr.status == 200) {
+						var responseData = $.parseJSON(xhr.response);
+						if(responseData.statusCode=="1"){
+							var fileData = responseData.data;
+							//文件上传成功
+							if(fileData){
+								var filePosition = fileData.vfsId;
+								var fileName = fileData.fileType;
+								_this._showMsg("上传成功:"+filePosition+","+fileName);
+								return;
+							}
+						}
+					}
+					var msgDialog = Dialog({
+						title: '提示',
+						content: "文件上失败,状态:"+xhr.status,
+						ok: function () {
+							this.close();
+						}
+					});
+					_this._closeDialog();
+					msgDialog.showModal();
+				}
+			};
+			xhr.send(form);
+		},
+		//检查文件
+		_checkFileData:function(){
+			var fileupload = document.getElementById("uploadFile");
+			var fileLocation = fileupload.value;
+			if(fileLocation == "" || fileLocation == null || fileLocation == undefined){
+				return false;
+			}
+			var fileType = fileLocation.substring(fileLocation.lastIndexOf("."));
+			var fileName,fileSize;
+			if (fileupload.files && fileupload.files[0]) {
+				fileName = fileupload.files[0].name;
+				var size = fileupload.files[0].size;
+				fileSize = size/(1024 * 1024)
+			} else {
+				fileupload.select();
+				fileupload.blur();
+				var filepath = document.selection.createRange().text;
+				try {
+					var fso, f, fname, fsize;
+					fso = new ActiveXObject("Scripting.FileSystemObject");
+					f = fso.GetFile(filepath); //文件的物理路径
+					fileName = fso.GetFileName(filepath); //文件名（包括扩展名）
+					fsize = f.Size; //文件大小（bit）
+					fileSize = fsize / (1024*1024);
+				} catch (e) {
+					var msgDialog = Dialog({
+						title: '提示',
+						content: e + "\n 跳出此消息框，是由于你的activex控件没有设置好,\n" +
+						"你可以在浏览器菜单栏上依次选择\n" +
+						"工具->internet选项->\"安全\"选项卡->自定义级别,\n" +
+						"打开\"安全设置\"对话框，把\"对没有标记为安全的\n" +
+						"ActiveX控件进行初始化和脚本运行\"，改为\"启动\"即可",
+						ok: function () {
+							this.close();
+						}
+					});
+					msgDialog.showModal();
+					return false;
+				}
+			}
+			fileType = fileType.toLowerCase();
+			//文件大小
+			var checkSize = true;
+			//文件类型
+			var checkType = true;
+			fileSize = fileSize.toFixed(4);
+			if(fileSize > ProdEditPager.FILE_MAX_SIZE){
+				this._showMsg('图片不能超过3M');
+				checkSize = false;
+			}else if(!$.inArray(fileType, ProdEditPager.FILE_TYPES)){
+				this._showMsg('请上传jpg/png格式图片');
+				checkType = false;
+			}
+			return checkSize&&checkType;
 		},
 		_showMsg:function(msg){
 			new Dialog({
