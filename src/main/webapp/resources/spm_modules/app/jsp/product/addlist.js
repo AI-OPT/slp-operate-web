@@ -32,9 +32,54 @@ define('app/jsp/product/addlist', function (require, exports, module) {
         },
     	//重写父类
     	setup: function () {
-    		ProductDeatilPager.superclass.setup.call(this);
-    		this._renderProducSKUTemple();
+    		AddlistPager.superclass.setup.call(this);
+    		this._loadProductCat();
+    		this._loadPagination();
     	},
+    	// 加载商品类目
+    	_loadProductCat:function(){
+    		if(count>1){
+	    		for(var i=2;i<=count;i++){
+	    			var innerHtml = '<p id="productCat"'+i+'>'
+					                +'<select class="select-small">'
+					                +'<c:forEach var="info" items="${prodInfoList}">'
+					                    +'<option value="${info.productCatId}">${info.productCatName}</option>'
+					                +'</c:forEach>'
+					                +'</select>'
+					                +'</p>';
+	    			if(count==2){
+	    				$("#productCat1").append(innerHtml);
+	    			}else{
+	    				$("#productCat"+i).append(innerHtml);
+	    			}
+	    		}
+    		}
+    	},
+    	_loadPagination: function(){
+    		var _this = this;
+    		var productCatId = $("#productCat1 option:first").val();
+    		$("#pagination-ul").runnerPagination({
+	 			url: _base+"/prodquery/getList",
+	 			method: "POST",
+	 			dataType: "json",
+	 			processing: true,
+	            data: {"productCatId":productCatId},
+	           	pageSize: 1,
+	           	visiblePages:5,
+	            message: "正在为您查询数据..",
+	            render: function (data) {
+	            	if(data != null && data != 'undefined' && data.length>0){
+	            		var template = $.templates("#searchProductTemple");
+	            	    var htmlOutput = template.render(data);
+	            	    $("#searchProductData").html(htmlOutput);
+	            	}else{
+    					$("#searchProductData").html("没有搜索到相关信息");
+	            	}
+	            }
+    		});
+    	}
+    	
+    	
     });
     
     module.exports = AddlistPager
