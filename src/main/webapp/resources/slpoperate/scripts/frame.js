@@ -263,3 +263,10 @@ $(".radiod").click(function () {
 	$('#check3').hide();
 });
 });
+
+//搜索已选中关闭
+$(function(){
+$(".nav-form .icon-remove-sign").click(function () {
+	$(this).parent('.img').hide();
+	});
+	});  

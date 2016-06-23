@@ -55,30 +55,30 @@
                         <ul>
                             <li class="width-xlag">
                                 <p class="word">属性ID</p>
-                                <p>
+                                <p id="productCat1">
                                     <select class="select-small">
                                     <c:forEach var="info" items="${catInfos}">
                                         <option value="${info.productCatId}">${info.productCatName}</option>
                                     </c:forEach>
                                     </select>
                                 </p>
-                                <p><select class="select-small">
+                                <!-- <p><select class="select-small">
                                     <option>二级类目</option>
                                 </select></p>
                                 <p><select class="select-small">
                                     <option>三级类目</option>
-                                </select></p>
-                                <p class="word">属性名称</p>
+                                </select></p> -->
+                                <p id="productAttrName" class="word">属性名称</p>
                                 <p><input type="text" class="int-medium"></p>
                             </li>
                         </ul>
                         <ul>
                             <li>
-                                <p class="word">商品ID</p>
+                                <p id="productId" class="word">商品ID</p>
                                 <p><select class="select-medium"></select></p>
                             </li>
                             <li>
-                                <p class="word">商品名称</p>
+                                <p id="productName" class="word">商品名称</p>
                                 <p><select class="select-medium"></select></p>
                                 <p><input type="button" value="查询" class="blling-btn blue-btn"></p>
                             </li>
@@ -99,15 +99,18 @@
                                 <td>生成时间</td>
                                 <td>操作</td>
                             </tr>
+                            <tbody id="searchProductData"></tbody>
+                        </table>
+                            <script id="searchProductTemple" type="text/template">
                             <tr>
-                                <td>24343433</td>
-                                <td>流量</td>
-                                <td>虚拟</td>
-                                <td><img src="${_slpres}/images/sp-02.png"></td>
-                                <td>中国移动100元充值卡</td>
-                                <td>6000</td>
-                                <td>已保存</td>
-                                <td>2016-3-18 13:25</td>
+                                <td>{{:prodId}}</td>
+                                <td>{{:productCatName}}</td>
+                                <td>{{:productTypeName}}</td>
+                                <td><img src="{{:picUrl}}"></td>
+                                <td>{{:prodName}}</td>
+                                <td>{{:totalNum}}</td>
+                                <td>{{:state}}</td>
+                                <td>{{:operTime}}</td>
                                 <td>
                                     <div>
                                         <p><a href="#" class="blue-border">查看详情</a></p>
@@ -115,10 +118,18 @@
                                     </div>
                                 </td>
                             </tr>
-                        </table>
+							</script>
                     </div>
+                    <!--分页-->
+					 <div>
+		 				 <nav style="text-align: right">
+							<ul id="pagination-ul">
+							</ul>
+						</nav>
+					  </div>
+					 <!--分页-->
                     <!--结果表格结束-->
-                    <div class="paging-large">
+                   <!--  <div class="paging-large">
                         <ul>
                             <li class="prev-up"><a href="#">&lt;上一页</a></li>
                             <li class="active"><a href="#">1 </a></li>
@@ -140,7 +151,7 @@
                             </li>
 
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div id="date3" style="display:none;">
@@ -258,7 +269,8 @@
 
                     </div>
                     <!--结果表格结束-->
-                    <div class="paging-large">
+                    
+                   <div class="paging-large">
                         <ul>
                             <li class="prev-up"><a href="#">&lt;上一页</a></li>
                             <li class="active"><a href="#">1 </a></li>
@@ -280,8 +292,7 @@
                             </li>
 
                         </ul>
-                    </div>
-
+                    </div> 
                 </div>
 
             </div>
@@ -315,11 +326,12 @@
 	        }
 	    }
 	</script>
-	<script src="${_slpbase }/scripts/frame.js" type="text/javascript"></script>
+	<script src="${_slpres }/scripts/frame.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		var pager;
-		var cartProdList = $.parseJSON('${cartProdList==null?"[]":cartProdList}');
-		var skuNumLimit = '${skuNumLimit}';
+		var count = Number('${count}');
+		var prodInfoList = '${prodInfoList}';
+		var productEditInfo = '${productEditInfo}';
 		(function () {
 			seajs.use('app/jsp/product/addlist', function (AddlistPager) {
 				pager = new AddlistPager({element: document.body});
