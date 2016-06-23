@@ -169,7 +169,13 @@ public class ProdEditController {
         //代理商受众
         if ("1".equals(editInfo.getAudiencesAgents()) && StringUtils.isNotBlank(editInfo.getAudiAgentIds()))
             prodInfo.setAgentIds(JSON.parseArray(editInfo.getAudiAgentIds(),String.class));
-
+        //商品图片
+        Map<String,List<ProdPicInfo>> picInfoMap = genProdAttrPic(editInfo.getProdId(),editInfo.getProdPicStr());
+        //属性值为0,表示为商品图片
+        prodInfo.setProdPics(picInfoMap.get("0"));
+        //属性值图片
+        picInfoMap = genProdAttrPic(editInfo.getProdId(),editInfo.getProdAttrValPicStr());
+        prodInfo.setAttrValPics(picInfoMap);
         //保存商品详情信息 TODO...
 //        BaseResponse response = productManagerSV.updateProduct(prodInfo);
 //        ResponseHeader header = response.getResponseHeader();
@@ -253,5 +259,32 @@ public class ProdEditController {
             audiMap.put(audInfo.getUserId(),audInfo);
         }
         return audiMap;
+    }
+
+    /**
+     * 获取商品主图图片
+     * @param prodId
+     * @param prodAttrPic
+     * @return
+     */
+    private Map<String,List<ProdPicInfo>> genProdAttrPic(String prodId,String prodAttrPic){
+        Map<String,List<ProdPicInfo>> attrPicMap = new HashMap<>();
+        if (StringUtils.isBlank(prodAttrPic))
+            return attrPicMap;
+        List<ProdPicInfo> picInfoList = JSON.parseArray(prodAttrPic,ProdPicInfo.class);
+        for (ProdPicInfo picInfo:picInfoList){
+            picInfo.setProdId(prodId);
+            if (picInfo.getSerialNumber().equals(new Short("0"))){
+                picInfo.setIsMainPic("Y");
+            }else
+                picInfo.setIsMainPic("N");
+            List<ProdPicInfo> infoList = attrPicMap.get(picInfo.getAttrvalueDefId());
+            if (infoList==null){
+                infoList = new ArrayList<ProdPicInfo>();
+                attrPicMap.put(picInfo.getAttrvalueDefId(),infoList);
+            }
+            infoList.add(picInfo);
+        }
+        return attrPicMap;
     }
 }

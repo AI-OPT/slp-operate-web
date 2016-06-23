@@ -73,7 +73,14 @@ public class ProductEditInfo {
      * 目标地域
      */
     private String targetProd;
-
+    /**
+     * 商品主图图片信息json字符串
+     */
+    private String prodPicStr;
+    /**
+     * 商品属性值图片信息json字符串
+     */
+    private String prodAttrValPicStr;
 
     public String getProdId() {
         return prodId;
@@ -225,5 +232,21 @@ public class ProductEditInfo {
 
     public void setAudiAgentIds(String audiAgentIds) {
         this.audiAgentIds = audiAgentIds;
+    }
+
+    public String getProdPicStr() {
+        return prodPicStr;
+    }
+
+    public void setProdPicStr(String prodPicStr) {
+        this.prodPicStr = prodPicStr;
+    }
+
+    public String getProdAttrValPicStr() {
+        return prodAttrValPicStr;
+    }
+
+    public void setProdAttrValPicStr(String prodAttrValPicStr) {
+        this.prodAttrValPicStr = prodAttrValPicStr;
     }
 }

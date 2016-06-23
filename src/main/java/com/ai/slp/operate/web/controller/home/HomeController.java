@@ -53,7 +53,7 @@ public class HomeController {
 		printParams(request);
 		StringBuffer strBuffer = new StringBuffer();
 		try {
-			ImgFileInfoVo imgFileInfoVo = saveImg(file);
+			ImgFileInfoVo imgFileInfoVo = saveImg(file,null);
 			logger.info("\rfileUid:"+imgFileInfoVo.getVfsId()+"\rfileUrl:"+imgFileInfoVo.getImgUrl());
 			strBuffer.append("<script type=\"text/javascript\">");
 			strBuffer.append("window.parent.CKEDITOR.tools.callFunction("+ckeditFuncNum+",'"+imgFileInfoVo.getImgUrl()+"','')");
@@ -72,10 +72,10 @@ public class HomeController {
      */
 	@RequestMapping("/upImg")
 	@ResponseBody
-	public ResponseData<ImgFileInfoVo> uploadImg(@RequestParam("uploadFile") MultipartFile file){
+	public ResponseData<ImgFileInfoVo> uploadImg(@RequestParam("uploadFile") MultipartFile file,String imgSize){
 		ResponseData<ImgFileInfoVo> responseData = null;
 		try {
-			ImgFileInfoVo imgFileInfoVo = saveImg(file);
+			ImgFileInfoVo imgFileInfoVo = saveImg(file,imgSize);
 			logger.info("\rfileUid:"+imgFileInfoVo.getVfsId()+"\rfileUrl:"+imgFileInfoVo.getImgUrl());
 			responseData = new ResponseData<ImgFileInfoVo>(ResponseData.AJAX_STATUS_SUCCESS,"上传成功",imgFileInfoVo);
 		} catch (IOException e) {
@@ -137,14 +137,18 @@ public class HomeController {
 	 * @param file
 	 * @return
      */
-	private ImgFileInfoVo saveImg(MultipartFile file) throws IOException {
+	private ImgFileInfoVo saveImg(MultipartFile file,String imgSize) throws IOException {
 		if (file==null)
 			throw new BusinessException("","上传文件为空");
 		String fileName = file.getOriginalFilename();
 		String fileExt = getFileExtName(fileName);
 		IImageClient imageClient = IDPSClientFactory.getImageClient(SysCommonConstants.ProductImage.IDPSNS);
 		String fileUid = imageClient.upLoadImage(file.getBytes(),fileName);
-		String imageUrl = imageClient.getImageUrl(fileUid, fileExt);
+		String imageUrl = "";
+		if (StringUtils.isNotBlank(imgSize))
+			imageUrl = imageClient.getImageUrl(fileUid, fileExt,imgSize);
+		else
+			imageUrl = imageClient.getImageUrl(fileUid, fileExt);
 		ImgFileInfoVo fileInfoVo = new ImgFileInfoVo();
 		fileInfoVo.setVfsId(fileUid);
 		fileInfoVo.setImgUrl(imageUrl);

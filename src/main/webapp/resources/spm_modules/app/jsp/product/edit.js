@@ -234,6 +234,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			//获取editor中内容
 			$("#detailConVal").val(editDom.getData());
 			console.log($('#detailConVal').val());
+			this._convertProdPic();
 			//如果点击的是删除
 			ajaxController.ajax({
 				type: "post",
@@ -249,6 +250,28 @@ define('app/jsp/product/edit', function (require, exports, module) {
 					}
 				}
 			});
+		},
+		//将图片信息转换为json字符串
+		_convertProdPic:function(){
+			var prodPic = [];
+			var prodAttrPic = [];
+			//获取属性值图
+			$(".width-img img[imgId!='']").each(function(i){
+				var attrVal = $(this).attr('attrVal');
+				//设置该图片的信息
+				console.log("已设置图片:"+$(this).attr('attrVal')+",序号:"+$(this).attr('picInd'));
+				console.log("====图片信息:"+$(this).attr('imgId')+",");
+				//主图图片
+				if (attrVal=='0'){
+					var pic = {'attrvalueDefId':'0','vfsId':$(this).attr('imgId'),'picType':$(this).attr('imgType'),'serialNumber':$(this).attr('picInd')};
+					prodPic.push(pic);
+				}else {
+					var pic = {'attrvalueDefId':$(this).attr('attrVal'),'vfsId':$(this).attr('imgId'),'picType':$(this).attr('imgType'),'serialNumber':$(this).attr('picInd')};
+					prodAttrPic.push(pic);
+				}
+			});
+			$('#prodPicStr').val(JSON.stringify(prodPic));
+			$('#prodAttrValPicStr').val(JSON.stringify(prodAttrPic));
 		},
 		//查询用户
 		_searchBtnClick: function() {
@@ -287,6 +310,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			}
 			var form = new FormData();
 			form.append("uploadFile", document.getElementById("uploadFile").files[0]);
+			form.append("imgSize","78x78");
 
 			// XMLHttpRequest 对象
 			var xhr = new XMLHttpRequest();
@@ -301,9 +325,15 @@ define('app/jsp/product/edit', function (require, exports, module) {
 							var fileData = responseData.data;
 							//文件上传成功
 							if(fileData){
+								//文件标识
 								var filePosition = fileData.vfsId;
+								//文件类型
 								var fileName = fileData.fileType;
+								//文件地址
+								var fileUrl = fileData.imgUrl;
 								_this._showMsg("上传成功:"+filePosition+","+fileName);
+								_this._closeDialog();
+								_this._showProdPicPreview(filePosition,fileName,fileUrl);
 								return;
 							}
 						}
@@ -362,6 +392,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 				}
 			}
 			fileType = fileType.toLowerCase();
+			console.log("上传图片信息,图片名称:"+fileName+",图片大小:"+fileSize);
 			//文件大小
 			var checkSize = true;
 			//文件类型
@@ -376,13 +407,37 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			}
 			return checkSize&&checkType;
 		},
+		_closeDialog:function(){
+			$("#uploadFile").val("");
+			//document.getElementById("uploadFileMsg").setAttribute("style","display:none")
+		},
+		//预览图片信息
+		_showProdPicPreview:function(filePosition,fileType,imgUrl){
+			//确定当前要显示商品属性
+			var divId = "prod_pic_"+picAttrVal;
+			var imgObj;
+			//查询该商品下未有图片的位置
+			$("#"+divId+" img[imgId='']").each(function(i){
+				//设置该图片的信息
+				console.log("未设置图片:"+$(this).attr('attrVal')+",序号:"+$(this).attr('picInd'));
+				if (imgObj ==null){
+					imgObj = $(this);
+				}
+			});
+			console.log("将要设置属性图片:"+imgObj.attr('attrVal')+",序号:"+imgObj.attr('picInd'));
+			imgObj.attr('imgId',filePosition);
+			imgObj.attr('imgType',fileType);
+			imgObj.attr('src',imgUrl);
+		},
 		_showMsg:function(msg){
-			new Dialog({
-				context:msg,
+			var msg = Dialog({
+				title: '提示',
+				content:msg,
 				ok:function(){
 					this.close();
 				}
-			}).show();
+			});
+			msg.showModal();
 		}
     });
     

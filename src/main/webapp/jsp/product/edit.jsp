@@ -420,37 +420,41 @@
 							提示：请上传商品主体正面照片jpg/png格式，不小于700x700px的方形图片，单张不能超过3M，最多6张。
 						</li>
 					</ul>
+					<input id="prodPicStr" name="prodPicStr" type="hidden">
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>商品主图</p>
-							<div class="width-img">
+							<div class="width-img" id="prod_pic_0">
 								<c:set var="prodPicNum" value="${prodPic.size()}"></c:set>
 								<c:forEach var="valInd" begin="0" end="5">
 									<p class="img">
 										<c:choose>
 											<c:when test="${valInd<prodPicNum && prodPic.get(valInd)!=null}">
 												<c:set var="valInfo" value="${prodPic.get(valInd)}"></c:set>
-												<img src="<c:set value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/>"/><i class="icon-remove-sign"></i>
+												<img src="<c:set value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/>"
+													 attrVal="0" picInd="${valInd}"/><i class="icon-remove-sign"></i>
 											</c:when>
 											<c:otherwise>
-												<img src="${_slpres}/images/sp-03-a.png"/>
+												<img src="${_slpres}/images/sp-03-a.png" imgId="" imgType=""
+													 attrVal="0" picInd="${valInd}"/>
 											</c:otherwise>
 										</c:choose>
 
 									</p>
 								</c:forEach>
 							</div>
-							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片"/>
+							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片" attrVal = "0"/>
 								<!--<input type="file" class="file">--></p>
 						</li>
 					</ul>
 					<%-- 属性值图片 --%>
+					<input id="prodAttrValPicStr" name="prodAttrValPicStr" type="hidden">
 					<c:set var="attrValPicMap" value="${otherSet.attrValPics}"></c:set>
 					<c:forEach var="attrValPicEnt" items="${attrValPicMap}">
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>${attrValPicEnt.key.attrVal}</p>
-							<div class="width-img">
+							<div class="width-img" id="prod_pic_${attrValPicEnt.key.attrValId}">
 								<c:set var="attrValPic" value="${attrValPicEnt.value}"></c:set>
 								<c:set var="attrValSize" value="${attrValPic.size()}"></c:set>
 								<c:forEach var="valInd" begin="0" end="5">
@@ -458,17 +462,19 @@
 										<c:choose>
 											<c:when test="${valInd<attrValSize && attrValPic.get(valInd)!=null}">
 												<c:set var="valInfo" value="${attrValPic.get(valInd)}"></c:set>
-												<img src="<c:set value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/> "/><i class="icon-remove-sign"></i>
+												<img src="<c:set value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/>" imgId="${valInfo.vfsId}"
+													 imgType="${valInfo.picType}" attrVal="${attrValPicEnt.key.attrValId}" picInd="${valInd}"/><i class="icon-remove-sign"></i>
 											</c:when>
 											<c:otherwise>
-												<img src="${_slpres}/images/sp-03-a.png"/>
+												<img src="${_slpres}/images/sp-03-a.png" imgId="" imgType=""
+													 attrVal="${attrValPicEnt.key.attrValId}" picInd="${valInd}"/>
 											</c:otherwise>
 										</c:choose>
 
 									</p>
 								</c:forEach>
 							</div>
-							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片"/>
+							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片" attrVal = "${attrValPicEnt.key.attrValId}"/>
 								<!--<input type="file" class="file">--></p>
 						</li>
 					</ul>
@@ -501,6 +507,7 @@
 </body>
 <script type="text/javascript">
 	var pager;
+	var picAttrVal;
 	var audiEntObjs = $.parseJSON('${audiEnts}');
 	var audiAgentObjs = $.parseJSON('${audiAgents}');
 	(function () {
@@ -559,6 +566,8 @@
 		});
 		<%-- 上传图片 --%>
 		$('.nav-form-border').delegate('.file-btn','click',function(){
+			picAttrVal = $(this).attr('attrVal');
+			console.log("图片上传属性值:"+picAttrVal);
 			return $("#uploadFile").click();
 		});
 		seajs.use('app/jsp/product/edit', function (ProdEditPager) {
