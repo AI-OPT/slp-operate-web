@@ -26,6 +26,7 @@ import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -144,7 +145,7 @@ public class ProdEditController {
     public ResponseData<String> saveProductInfo(ProductEditInfo editInfo, String detailConVal, RedirectAttributes redirectModel){
         ResponseData<String> responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "添加成功");
         initConsumer();
-
+        //商品详情信息
         IDSSClient client= DSSClientFactory.getDSSClient(SysCommonConstants.ProductDetail.DSSNS);
         String fileId = editInfo.getProDetailContent();
         //若已经存在,则直接删除
@@ -158,8 +159,12 @@ public class ProdEditController {
 //            fileId = client.insert(detailConVal);
 //        logger.info("fileId="+fileId);
         editInfo.setProDetailContent(fileId);
+        //非关键属性
+        Map<String, List<ProdAttrValInfo>> attrValMap = JSON.parseObject(editInfo.getNoKeyAttrStr(),
+                new TypeReference<Map<String, List<ProdAttrValInfo>>>(){});
         ProductInfoForUpdate prodInfo = new ProductInfoForUpdate();
         BeanUtils.copyProperties(prodInfo,editInfo);
+        prodInfo.setNoKeyAttrValMap(attrValMap);
         //添加省份编码
         if ("N".equals(editInfo.getIsSaleNationwide()) && StringUtils.isNotBlank(editInfo.getTargetProd()))
             prodInfo.setProvCodes(JSON.parseArray(editInfo.getTargetProd(),Long.class));
@@ -287,4 +292,6 @@ public class ProdEditController {
         }
         return attrPicMap;
     }
+
+
 }

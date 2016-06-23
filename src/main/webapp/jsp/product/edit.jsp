@@ -236,15 +236,16 @@
 					</c:forEach>
 				</div>
 				<div class="nav-form-title">商品非关键属性</div> <!--标题-->
-				<div class="nav-form nav-form-border"><!--查询条件-->
+				<div class="nav-form nav-form-border" id="noKeyAttrDiv"><!--查询条件-->
+					<input type="hidden" id="noKeyAttrStr" name="noKeyAttrStr">
 					<c:forEach var="attr" items="${noKeyAttr}">
 						<ul>
 							<li class="width-xlag">
-						<p class="word">${attr.key.attrName}</p>
+						<p class="word" attrId="${attr.key.attrId}" valueType="${attr.key.valueWay}">${attr.key.attrName}</p>
 						<c:choose>
 							<%-- 下拉选择 --%>
 							<c:when test="${attr.key.valueWay == '1'}">
-								<select class="select-medium">
+								<select class="select-medium" attrId="noKeyAttr${attr.key.attrId}">
 									<c:forEach var="valInfo" items="${attr.value}">
 										<option value="${valInfo.attrValId}"
 												<c:if test="${valInfo.productAttrValId}">selected</c:if>>${valInfo.attrVal}</option>
@@ -255,7 +256,7 @@
 							<c:when test="${attr.key.valueWay == '2'}">
 								<div class="width-xlag">
 									<c:forEach var="valInfo" items="${attr.value}">
-										<p><input type="checkbox" class="checkbox-small"
+										<p><input type="checkbox" class="checkbox-small" attrId="noKeyAttr${attr.key.attrId}"
 												  <c:if test="${valInfo.productAttrValId}">checked</c:if> >${valInfo.attrVal}</p>
 									</c:forEach>
 								</div>
@@ -263,12 +264,14 @@
 							<%--单行输入--%>
 							<c:when test="${attr.key.valueWay == '3'}">
 								<c:set var="valInfo" value="${attr.value.get(0)}"></c:set>
-								<p><input type="text" class="int-xlarge" <c:if test="${valInfo!=null}">value="${valInfo.attrVal}"</c:if> ></p>
+								<p><input type="text" class="int-xlarge" attrId="noKeyAttr${attr.key.attrId}"
+										  <c:if test="${valInfo!=null}">value="${valInfo.attrVal}"</c:if> ></p>
 							</c:when>
 							<%--多行输入--%>
 							<c:when test="${attr.key.valueWay == '4'}">
 								<c:set var="valInfo" value="${attr.value.get(0)}"></c:set>
-								<p><textarea class="textarea-xlarge"><c:if test="${valInfo!=null}">${valInfo.attrVal}</c:if></textarea></p>
+								<p><textarea class="textarea-xlarge"
+											 attrId="noKeyAttr${attr.key.attrId}"><c:if test="${valInfo!=null}">${valInfo.attrVal}</c:if></textarea></p>
 							</c:when>
 						</c:choose>
 							</li>

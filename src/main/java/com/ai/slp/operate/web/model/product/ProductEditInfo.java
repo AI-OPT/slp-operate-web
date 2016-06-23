@@ -81,6 +81,10 @@ public class ProductEditInfo {
      * 商品属性值图片信息json字符串
      */
     private String prodAttrValPicStr;
+    /**
+     * 非关键属性
+     */
+    private String noKeyAttrStr;
 
     public String getProdId() {
         return prodId;
@@ -248,5 +252,13 @@ public class ProductEditInfo {
 
     public void setProdAttrValPicStr(String prodAttrValPicStr) {
         this.prodAttrValPicStr = prodAttrValPicStr;
+    }
+
+    public String getNoKeyAttrStr() {
+        return noKeyAttrStr;
+    }
+
+    public void setNoKeyAttrStr(String noKeyAttrStr) {
+        this.noKeyAttrStr = noKeyAttrStr;
     }
 }

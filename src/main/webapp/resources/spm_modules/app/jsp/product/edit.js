@@ -235,6 +235,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			$("#detailConVal").val(editDom.getData());
 			console.log($('#detailConVal').val());
 			this._convertProdPic();
+			this._convertNoKeyAttr();
 			//如果点击的是删除
 			ajaxController.ajax({
 				type: "post",
@@ -272,6 +273,41 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			});
 			$('#prodPicStr').val(JSON.stringify(prodPic));
 			$('#prodAttrValPicStr').val(JSON.stringify(prodAttrPic));
+		},
+		//将非关键属性转换json字符串
+		_convertNoKeyAttr:function(){
+			var noKeyVal = {};
+			//获取所有
+			$("#noKeyAttrDiv .word").each(function(i){
+				var attrId = $(this).attr('attrId');
+				var valWay = $(this).attr('valueType');
+				var attrValArray = [];
+				switch (valWay){
+					case '1'://下拉
+						var obj = $("#noKeyAttrDiv select[attrId='noKeyAttr"+attrId+"']")[0];
+						var val = obj.value;
+						attrValArray.push({'attrValId':val,'attrVal':'','attrVal2':''});
+						break;
+					case '2'://多选
+						$("#noKeyAttrDiv input:checkbox[attrId='noKeyAttr"+attrId+"']:checked").each(function(i){
+							attrValArray.push({'attrValId':$(this).val(),'attrVal':'','attrVal2':''});
+						});
+						break;
+					case '3'://单行输入
+						var val = $("#noKeyAttrDiv input[attrId='noKeyAttr"+attrId+"'")[0].value;
+						attrValArray.push({'attrValId':'','attrVal':val,'attrVal2':''});
+						break;
+					case '4'://多行输入
+						var val = $("#noKeyAttrDiv textarea[attrId='noKeyAttr"+attrId+"'")[0].value;
+						attrValArray.push({'attrValId':'','attrVal':val,'attrVal2':''});
+						break;
+
+				};
+				noKeyVal[attrId] = attrValArray;
+			});
+			var noKeyJsonStr = JSON.stringify(noKeyVal,null);
+			console.log($('#noKeyAttrStr').val());
+			$('#noKeyAttrStr').val(noKeyJsonStr);
 		},
 		//查询用户
 		_searchBtnClick: function() {
