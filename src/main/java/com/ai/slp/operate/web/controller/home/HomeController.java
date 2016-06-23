@@ -141,14 +141,18 @@ public class HomeController {
 		if (file==null)
 			throw new BusinessException("","上传文件为空");
 		String fileName = file.getOriginalFilename();
+//		file.transferTo(new File("/Users/jackieliu/Desktop/"+fileName));//TODO... 测试数据
 		String fileExt = getFileExtName(fileName);
 		IImageClient imageClient = IDPSClientFactory.getImageClient(SysCommonConstants.ProductImage.IDPSNS);
 		String fileUid = imageClient.upLoadImage(file.getBytes(),fileName);
+//		String fileUid = "576b84dad601800006f4ccb5";//TODO... 测试数据
 		String imageUrl = "";
 		if (StringUtils.isNotBlank(imgSize))
 			imageUrl = imageClient.getImageUrl(fileUid, fileExt,imgSize);
 		else
 			imageUrl = imageClient.getImageUrl(fileUid, fileExt);
+		//TODO... 测试数据
+//		imageUrl = "http://10.1.245.8:18007/iPaas-IDPS/image/576b84dad601800006f4ccb5_78x78.png";
 		ImgFileInfoVo fileInfoVo = new ImgFileInfoVo();
 		fileInfoVo.setVfsId(fileUid);
 		fileInfoVo.setImgUrl(imageUrl);
