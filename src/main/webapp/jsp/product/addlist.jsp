@@ -54,7 +54,7 @@
                     <div class="nav-form">
                         <ul>
                             <li class="width-xlag">
-                                <p class="word">属性ID</p>
+                                <p class="word">商品类目</p>
                                 <c:forEach var="map" items="${catInfoMap}" varStatus="status">
 	                                <p id="productCat${status.index}">
 	                                    <select class="select-small" onChange="pager._selectChange(this);">
@@ -64,25 +64,31 @@
 	                                    </select>
 	                                </p>
                                 </c:forEach>
+                                <script id="prodCatTemple" type="text/template">
+                                	 <p id="productCat{{:level}}">
+										<select class="select-small" onChange="pager._selectChange(this);">
+											{{for prodCatList}}
+                                   			 	<option value="{{:productCatId}}">{{:productCatName}}</option>
+											{{/for}}
+                               			</select>
+									</p>
+								</script>
                                 <!-- <p><select class="select-small">
-                                    <option>二级类目</option>
-                                </select></p>
-                                <p><select class="select-small">
                                     <option>三级类目</option>
                                 </select></p> -->
-                                <p id="productAttrName" class="word">属性名称</p>
-                                <p><input type="text" class="int-medium"></p>
+                                <p class="word">商品类型</p>
+                                <p><input id="productType" type="text" class="int-medium"></p>
                             </li>
                         </ul>
                         <ul>
                             <li>
-                                <p id="productId" class="word">商品ID</p>
-                                <p><select class="select-medium"></select></p>
+                                <p class="word">商品ID</p>
+                                <p><input id="productId" type="text" class="int-medium"></p>
                             </li>
                             <li>
-                                <p id="productName" class="word">商品名称</p>
-                                <p><select class="select-medium"></select></p>
-                                <p><input type="button" value="查询" class="blling-btn blue-btn"></p>
+                                <p class="word">商品名称</p>
+                                <p><input id="productName" type="text" class="int-medium"></p>
+                                <p><input id="selectProductEdit" type="button" value="查询" class="blling-btn blue-btn"></p>
                             </li>
                         </ul>
 
