@@ -33,31 +33,15 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     	//重写父类
     	setup: function () {
     		AddlistPager.superclass.setup.call(this);
-    		this._loadProductCat();
     		this._loadPagination();
     	},
-    	// 加载商品类目
-    	_loadProductCat:function(){
-    		if(count>1){
-	    		for(var i=2;i<=count;i++){
-	    			var innerHtml = '<p id="productCat"'+i+'>'
-					                +'<select class="select-small">'
-					                +'<c:forEach var="info" items="${prodInfoList}">'
-					                    +'<option value="${info.productCatId}">${info.productCatName}</option>'
-					                +'</c:forEach>'
-					                +'</select>'
-					                +'</p>';
-	    			if(count==2){
-	    				$("#productCat1").append(innerHtml);
-	    			}else{
-	    				$("#productCat"+i).append(innerHtml);
-	    			}
-	    		}
-    		}
+    	// 改变商品类目
+    	_selectChange:function(osel){
+    		alert(osel.options[osel.selectedIndex].text);
     	},
     	_loadPagination: function(){
     		var _this = this;
-    		var productCatId = $("#productCat1 option:first").val();
+    		var productCatId = $("#productCat"+count).find("option").val();
     		$("#pagination-ul").runnerPagination({
 	 			url: _base+"/prodquery/getList",
 	 			method: "POST",

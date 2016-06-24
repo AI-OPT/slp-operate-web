@@ -1,7 +1,9 @@
 package com.ai.slp.operate.web.controller.product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,9 +19,11 @@ import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.paas.ipaas.image.IImageClient;
+import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParamSingleCond;
 import com.ai.slp.operate.web.constants.ComCacheConstants;
+import com.ai.slp.operate.web.constants.ProductCatConstants;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
 import com.ai.slp.product.api.product.interfaces.IProductManagerSV;
 import com.ai.slp.product.api.product.param.ProductEditQueryReq;
@@ -45,30 +49,18 @@ public class ProdQueryController {
 		IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
 		ProductCatQuery catQuery = new ProductCatQuery();
 		catQuery.setTenantId("SLP");
-		// 查询根目录
-		List<ProdCatInfo> productCatInfos = productCatSV.queryCatByNameOrFirst(catQuery);
-		// 定义count用于记录类目的级数
-		int count = 1;
-		uiModel.addAttribute("catInfos", productCatInfos);
-		// 如果有子类目,就通过父类目id查询子类目
-		List<ProdCatInfo> productCatInfoList = null;
-		if (productCatInfos.get(0).getIsChild().equals("Y")) {
-			count++;
-			List<List<ProdCatInfo>> prodInfoList = new ArrayList<>();
-			// 循环查询下级目录，直到没有子类目为止
-			do {
-				if (count == 2) {
-					catQuery.setParentProductCatId(productCatInfos.get(0).getProductCatId());
-				} else {
-					catQuery.setParentProductCatId(productCatInfoList.get(0).getProductCatId());
-				}
-				productCatInfoList = productCatSV.queryCatByNameOrFirst(catQuery);
-				prodInfoList.add(productCatInfoList);
-				count++;
-			} while (productCatInfoList.get(0).getIsChild().equals("N"));
-			uiModel.addAttribute("prodInfoList", prodInfoList);
-			uiModel.addAttribute("count", --count);
-		}
+		Map<Short, List<ProdCatInfo> > productCatMap = new HashMap<>();
+		ProdCatInfo prodCatInfo = null;
+		do{
+			//查询同一级的类目信息
+			List<ProdCatInfo> productCatInfos = productCatSV.queryCatByNameOrFirst(catQuery);
+			prodCatInfo = productCatInfos.get(0);
+			//把类目信息按照类目等级放入集合
+			productCatMap.put(prodCatInfo.getCatLevel(), productCatInfos);
+			catQuery.setParentProductCatId(prodCatInfo.getProductCatId());
+		}while(prodCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD));
+		uiModel.addAttribute("count",productCatMap.size()-1);
+		uiModel.addAttribute("catInfoMap", productCatMap);
 		return "product/addlist";
 	}
 
@@ -89,8 +81,7 @@ public class ProdQueryController {
 			IProductManagerSV productManagerSV = DubboConsumerFactory.getService("iProductManagerSV");
 			ProductEditQueryReq productEditQueryReq = new ProductEditQueryReq();
 			productEditQueryReq.setTenantId("SLP");
-			// productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
-			productEditQueryReq.setProductCatId("1");
+			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
 			// 设置商品状态为新增和未编辑
 			List<String> stateList = new ArrayList<>();
 			// 设置状态，新增：0；未编辑1.
