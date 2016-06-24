@@ -160,8 +160,8 @@ public class ProdEditController {
 //        logger.info("fileId="+fileId);
         editInfo.setProDetailContent(fileId);
         //非关键属性
-        Map<String, List<ProdAttrValInfo>> attrValMap = JSON.parseObject(editInfo.getNoKeyAttrStr(),
-                new TypeReference<Map<String, List<ProdAttrValInfo>>>(){});
+        Map<Long, List<ProdAttrValInfo>> attrValMap = JSON.parseObject(editInfo.getNoKeyAttrStr(),
+                new TypeReference<Map<Long, List<ProdAttrValInfo>>>(){});
         ProductInfoForUpdate prodInfo = new ProductInfoForUpdate();
         BeanUtils.copyProperties(prodInfo,editInfo);
         prodInfo.setNoKeyAttrValMap(attrValMap);
