@@ -156,7 +156,7 @@ public class ProdEditController {
             fileId = "";
         }
 
-        //TODO... 正式环境需要取消注释
+
         if (StringUtils.isNotBlank(detailConVal))
             fileId = client.insert(detailConVal);
         logger.info("fileId="+fileId);
@@ -185,7 +185,7 @@ public class ProdEditController {
         //属性值图片
         picInfoMap = genProdAttrPic(editInfo.getProdId(),editInfo.getProdAttrValPicStr());
         prodInfo.setAttrValPics(picInfoMap);
-        //保存商品详情信息 TODO...
+        //保存商品详情信息
         BaseResponse response = productManagerSV.updateProduct(prodInfo);
         ResponseHeader header = response.getResponseHeader();
 
