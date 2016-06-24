@@ -55,13 +55,15 @@
                         <ul>
                             <li class="width-xlag">
                                 <p class="word">属性ID</p>
-                                <p id="productCat1">
-                                    <select class="select-small">
-                                    <c:forEach var="info" items="${catInfos}">
-                                        <option value="${info.productCatId}">${info.productCatName}</option>
-                                    </c:forEach>
-                                    </select>
-                                </p>
+                                <c:forEach var="map" items="${catInfoMap}" varStatus="status">
+	                                <p id="productCat${status.index}">
+	                                    <select class="select-small" onChange="pager._selectChange(this);">
+	                                    <c:forEach var="info" items="${map.value}">
+	                                        <option value="${info.productCatId}">${info.productCatName}</option>
+	                                    </c:forEach>
+	                                    </select>
+	                                </p>
+                                </c:forEach>
                                 <!-- <p><select class="select-small">
                                     <option>二级类目</option>
                                 </select></p>
@@ -110,7 +112,7 @@
                                 <td>{{:prodName}}</td>
                                 <td>{{:totalNum}}</td>
                                 <td>{{:state}}</td>
-                                <td>{{:operTime}}</td>
+                                <td>{{:~timesToFmatter(operTime)}}</td>
                                 <td>
                                     <div>
                                         <p><a href="#" class="blue-border">查看详情</a></p>
@@ -329,7 +331,7 @@
 	<script src="${_slpres }/scripts/frame.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		var pager;
-		var count = Number('${count}');
+		var count = '${count}';
 		var prodInfoList = '${prodInfoList}';
 		var productEditInfo = '${productEditInfo}';
 		(function () {
