@@ -279,7 +279,7 @@ public class ProdEditController {
         List<ProdPicInfo> picInfoList = JSON.parseArray(prodAttrPic,ProdPicInfo.class);
         for (ProdPicInfo picInfo:picInfoList){
             picInfo.setProdId(prodId);
-            if (picInfo.getSerialNumber().equals(new Short("0"))){
+            if (picInfo.getSerialNumber().equals(new Short("1"))){
                 picInfo.setIsMainPic("Y");
             }else
                 picInfo.setIsMainPic("N");
