@@ -4,7 +4,6 @@ define('app/jsp/product/edit', function (require, exports, module) {
 		Events = require('arale-events/1.2.0/events'),
     Widget = require('arale-widget/1.2.0/widget'),
     Dialog = require("artDialog/src/dialog"),
-		Paging = require('paging/0.0.1/paging-debug'),
     AjaxController = require('opt-ajax/1.0.0/index');
 	require("ckeditor/ckeditor.js")
     require("jsviews/jsrender.min");
@@ -36,7 +35,9 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			AUDI_ENT_TYPE: "ent",
 			AUDI_AGENT_TYPE: "agent",
 			USER_ENT_TYPE: "11",
-			USER_AGENT_TYPE: "13"
+			USER_AGENT_TYPE: "13",
+			FILE_MAX_SIZE:3,
+			FILE_TYPES:['.jpg','.png']
     	},
     	//事件代理
     	events: {
@@ -45,6 +46,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			"click input:radio[name='audiencesAgents']":"_showAudi",
 			"click #finishTarget":"_finishTarget",
 			"click #searchBut":"_searchBtnClick",
+			"change #uploadFile":"_uploadFile",
 			//保存数据
 			"click #save":"_saveProd"
         },
@@ -66,22 +68,26 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			else if(ProdEditPager.AUDI_AGENT_TYPE==nowAudiType){
 				this._changeAudiAgent();
 			}
+			//清除已有搜索
+			$('#userList').text("请输入用户名进行搜索");
+			$('#selectName').val('');
+			$('#pagination-ul').empty();
 			$('.eject-mask').fadeOut(100);
 			$('.eject-large').slideUp(150);
 		},
 		//显示受众用户选择窗口
 		_showAudiSelect:function(audiType){
-			console.log("show audi type:"+audiType);
 			nowAudiType = audiType;
+			console.log("show audi type:"+nowAudiType);
 			var audiMap;
 			var typeName;
 			//企业
-			if (ProdEditPager.AUDI_ENT_TYPE==audiType){
+			if (ProdEditPager.AUDI_ENT_TYPE==nowAudiType){
 				audiMap = audiEntObjs;
 				typeName = "企业";
 				selectUserType = ProdEditPager.USER_ENT_TYPE;
 			}//代理商
-			else if(ProdEditPager.AUDI_AGENT_TYPE==audiType){
+			else if(ProdEditPager.AUDI_AGENT_TYPE==nowAudiType){
 				audiMap = audiAgentObjs;
 				typeName = "代理商";
 				selectUserType = ProdEditPager.USER_AGENT_TYPE;
@@ -224,9 +230,12 @@ define('app/jsp/product/edit', function (require, exports, module) {
 		},
     	//保存商品信息
       	_saveProd:function() {
+			var _this = this;
 			//获取editor中内容
 			$("#detailConVal").val(editDom.getData());
 			console.log($('#detailConVal').val());
+			this._convertProdPic();
+			this._convertNoKeyAttr();
 			//如果点击的是删除
 			ajaxController.ajax({
 				type: "post",
@@ -236,29 +245,77 @@ define('app/jsp/product/edit', function (require, exports, module) {
 				data:$('#prodForm').serializeArray(),
 				success: function(data){
 					if("0"===data.statusCode){
-						new Dialog({
-							content:"保存成功",
-							ok:function(){
-								this.close();
-							}
-						}).show();
+						_this._showMsg("保存成功");
 						//保存成功,跳转到列表页面
 						//window.location.href = _base+"/prodquery/add";
 					}
 				}
 			});
 		},
+		//将图片信息转换为json字符串
+		_convertProdPic:function(){
+			var prodPic = [];
+			var prodAttrPic = [];
+			//获取属性值图
+			$(".width-img img[imgId!='']").each(function(i){
+				var attrVal = $(this).attr('attrVal');
+				//设置该图片的信息
+				console.log("已设置图片:"+$(this).attr('attrVal')+",序号:"+$(this).attr('picInd'));
+				console.log("====图片信息:"+$(this).attr('imgId')+",");
+				//主图图片
+				if (attrVal=='0'){
+					var pic = {'attrvalueDefId':'0','vfsId':$(this).attr('imgId'),'picType':$(this).attr('imgType'),'serialNumber':$(this).attr('picInd')};
+					prodPic.push(pic);
+				}else {
+					var pic = {'attrvalueDefId':$(this).attr('attrVal'),'vfsId':$(this).attr('imgId'),'picType':$(this).attr('imgType'),'serialNumber':$(this).attr('picInd')};
+					prodAttrPic.push(pic);
+				}
+			});
+			$('#prodPicStr').val(JSON.stringify(prodPic));
+			$('#prodAttrValPicStr').val(JSON.stringify(prodAttrPic));
+		},
+		//将非关键属性转换json字符串
+		_convertNoKeyAttr:function(){
+			var noKeyVal = {};
+			//获取所有
+			$("#noKeyAttrDiv .word").each(function(i){
+				var attrId = $(this).attr('attrId');
+				var valWay = $(this).attr('valueType');
+				var attrValArray = [];
+				switch (valWay){
+					case '1'://下拉
+						var obj = $("#noKeyAttrDiv select[attrId='noKeyAttr"+attrId+"']")[0];
+						var val = obj.value;
+						attrValArray.push({'attrValId':val,'attrVal':'','attrVal2':''});
+						break;
+					case '2'://多选
+						$("#noKeyAttrDiv input:checkbox[attrId='noKeyAttr"+attrId+"']:checked").each(function(i){
+							attrValArray.push({'attrValId':$(this).val(),'attrVal':'','attrVal2':''});
+						});
+						break;
+					case '3'://单行输入
+						var val = $("#noKeyAttrDiv input[attrId='noKeyAttr"+attrId+"'")[0].value;
+						attrValArray.push({'attrValId':'','attrVal':val,'attrVal2':''});
+						break;
+					case '4'://多行输入
+						var val = $("#noKeyAttrDiv textarea[attrId='noKeyAttr"+attrId+"'")[0].value;
+						attrValArray.push({'attrValId':'','attrVal':val,'attrVal2':''});
+						break;
+
+				};
+				noKeyVal[attrId] = attrValArray;
+			});
+			var noKeyJsonStr = JSON.stringify(noKeyVal,null);
+			console.log($('#noKeyAttrStr').val());
+			$('#noKeyAttrStr').val(noKeyJsonStr);
+		},
 		//查询用户
 		_searchBtnClick: function() {
 			var _this = this;
 			var selectName = $("#selectName").val();
 			if (selectName == null || '' == selectName) {
-				new Dialog({
-					context: "请输入要查询用户名",
-					ok: function () {
-						this.close();
-					}
-				}).show();
+				this._showMsg("请输入要查询用户名");
+				return;
 			}
 			$("#pagination-ul").runnerPagination({
 				url: _base + "/home/queryuser",
@@ -279,6 +336,171 @@ define('app/jsp/product/edit', function (require, exports, module) {
 					}
 				}
 			});
+		},
+		//上传文件
+		_uploadFile:function(){
+			var _this = this;
+			var checkFileData = this._checkFileData();
+			if(!checkFileData){
+				return false;
+			}
+			var form = new FormData();
+			form.append("uploadFile", document.getElementById("uploadFile").files[0]);
+			form.append("imgSize","78x78");
+
+			// XMLHttpRequest 对象
+			var xhr = new XMLHttpRequest();
+			var uploadURL = _base+"/home/upImg";
+			xhr.open("post", uploadURL, true);
+
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4) {// 4 = "loaded"
+					if (xhr.status == 200) {
+						var responseData = $.parseJSON(xhr.response);
+						if(responseData.statusCode=="1"){
+							var fileData = responseData.data;
+							//文件上传成功
+							if(fileData){
+								//文件标识
+								var filePosition = fileData.vfsId;
+								//文件类型
+								var fileName = fileData.fileType;
+								//文件地址
+								var fileUrl = fileData.imgUrl;
+								_this._showMsg("上传成功:"+filePosition+","+fileName);
+								_this._closeDialog();
+								_this._showProdPicPreview(filePosition,fileName,fileUrl);
+								return;
+							}
+						}
+					}
+					var msgDialog = Dialog({
+						title: '提示',
+						content: "文件上失败,状态:"+xhr.status,
+						ok: function () {
+							this.close();
+						}
+					});
+					_this._closeDialog();
+					msgDialog.showModal();
+				}
+			};
+			xhr.send(form);
+		},
+		//检查文件
+		_checkFileData:function(){
+			var fileupload = document.getElementById("uploadFile");
+			var fileLocation = fileupload.value;
+			if(fileLocation == "" || fileLocation == null || fileLocation == undefined){
+				return false;
+			}
+			var fileType = fileLocation.substring(fileLocation.lastIndexOf("."));
+			var fileName,fileSize;
+			if (fileupload.files && fileupload.files[0]) {
+				fileName = fileupload.files[0].name;
+				var size = fileupload.files[0].size;
+				fileSize = size/(1024 * 1024)
+			} else {
+				fileupload.select();
+				fileupload.blur();
+				var filepath = document.selection.createRange().text;
+				try {
+					var fso, f, fname, fsize;
+					fso = new ActiveXObject("Scripting.FileSystemObject");
+					f = fso.GetFile(filepath); //文件的物理路径
+					fileName = fso.GetFileName(filepath); //文件名（包括扩展名）
+					fsize = f.Size; //文件大小（bit）
+					fileSize = fsize / (1024*1024);
+				} catch (e) {
+					var msgDialog = Dialog({
+						title: '提示',
+						content: e + "\n 跳出此消息框，是由于你的activex控件没有设置好,\n" +
+						"你可以在浏览器菜单栏上依次选择\n" +
+						"工具->internet选项->\"安全\"选项卡->自定义级别,\n" +
+						"打开\"安全设置\"对话框，把\"对没有标记为安全的\n" +
+						"ActiveX控件进行初始化和脚本运行\"，改为\"启动\"即可",
+						ok: function () {
+							this.close();
+						}
+					});
+					msgDialog.showModal();
+					return false;
+				}
+			}
+			fileType = fileType.toLowerCase();
+			console.log("上传图片信息,图片名称:"+fileName+",图片大小:"+fileSize);
+			//文件大小
+			var checkSize = true;
+			//文件类型
+			var checkType = true;
+			fileSize = fileSize.toFixed(4);
+			if(fileSize > ProdEditPager.FILE_MAX_SIZE){
+				this._showMsg('图片不能超过3M');
+				checkSize = false;
+			}else if(!$.inArray(fileType, ProdEditPager.FILE_TYPES)){
+				this._showMsg('请上传jpg/png格式图片');
+				checkType = false;
+			}
+			return checkSize&&checkType;
+		},
+		_closeDialog:function(){
+			$("#uploadFile").val("");
+			//document.getElementById("uploadFileMsg").setAttribute("style","display:none")
+		},
+		//预览图片信息
+		_showProdPicPreview:function(filePosition,fileType,imgUrl){
+			//确定当前要显示商品属性
+			var divId = "prod_pic_"+picAttrVal;
+			var imgObj;
+			//查询该商品下未有图片的位置
+			$("#"+divId+" img[imgId='']").each(function(i){
+				//设置该图片的信息
+				console.log("未设置图片:"+$(this).attr('attrVal')+",序号:"+$(this).attr('picInd'));
+				if (imgObj ==null){
+					imgObj = $(this);
+				}
+			});
+			console.log("将要设置属性图片:"+imgObj.attr('attrVal')+",序号:"+imgObj.attr('picInd'));
+			imgObj.attr('imgId',filePosition);
+			imgObj.attr('imgType',fileType);
+			imgObj.attr('src',imgUrl);
+			//添加删除按钮
+			imgObj.next().attr('class','icon-remove-sign');
+		},
+		//删除图片
+		_delProdPic:function(attrValId,picInd){
+			//获取当前对象
+			var imgObj = $('#prodPicId'+attrValId+'ind'+picInd);
+			//下一个图片对象
+			var imgNextObj = $('#prodPicId'+attrValId+'ind'+(picInd+1));
+			if (imgNextObj!=null && imgNextObj!=undefined){
+				var imgId = imgNextObj.attr('imgId');
+				var imgType = imgNextObj.attr('imgType');
+				if (imgId!=null && imgId!=undefined && imgId!=''
+					&&imgType!=null && imgType!=undefined && imgType!='' ){
+					//替换当前
+					imgObj.attr('src',imgNextObj.attr('src'));
+					imgObj.attr('imgId',imgNextObj.attr('imgId'));
+					imgObj.attr('imgType',imgNextObj.attr('imgType'));
+					this._delProdPic(attrValId,(picInd+1));
+					return;
+				}
+			}
+			//若都不符合则设置当前为删除
+			imgObj.attr('src',_base+'/resources/slpoperate/images/sp-03-a.png');
+			imgObj.attr('imgId','');
+			imgObj.attr('imgType','');
+			imgObj.next().removeClass();//移除删除按钮
+		},
+		_showMsg:function(msg){
+			var msg = Dialog({
+				title: '提示',
+				content:msg,
+				ok:function(){
+					this.close();
+				}
+			});
+			msg.showModal();
 		}
     });
     

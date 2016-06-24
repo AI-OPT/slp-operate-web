@@ -39,8 +39,8 @@
 	<!-- 公共缓存 -->
 	<dubbo:reference id="iCacheSV" interface="com.ai.slp.common.api.cache.interfaces.ICacheSV"
 					 registry="slpRegistry"/>
-	<!-- 用户 -->
-	<dubbo:reference id="iUcUserSV" interface="com.ai.slp.user.api.ucuser.intefaces.IUcUserSV"
+	<!-- 组织机构用户 -->
+	<dubbo:reference id="iUcKeyInfoSV" interface="com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV"
 					 registry="slpRegistry"/>
 
 </beans>

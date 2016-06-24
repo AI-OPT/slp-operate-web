@@ -90,7 +90,7 @@ dependencies {
 	//jersey
 	compile 'org.glassfish.jersey.core:jersey-client:2.9.1'
     //用户
-    compile 'com.ai.slp.user:ucuser:1.0.1-SNAPSHOT'
+    compile 'com.ai.slp.user:keyinfo:1.0-SNAPSHOT'
 	
 	compile 'com.ai.baas.smc:sysparamcache:2.0-SNAPSHOT'
 

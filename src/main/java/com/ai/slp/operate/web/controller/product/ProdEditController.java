@@ -7,6 +7,8 @@ import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.paas.ipaas.dss.base.interfaces.IDSSClient;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
+import com.ai.slp.common.api.cache.param.SysParamMultiCond;
+import com.ai.slp.common.api.cache.param.SysParamSingleCond;
 import com.ai.slp.operate.web.constants.ComCacheConstants;
 import com.ai.slp.operate.web.constants.ProductCatConstants;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
@@ -22,8 +24,9 @@ import com.ai.slp.product.api.product.param.*;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
-import com.ai.slp.user.api.ucuser.intefaces.IUcUserSV;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +52,6 @@ public class ProdEditController {
     ICacheSV cacheSV;
     INormProductSV normProductSV;
     IProductCatSV productCatSV;
-    IUcUserSV ucUserSV;
 
     public void initConsumer() {
         if (productManagerSV == null)
@@ -62,8 +64,6 @@ public class ProdEditController {
             normProductSV = DubboConsumerFactory.getService(INormProductSV.class);
         if (productCatSV == null)
             productCatSV = DubboConsumerFactory.getService(IProductCatSV.class);
-        if (ucUserSV == null)
-            ucUserSV = DubboConsumerFactory.getService(IUcUserSV.class);
     }
     /**
      * 显示商品编辑页面
@@ -85,10 +85,13 @@ public class ProdEditController {
         catUniqueReq.setProductCatId(productInfo.getProductCatId());
         List<ProductCatInfo> catLinkList =productCatSV.queryLinkOfCatById(catUniqueReq);
         uiModel.addAttribute("catLinkList",catLinkList);
+        SysParamSingleCond paramSingleCond = new SysParamSingleCond();
+        paramSingleCond.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+        paramSingleCond.setTypeCode(ComCacheConstants.TypeProduct.CODE);
+        paramSingleCond.setParamCode(ComCacheConstants.TypeProduct.PROD_PRODUCT_TYPE);
+        paramSingleCond.setColumnValue(productInfo.getProductType());
         //商品类型
-        SysParam sysParam = cacheSV.getSysParam(
-                SysCommonConstants.COMMON_TENANT_ID, ComCacheConstants.TypeProduct.CODE,
-                ComCacheConstants.TypeProduct.PROD_PRODUCT_TYPE,productInfo.getProductType());
+        SysParam sysParam = cacheSV.getSysParamSingle(paramSingleCond);
         uiModel.addAttribute("prodType",sysParam.getColumnDesc());
         //标准品关键属性
         AttrQuery attrQuery = new AttrQuery();
@@ -108,25 +111,25 @@ public class ProdEditController {
         uiModel.addAttribute("audiPerson",audiPerson==null?"0":audiPerson.getUserId());
         //企业受众
         Map<String,ProdAudiencesInfo> entMap = otherSet.getEnterpriseMap();
-        entMap = genDemoAudiData(20);//TODO... 正式需删除
         uiModel.addAttribute("audiEnt",audiType(entMap));
         uiModel.addAttribute("audiEnts",audiStr(entMap));
         //代理商受众
         Map<String,ProdAudiencesInfo> agentMap = otherSet.getEnterpriseMap();
-        agentMap = genDemoAudiData(35);//TODO... 正式需删除
         uiModel.addAttribute("audiAgent",audiType(agentMap));
         uiModel.addAttribute("audiAgents",audiStr(agentMap));
 
         //商品主图
         uiModel.addAttribute("prodPic",otherSet.getProductPics());
-
+        SysParamMultiCond paramMultiCond = new SysParamMultiCond();
+        paramMultiCond.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+        paramMultiCond.setTypeCode(ComCacheConstants.TypeProduct.CODE);
+        paramMultiCond.setParamCode(ComCacheConstants.TypeProduct.PROD_UNIT);
         //有效期单位
-        List<SysParam> prodUnits = cacheSV.getSysParams(SysCommonConstants.COMMON_TENANT_ID,
-                ComCacheConstants.TypeProduct.CODE,ComCacheConstants.TypeProduct.PROD_UNIT);
+        List<SysParam> prodUnits = cacheSV.getSysParamList(paramMultiCond);
         uiModel.addAttribute("prodUnits",prodUnits);
         //运营商
-        List<SysParam> basicOrgIds = cacheSV.getSysParams(SysCommonConstants.COMMON_TENANT_ID,
-                ComCacheConstants.TypeProduct.CODE,ComCacheConstants.TypeProduct.BASIC_ORG_ID);
+        paramMultiCond.setParamCode(ComCacheConstants.TypeProduct.BASIC_ORG_ID);
+        List<SysParam> basicOrgIds = cacheSV.getSysParamList(paramMultiCond);
         uiModel.addAttribute("orgIds",basicOrgIds);
         //设置商品详情
         setProdDetail(fileId,uiModel);
@@ -142,7 +145,7 @@ public class ProdEditController {
     public ResponseData<String> saveProductInfo(ProductEditInfo editInfo, String detailConVal, RedirectAttributes redirectModel){
         ResponseData<String> responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "添加成功");
         initConsumer();
-
+        //商品详情信息
         IDSSClient client= DSSClientFactory.getDSSClient(SysCommonConstants.ProductDetail.DSSNS);
         String fileId = editInfo.getProDetailContent();
         //若已经存在,则直接删除
@@ -150,13 +153,18 @@ public class ProdEditController {
             client.deleteById(fileId);
             fileId = "";
         }
+
         //TODO... 正式环境需要取消注释
 //        if (StringUtils.isNotBlank(detailConVal))
 //            fileId = client.insert(detailConVal);
 //        logger.info("fileId="+fileId);
         editInfo.setProDetailContent(fileId);
+        //非关键属性
+        Map<String, List<ProdAttrValInfo>> attrValMap = JSON.parseObject(editInfo.getNoKeyAttrStr(),
+                new TypeReference<Map<String, List<ProdAttrValInfo>>>(){});
         ProductInfoForUpdate prodInfo = new ProductInfoForUpdate();
         BeanUtils.copyProperties(prodInfo,editInfo);
+        prodInfo.setNoKeyAttrValMap(attrValMap);
         //添加省份编码
         if ("N".equals(editInfo.getIsSaleNationwide()) && StringUtils.isNotBlank(editInfo.getTargetProd()))
             prodInfo.setProvCodes(JSON.parseArray(editInfo.getTargetProd(),Long.class));
@@ -166,7 +174,13 @@ public class ProdEditController {
         //代理商受众
         if ("1".equals(editInfo.getAudiencesAgents()) && StringUtils.isNotBlank(editInfo.getAudiAgentIds()))
             prodInfo.setAgentIds(JSON.parseArray(editInfo.getAudiAgentIds(),String.class));
-
+        //商品图片
+        Map<String,List<ProdPicInfo>> picInfoMap = genProdAttrPic(editInfo.getProdId(),editInfo.getProdPicStr());
+        //属性值为0,表示为商品图片
+        prodInfo.setProdPics(picInfoMap.get("0"));
+        //属性值图片
+        picInfoMap = genProdAttrPic(editInfo.getProdId(),editInfo.getProdAttrValPicStr());
+        prodInfo.setAttrValPics(picInfoMap);
         //保存商品详情信息 TODO...
 //        BaseResponse response = productManagerSV.updateProduct(prodInfo);
 //        ResponseHeader header = response.getResponseHeader();
@@ -198,8 +212,11 @@ public class ProdEditController {
             return;
         }
         IDSSClient client= DSSClientFactory.getDSSClient(SysCommonConstants.ProductDetail.DSSNS);
-        byte[] prodDetail = client.read(fileId);
-        uiModel.addAttribute("prodDetail",new String(prodDetail));
+        String context = client.findById(fileId);
+        if (StringUtils.isNotBlank(context)){
+            JSONObject object = JSON.parseObject(context);
+            uiModel.addAttribute("prodDetail",object.getString("content"));
+        }
     }
 
     private String audiType(Map<String,ProdAudiencesInfo> audiMap){
@@ -248,4 +265,33 @@ public class ProdEditController {
         }
         return audiMap;
     }
+
+    /**
+     * 获取商品主图图片
+     * @param prodId
+     * @param prodAttrPic
+     * @return
+     */
+    private Map<String,List<ProdPicInfo>> genProdAttrPic(String prodId,String prodAttrPic){
+        Map<String,List<ProdPicInfo>> attrPicMap = new HashMap<>();
+        if (StringUtils.isBlank(prodAttrPic))
+            return attrPicMap;
+        List<ProdPicInfo> picInfoList = JSON.parseArray(prodAttrPic,ProdPicInfo.class);
+        for (ProdPicInfo picInfo:picInfoList){
+            picInfo.setProdId(prodId);
+            if (picInfo.getSerialNumber().equals(new Short("0"))){
+                picInfo.setIsMainPic("Y");
+            }else
+                picInfo.setIsMainPic("N");
+            List<ProdPicInfo> infoList = attrPicMap.get(picInfo.getAttrvalueDefId());
+            if (infoList==null){
+                infoList = new ArrayList<ProdPicInfo>();
+                attrPicMap.put(picInfo.getAttrvalueDefId(),infoList);
+            }
+            infoList.add(picInfo);
+        }
+        return attrPicMap;
+    }
+
+
 }

@@ -31,7 +31,7 @@
 			</div>
 			<div class="eject-medium-list">
 				<div class="account-title eject-martop ejetct-border"><p>本地上传</p></div>
-				<div class="default-text">
+				<%--<div class="default-text">
 					<p>上传至:</p>
 					<p class="int-zk"><input type="text" class="int-medium int-deault" /><i class="icon-angle-down"></i></p>
 				<div class="mouse-open" style="display: none;;">
@@ -42,27 +42,27 @@
 						<li><a href="#">装修图片</a></li>
 						<li class="newly-build-onclick" style="display:none;"><input type="text" class="int-small int-deault" /><a href="#">创建</a></li>
 						<li class="newly-build"><a href="#"><i class="icon-plus"></i>新建文件夹</a></li>
-						
 					</ul>
 				</div>
-				</div>
+				</div>--%>
 				<div class="medium-list-form medium-list-form-center">
 					<ul>
 						<li class="img"><img src="${_slpres}/images/sp-04.png" /></li>
-						<li><input type="button"  class="blling-btn qu-btn" value="上传图片"></li>
+						<li><input id="" type="button" class="blling-btn qu-btn" value="上传图片"></li>
 					</ul>
-				</div>	
+				</div>
 				<div class="medium-list-word">
 					<ul>
-				    <li>提示：</li>		
-					<li>一次可上传最多6张图片，JPG/PNG/GIF格式，每张图片大小不超过3M；</li>	
+				    <li>提示：</li>
+					<li>一次可上传最多6张图片，JPG/PNG/GIF格式，每张图片大小不超过3M；</li>
 					<li>建议上传详情图片宽度750px或以上；</li>
 					</ul>
 				</div>
-			</div>	
-		</div>	
-		<div class="eject-mask"></div>	
+			</div>
+		</div>
+		<div class="eject-mask"></div>
 </div>
+
 <!--弹出上传图片  中结束-->
 <!--弹出选择目标省份弹出框 大-->
 <div class="eject-big">
@@ -125,14 +125,14 @@
 </div>
 <script id="userListTemple" type="text/template">
 <li>
-	<p><input type="checkbox" class="checkbox-medium" value="{{:userId}}"></p>
-	<p>{{:userLoginName}}</p>
+	<p><input type="checkbox" class="checkbox-medium" value="{{:userId}}" title="{{:custName}}"></p>
+	<p>{{:custName}}</p>
 </li>
 </script>
 <!--弹出受众选择弹出框 大结束-->
 
-
 <div class="wrapper"><!--外围框架-->
+	<input type="file" id="uploadFile" style="display: none;">
 	<!--右侧框架-->
 	<div class="wrapper-right">
 		<!--公告位置-->
@@ -236,15 +236,16 @@
 					</c:forEach>
 				</div>
 				<div class="nav-form-title">商品非关键属性</div> <!--标题-->
-				<div class="nav-form nav-form-border"><!--查询条件-->
+				<div class="nav-form nav-form-border" id="noKeyAttrDiv"><!--查询条件-->
+					<input type="hidden" id="noKeyAttrStr" name="noKeyAttrStr">
 					<c:forEach var="attr" items="${noKeyAttr}">
 						<ul>
 							<li class="width-xlag">
-						<p class="word">${attr.key.attrName}</p>
+						<p class="word" attrId="${attr.key.attrId}" valueType="${attr.key.valueWay}">${attr.key.attrName}</p>
 						<c:choose>
 							<%-- 下拉选择 --%>
 							<c:when test="${attr.key.valueWay == '1'}">
-								<select class="select-medium">
+								<select class="select-medium" attrId="noKeyAttr${attr.key.attrId}">
 									<c:forEach var="valInfo" items="${attr.value}">
 										<option value="${valInfo.attrValId}"
 												<c:if test="${valInfo.productAttrValId}">selected</c:if>>${valInfo.attrVal}</option>
@@ -255,7 +256,7 @@
 							<c:when test="${attr.key.valueWay == '2'}">
 								<div class="width-xlag">
 									<c:forEach var="valInfo" items="${attr.value}">
-										<p><input type="checkbox" class="checkbox-small"
+										<p><input type="checkbox" class="checkbox-small" attrId="noKeyAttr${attr.key.attrId}"
 												  <c:if test="${valInfo.productAttrValId}">checked</c:if> >${valInfo.attrVal}</p>
 									</c:forEach>
 								</div>
@@ -263,12 +264,14 @@
 							<%--单行输入--%>
 							<c:when test="${attr.key.valueWay == '3'}">
 								<c:set var="valInfo" value="${attr.value.get(0)}"></c:set>
-								<p><input type="text" class="int-xlarge" <c:if test="${valInfo!=null}">value="${valInfo.attrVal}"</c:if> ></p>
+								<p><input type="text" class="int-xlarge" attrId="noKeyAttr${attr.key.attrId}"
+										  <c:if test="${valInfo!=null}">value="${valInfo.attrVal}"</c:if> ></p>
 							</c:when>
 							<%--多行输入--%>
 							<c:when test="${attr.key.valueWay == '4'}">
 								<c:set var="valInfo" value="${attr.value.get(0)}"></c:set>
-								<p><textarea class="textarea-xlarge"><c:if test="${valInfo!=null}">${valInfo.attrVal}</c:if></textarea></p>
+								<p><textarea class="textarea-xlarge"
+											 attrId="noKeyAttr${attr.key.attrId}"><c:if test="${valInfo!=null}">${valInfo.attrVal}</c:if></textarea></p>
 							</c:when>
 						</c:choose>
 							</li>
@@ -407,7 +410,7 @@
 						</li>
 					</ul>--%>
 				</div>
-				<div class="nav-form-title">商品主图</div> <!--标题-->
+				<div class="nav-form-title">商品图片</div> <!--标题-->
 				<div class="nav-form nav-form-border"><!--查询条件-->
 					<%
 						String picSize = "78*78";
@@ -420,37 +423,43 @@
 							提示：请上传商品主体正面照片jpg/png格式，不小于700x700px的方形图片，单张不能超过3M，最多6张。
 						</li>
 					</ul>
+					<input id="prodPicStr" name="prodPicStr" type="hidden">
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>商品主图</p>
-							<div class="width-img">
+							<div class="width-img" id="prod_pic_0">
 								<c:set var="prodPicNum" value="${prodPic.size()}"></c:set>
 								<c:forEach var="valInd" begin="0" end="5">
 									<p class="img">
 										<c:choose>
 											<c:when test="${valInd<prodPicNum && prodPic.get(valInd)!=null}">
 												<c:set var="valInfo" value="${prodPic.get(valInd)}"></c:set>
-												<img src="<c:set value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/> "/><i class="icon-remove-sign"></i>
+												<img src="<c:set value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/>"
+													 attrVal="0" picInd="${valInd}" id="prodPicId0ind${valInd}"/>
+												<i class="icon-remove-sign"></i>
 											</c:when>
 											<c:otherwise>
-												<img src="${_slpres}/images/sp-03-a.png"/>
+												<img src="${_slpres}/images/sp-03-a.png" imgId="" imgType=""
+													 attrVal="0" picInd="${valInd}" id="prodPicId0ind${valInd}"/>
+												<i></i>
 											</c:otherwise>
 										</c:choose>
 
 									</p>
 								</c:forEach>
 							</div>
-							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片"/>
+							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片" attrVal = "0"/>
 								<!--<input type="file" class="file">--></p>
 						</li>
 					</ul>
 					<%-- 属性值图片 --%>
+					<input id="prodAttrValPicStr" name="prodAttrValPicStr" type="hidden">
 					<c:set var="attrValPicMap" value="${otherSet.attrValPics}"></c:set>
 					<c:forEach var="attrValPicEnt" items="${attrValPicMap}">
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>${attrValPicEnt.key.attrVal}</p>
-							<div class="width-img">
+							<div class="width-img" id="prod_pic_${attrValPicEnt.key.attrValId}">
 								<c:set var="attrValPic" value="${attrValPicEnt.value}"></c:set>
 								<c:set var="attrValSize" value="${attrValPic.size()}"></c:set>
 								<c:forEach var="valInd" begin="0" end="5">
@@ -458,16 +467,21 @@
 										<c:choose>
 											<c:when test="${valInd<attrValSize && attrValPic.get(valInd)!=null}">
 												<c:set var="valInfo" value="${attrValPic.get(valInd)}"></c:set>
-												<img src="<c:set value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/> "/><i class="icon-remove-sign"></i>
+												<img src="<c:set value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/>" imgId="${valInfo.vfsId}"
+													 imgType="${valInfo.picType}" attrVal="${attrValPicEnt.key.attrValId}" picInd="${valInd}"
+													 id="prodPicId${attrValPicEnt.key.attrValId}ind${valInd}" /><i class="icon-remove-sign"></i>
 											</c:when>
 											<c:otherwise>
-												<img src="${_slpres}/images/sp-03-a.png"/>
+												<img src="${_slpres}/images/sp-03-a.png" id="prodPicId${attrValPicEnt.key.attrValId}ind${valInd}" imgId="" imgType=""
+													 attrVal="${attrValPicEnt.key.attrValId}" picInd="${valInd}"/><i></i>
 											</c:otherwise>
 										</c:choose>
 
 									</p>
 								</c:forEach>
 							</div>
+							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片" attrVal = "${attrValPicEnt.key.attrValId}"/>
+								<!--<input type="file" class="file">--></p>
 						</li>
 					</ul>
 					</c:forEach>
@@ -499,6 +513,7 @@
 </body>
 <script type="text/javascript">
 	var pager;
+	var picAttrVal;
 	var audiEntObjs = $.parseJSON('${audiEnts}');
 	var audiAgentObjs = $.parseJSON('${audiAgents}');
 	(function () {
@@ -544,6 +559,31 @@
 		<%-- 完成受众选择 --%>
 		$('#audiSelectFinish').delegate('.wnc','click',function(){
 			pager._flushAudiInfo();
+		});
+		<%-- 选择受众 --%>
+		$('#userList').delegate('.checkbox-medium','click',function(){
+			var userId = $(this).val(),userName = $(this).attr('title');
+			console.log(userId+","+userName);
+			//若是选中,则添加,否则为删除
+			if($(this).checked)
+				pager._addAudi(userId,userName);
+			else
+				pager._delAudi(userId);
+		});
+		<%-- 上传图片 --%>
+		$('.nav-form-border').delegate('.file-btn','click',function(){
+			picAttrVal = $(this).attr('attrVal');
+			console.log("图片上传属性值:"+picAttrVal);
+			return $("#uploadFile").click();
+		});
+		<%-- 图片删除 --%>
+		$(".img").delegate("i[class='icon-remove-sign']","click",function(){
+			//获得当前删除图标的上一个图片对象
+			var imgObj = $(this).prev();
+			var valDefId = imgObj.attr('attrVal');
+			var attrInd = Number(imgObj.attr('picInd'));
+			console.log("attrValDefId:"+imgObj.attr('attrVal')+"index:"+attrInd);
+			pager._delProdPic(valDefId,attrInd);
 		});
 		seajs.use('app/jsp/product/edit', function (ProdEditPager) {
 			pager = new ProdEditPager({element: document.body});
