@@ -1,5 +1,7 @@
 package com.ai.slp.operate.web.controller.product;
 
+import com.ai.opt.base.vo.BaseResponse;
+import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.dss.DSSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.BeanUtils;
@@ -154,16 +156,18 @@ public class ProdEditController {
             fileId = "";
         }
 
-        //TODO... 正式环境需要取消注释
-//        if (StringUtils.isNotBlank(detailConVal))
-//            fileId = client.insert(detailConVal);
-//        logger.info("fileId="+fileId);
+
+        if (StringUtils.isNotBlank(detailConVal))
+            fileId = client.insert(detailConVal);
+        logger.info("fileId="+fileId);
         editInfo.setProDetailContent(fileId);
         //非关键属性
-        Map<String, List<ProdAttrValInfo>> attrValMap = JSON.parseObject(editInfo.getNoKeyAttrStr(),
-                new TypeReference<Map<String, List<ProdAttrValInfo>>>(){});
+        Map<Long, List<ProdAttrValInfo>> attrValMap = JSON.parseObject(editInfo.getNoKeyAttrStr(),
+                new TypeReference<Map<Long, List<ProdAttrValInfo>>>(){});
         ProductInfoForUpdate prodInfo = new ProductInfoForUpdate();
         BeanUtils.copyProperties(prodInfo,editInfo);
+        prodInfo.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+        prodInfo.setOperId(1l);//TODO... 需要添加获取管理员账号标识
         prodInfo.setNoKeyAttrValMap(attrValMap);
         //添加省份编码
         if ("N".equals(editInfo.getIsSaleNationwide()) && StringUtils.isNotBlank(editInfo.getTargetProd()))
@@ -181,14 +185,14 @@ public class ProdEditController {
         //属性值图片
         picInfoMap = genProdAttrPic(editInfo.getProdId(),editInfo.getProdAttrValPicStr());
         prodInfo.setAttrValPics(picInfoMap);
-        //保存商品详情信息 TODO...
-//        BaseResponse response = productManagerSV.updateProduct(prodInfo);
-//        ResponseHeader header = response.getResponseHeader();
-//
-//        //保存错误
-//        if (header!=null && !header.isSuccess()){
-//            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "添加失败:"+header.getResultMessage());
-//        }
+        //保存商品详情信息
+        BaseResponse response = productManagerSV.updateProduct(prodInfo);
+        ResponseHeader header = response.getResponseHeader();
+
+        //保存错误
+        if (header!=null && !header.isSuccess()){
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "添加失败:"+header.getResultMessage());
+        }
         return responseData;
     }
 
@@ -279,7 +283,7 @@ public class ProdEditController {
         List<ProdPicInfo> picInfoList = JSON.parseArray(prodAttrPic,ProdPicInfo.class);
         for (ProdPicInfo picInfo:picInfoList){
             picInfo.setProdId(prodId);
-            if (picInfo.getSerialNumber().equals(new Short("0"))){
+            if (picInfo.getSerialNumber().equals(new Short("1"))){
                 picInfo.setIsMainPic("Y");
             }else
                 picInfo.setIsMainPic("N");
