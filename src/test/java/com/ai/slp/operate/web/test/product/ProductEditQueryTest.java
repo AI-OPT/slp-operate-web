@@ -17,4 +17,8 @@ public class ProductEditQueryTest {
 		ProdQueryController.editQuery(null);
 	}
 
+	@Test
+	public void getCatInfo(){
+		
+	}
 }

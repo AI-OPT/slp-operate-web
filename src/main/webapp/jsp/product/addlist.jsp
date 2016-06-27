@@ -45,8 +45,8 @@
                 <div class="order-list-table">
                     <ul>
                         <li><a href="#" class="current">待编辑</a></li>
-                        <li><a href="#">被拒绝</a></li>
-                        <li><a href="#">审核中</a></li>
+                        <!-- <li><a href="#">被拒绝</a></li>
+                        <li><a href="#">审核中</a></li> -->
                     </ul>
                 </div>
                 <!--结果标题-->
@@ -164,7 +164,7 @@
 
                 <div id="date3" style="display:none;">
                     <div class="nav-form">
-                        <ul>
+                       <!--  <ul>
                             <li class="width-xlag">
                                 <p class="word">属性ID</p>
                                 <p><select class="select-small">
@@ -179,8 +179,8 @@
                                 <p class="word">属性名称</p>
                                 <p><input type="text" class="int-medium"></p>
                             </li>
-                        </ul>
-                        <ul>
+                        </ul> -->
+                       <!--  <ul>
                             <li>
                                 <p class="word">商品ID</p>
                                 <p><select class="select-medium"></select></p>
@@ -190,7 +190,7 @@
                                 <p><select class="select-medium"></select></p>
                                 <p><input type="button" value="查询" class="blling-btn blue-btn"></p>
                             </li>
-                        </ul>
+                        </ul> -->
 
                     </div>
                     <!--结果表格-->
