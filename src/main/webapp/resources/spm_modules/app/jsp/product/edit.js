@@ -231,26 +231,27 @@ define('app/jsp/product/edit', function (require, exports, module) {
     	//保存商品信息
       	_saveProd:function() {
 			var _this = this;
-			//获取editor中内容
-			$("#detailConVal").val(editDom.getData());
-			console.log($('#detailConVal').val());
-			this._convertProdPic();
-			this._convertNoKeyAttr();
-			//如果点击的是删除
-			ajaxController.ajax({
-				type: "post",
-				processing: false,
-				// message: "删除中，请等待...",
-				url: _base+"/prodedit/save",
-				data:$('#prodForm').serializeArray(),
-				success: function(data){
-					if("0"===data.statusCode){
-						_this._showMsg("保存成功");
-						//保存成功,跳转到列表页面
-						//window.location.href = _base+"/prodquery/add";
+			//验证通过,则进行保存操作.
+			if(this._checkInput() && this._convertProdPic() && this._convertNoKeyAttr()){
+				//获取editor中内容
+				$("#detailConVal").val(editDom.getData());
+				console.log($('#detailConVal').val());
+				ajaxController.ajax({
+					type: "post",
+					processing: false,
+					// message: "删除中，请等待...",
+					url: _base+"/prodedit/save",
+					data:$('#prodForm').serializeArray(),
+					success: function(data){
+						if("0"===data.statusCode){
+							_this._showMsg("保存成功");
+							//保存成功,跳转到列表页面
+							//window.location.href = _base+"/prodquery/add";
+						}
 					}
-				}
-			});
+				});
+			}
+
 		},
 		//将图片信息转换为json字符串
 		_convertProdPic:function(){
@@ -271,8 +272,13 @@ define('app/jsp/product/edit', function (require, exports, module) {
 					prodAttrPic.push(pic);
 				}
 			});
+			if (prodPic.length <1){
+				this._showMsg("商品主图不能为空,至少有一张图片.");
+				return false;
+			}
 			$('#prodPicStr').val(JSON.stringify(prodPic));
 			$('#prodAttrValPicStr').val(JSON.stringify(prodAttrPic));
+			return true;
 		},
 		//将非关键属性转换json字符串
 		_convertNoKeyAttr:function(){
@@ -308,6 +314,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			var noKeyJsonStr = JSON.stringify(noKeyVal,null);
 			console.log($('#noKeyAttrStr').val());
 			$('#noKeyAttrStr').val(noKeyJsonStr);
+			return true;
 		},
 		//查询用户
 		_searchBtnClick: function() {
@@ -491,6 +498,52 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			imgObj.attr('imgId','');
 			imgObj.attr('imgType','');
 			imgObj.next().removeClass();//移除删除按钮
+		},
+		//商品信息保存检查
+		_checkInput:function(){
+			//商品名称不能为空
+			var prodName = $('prodName').val();
+			if (prodName==null || prodName==''){
+				this._showMsg("商品名称不能为空");
+				return false;
+			}
+			//有效期不能为空
+			var activeCycle = $('activeCycle').val();
+			if (activeCycle==null || activeCycle==''||isNaN(activeCycle)){
+				this._showMsg("商品有效期不能为空,且必须是数字");
+				return false;
+			}
+			//是否快充不能为空
+			var partTarget = $("input:radio[name='rechargeType']:checked").val();
+			if (partTarget==null || partTarget == ''){
+				this._showMsg("请选择是否为快充商品");
+				return false;
+			}
+			//运营商不能为空
+			var basicOrgId = $("input:radio[name='basicOrgId']:checked").val();
+			if (basicOrgId==null || basicOrgId == ''){
+				this._showMsg("请选择运营商");
+				return false;
+			}
+			//是否允许平台代销不能为空
+			var isReplaceSell = $("input:radio[name='isReplaceSell']:checked").val();
+			if (isReplaceSell==null || isReplaceSell == ''){
+				this._showMsg("请选择是否允许平台代销");
+				return false;
+			}
+			//目标地域不能为空
+			var isSaleNationwide = $("input:radio[name='isSaleNationwide']:checked").val();
+			if (isSaleNationwide==null || isSaleNationwide == ''){
+				this._showMsg("请选择商品目标地域");
+				return false;
+			}
+			//图文详情不能为空
+			var editVal = editDom.getData();
+			if (editVal==null || editVal == ''){
+				this._showMsg("商品详情图文描述不能为空");
+				return false;
+			}
+			return true;
 		},
 		_showMsg:function(msg){
 			var msg = Dialog({

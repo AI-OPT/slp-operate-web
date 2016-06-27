@@ -179,14 +179,14 @@
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>商品名称</p>
-							<p><input type="text" name="prodName" class="int-xlarge" value="${productInfo.prodName}">
+							<p><input type="text" id="prodName" name="prodName" class="int-xlarge" value="${productInfo.prodName}" maxlength="60">
 							</p>
 						</li>
 					</ul>
 					<ul>
 						<li class="width-xlag">
 							<p class="word">商品卖点</p>
-							<p><textarea name="productSellPoint" class="textarea-xlarge">${productInfo.productSellPoint}</textarea></p>
+							<p><textarea name="productSellPoint" class="textarea-xlarge" maxlength="100">${productInfo.productSellPoint}</textarea></p>
 						</li>
 					</ul>
 					<ul>
@@ -194,7 +194,7 @@
 							<p class="word"><b class="red">*</b>商品有效期</p>
 							<%-- 目前指定周期类型为:灵活有效期 --%>
 							<input type="hidden" name="activeType" value="2">
-							<p><input type="text" name="activeCycle" class="int-small" value="${productInfo.activeCycle}"></p>
+							<p><input type="text" id="activeCycle" name="activeCycle" class="int-small" value="${productInfo.activeCycle}" maxlength="5"></p>
 							<p><select class="select-small" name="unit">
 								<c:forEach var="unit" items="${prodUnits}">
 									<option value="${unit.columnValue}">${unit.columnDesc}</option>
@@ -264,13 +264,13 @@
 							<%--单行输入--%>
 							<c:when test="${attr.key.valueWay == '3'}">
 								<c:set var="valInfo" value="${attr.value.get(0)}"></c:set>
-								<p><input type="text" class="int-xlarge" attrId="noKeyAttr${attr.key.attrId}"
+								<p><input type="text" class="int-xlarge" attrId="noKeyAttr${attr.key.attrId}" maxlength="100"
 										  <c:if test="${valInfo!=null}">value="${valInfo.attrVal}"</c:if> ></p>
 							</c:when>
 							<%--多行输入--%>
 							<c:when test="${attr.key.valueWay == '4'}">
 								<c:set var="valInfo" value="${attr.value.get(0)}"></c:set>
-								<p><textarea class="textarea-xlarge"
+								<p><textarea class="textarea-xlarge" maxlength="100"
 											 attrId="noKeyAttr${attr.key.attrId}"><c:if test="${valInfo!=null}">${valInfo.attrVal}</c:if></textarea></p>
 							</c:when>
 						</c:choose>
