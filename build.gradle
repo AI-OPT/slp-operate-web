@@ -112,5 +112,5 @@ eclipse {
 
 
 war {
-    baseName 'slp-operate'
+    baseName 'slp-op'
 }
