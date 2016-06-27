@@ -24,6 +24,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     	attrs: {
     	},
     	Statics: {
+    		DEFAULT_PAGE_SIZE: 30
     	},
     	//事件代理
     	events: {
@@ -39,6 +40,17 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     	_selectChange:function(osel){
     		var prodCatId = osel.options[osel.selectedIndex].value;
     		var clickId = $(osel).parent().attr('id');
+    		//获取当前ID的最后数字
+    		var index = Number(clickId.substring(10))+1;
+    		//获取下拉菜单的总个数
+    		var length = document.getElementsByTagName("select").length;
+    		if(index==length){
+    			return;
+    		}
+    		//从当前元素开始移除后面的下拉菜单
+    		for(var i=index;i<length;i++){
+    			$("#productCat"+i).remove();
+    		}
     		ajaxController.ajax({
 				type: "post",
 				processing: false,
@@ -46,13 +58,14 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 				url: _base+"/prodquery/getCat",
 				data:{"prodCatId":prodCatId},
 				success: function(data){
+					alert(data);
 					if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#prodCatTemple");
 	            	    var htmlOutput = template.render(data);
 	            	    $("#"+clickId).append(htmlOutput);
 	            	}else{
 	            		var d = Dialog({
-							content:"已是叶子类目:"+data.statusInfo,
+							content:"获取类目信息出错:"+data.statusInfo,
 							ok:function(){
 								this.close();
 							}
@@ -64,7 +77,12 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     	},
     	//查询未编辑商品-点击查询触发
     	_selectProductEdit:function(){
-    		var productCatId = $("#productCat"+level).val();
+    		//获取下拉菜单的总个数
+    		var length = document.getElementsByTagName("select").length;
+    		var productCatId;
+    		for(var i=0;i<length;i++){
+    			productCatId = $("#productCat"+i+" option:selected").val();
+    		}
     		var productType = $("#productType").val().trim();
     		var productId = $("#productId").val().trim();
     		var productName = $("#productName").val().trim();
@@ -78,6 +96,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
 	            render: function (data) {
+	            	alert(data);
 	            	if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#searchProductTemple");
 	            	    var htmlOutput = template.render(data);
@@ -98,7 +117,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 	 			dataType: "json",
 	 			processing: true,
 	            data: {"productCatId":productCatId},
-	           	pageSize: 1,
+	           	pageSize: AddlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
 	            render: function (data) {

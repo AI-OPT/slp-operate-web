@@ -14,11 +14,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.opt.base.exception.BusinessException;
+import com.ai.opt.base.exception.SystemException;
 import com.ai.opt.base.vo.PageInfoResponse;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.paas.ipaas.image.IImageClient;
+import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParamSingleCond;
 import com.ai.slp.operate.web.constants.ComCacheConstants;
@@ -152,30 +155,37 @@ public class ProdQueryController {
 	@RequestMapping("/getCat")
 	@ResponseBody
 	public List<ProdQueryCatVo> changeCat(HttpServletRequest request) {
-		List<ProdQueryCatVo> prodQueryCatVoList = null;
-		IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
-		//通过id查询当前类目信息
-		ProductCatUniqueReq productCatUniqueReq = new ProductCatUniqueReq();
-		productCatUniqueReq.setTenantId("SLP");
-		String prodCatId = request.getParameter("prodCatId");
-		productCatUniqueReq.setProductCatId(prodCatId);
-		ProductCatInfo productCatInfo = productCatSV.queryByCatId(productCatUniqueReq);
-		ProductCatQuery catQuery = new ProductCatQuery();
-		ProdCatInfo prodCatInfo = null;
-		catQuery.setTenantId("SLP");
-		//如果当前类目有子类则查询下一级类目
-		if(productCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD)){
-			catQuery.setParentProductCatId(prodCatId);
-			do{
-				// 查询同一级的类目信息
-				List<ProdCatInfo> productCatInfos = productCatSV.queryCatByNameOrFirst(catQuery);
-				prodCatInfo = productCatInfos.get(0);
-				ProdQueryCatVo prodQueryCatVo = new ProdQueryCatVo();
-				prodQueryCatVo.setLevel((short)(prodCatInfo.getCatLevel()-1));
-				prodQueryCatVo.setProdCatList(productCatInfos);
-				catQuery.setParentProductCatId(prodCatInfo.getProductCatId());
-			}while(prodCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD));
-		}
+		List<ProdQueryCatVo> prodQueryCatVoList = new ArrayList<>();
+		try {
+			IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
+			//通过id查询当前类目信息
+			ProductCatUniqueReq productCatUniqueReq = new ProductCatUniqueReq();
+			productCatUniqueReq.setTenantId("SLP");
+			String prodCatId = request.getParameter("prodCatId");
+			productCatUniqueReq.setProductCatId(prodCatId);
+			ProductCatInfo productCatInfo = productCatSV.queryByCatId(productCatUniqueReq);
+			ProductCatQuery catQuery = new ProductCatQuery();
+			ProdCatInfo prodCatInfo = null;
+			catQuery.setTenantId("SLP");
+			//如果当前类目有子类则查询下一级类目
+			if(productCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD)){
+				catQuery.setParentProductCatId(prodCatId);
+				do{
+					// 查询同一级的类目信息
+					List<ProdCatInfo> productCatInfos = productCatSV.queryCatByNameOrFirst(catQuery);
+					prodCatInfo = productCatInfos.get(0);
+					ProdQueryCatVo prodQueryCatVo = new ProdQueryCatVo();
+					prodQueryCatVo.setLevel((short)(prodCatInfo.getCatLevel()-1));
+					prodQueryCatVo.setProdCatList(productCatInfos);
+					prodQueryCatVoList.add(prodQueryCatVo);
+					catQuery.setParentProductCatId(prodCatInfo.getProductCatId());
+				}while(prodCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD));
+			}
+			LOG.debug("获取类目信息出参:" + JSonUtil.toJSon(prodQueryCatVoList));
+	    } catch (Exception e) {
+	    	prodQueryCatVoList = null;
+	        LOG.error("获取类目信息出错", e);
+	    }
 		return prodQueryCatVoList;
 	}
 
@@ -191,9 +201,12 @@ public class ProdQueryController {
 			ProductEditQueryReq productEditQueryReq = new ProductEditQueryReq();
 			productEditQueryReq.setTenantId("SLP");
 			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
-			productEditQueryReq.setProductType(request.getParameter("productType"));
-			productEditQueryReq.setProdId(request.getParameter("productId"));
-			productEditQueryReq.setProdName(request.getParameter("productName"));
+			if(request.getParameter("productType")!=null)
+				productEditQueryReq.setProductType(request.getParameter("productType"));
+			if(request.getParameter("productId")!=null)
+				productEditQueryReq.setProdId(request.getParameter("productId"));
+			if(request.getParameter("productName")!=null)
+				productEditQueryReq.setProdName(request.getParameter("productName"));
 			// 设置商品状态为新增和未编辑
 			List<String> stateList = new ArrayList<>();
 			// 设置状态，新增：0；未编辑1.
