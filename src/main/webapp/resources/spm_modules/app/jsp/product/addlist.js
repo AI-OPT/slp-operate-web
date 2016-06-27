@@ -27,8 +27,8 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     	},
     	//事件代理
     	events: {
-    		//减少数量
-            "click #delQtyBtn":"_delProductQty",
+    		//查询未编辑商品
+            "click #selectProductEdit":"_selectProductEdit",
         },
     	//重写父类
     	setup: function () {
@@ -37,8 +37,58 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     	},
     	// 改变商品类目
     	_selectChange:function(osel){
-    		alert(osel.options[osel.selectedIndex].text);
+    		var prodCatId = osel.options[osel.selectedIndex].value;
+    		var clickId = $(osel).parent().attr('id');
+    		ajaxController.ajax({
+				type: "post",
+				processing: false,
+				// message: "加载中，请等待...",
+				url: _base+"/prodquery/getCat",
+				data:{"prodCatId":prodCatId},
+				success: function(data){
+					if(data != null && data != 'undefined' && data.length>0){
+	            		var template = $.templates("#prodCatTemple");
+	            	    var htmlOutput = template.render(data);
+	            	    $("#"+clickId).append(htmlOutput);
+	            	}else{
+	            		var d = Dialog({
+							content:"已是叶子类目:"+data.statusInfo,
+							ok:function(){
+								this.close();
+							}
+						});
+						d.show();
+	            	}
+				}
+			});
     	},
+    	//查询未编辑商品-点击查询触发
+    	_selectProductEdit:function(){
+    		var productCatId = $("#productCat"+level).val();
+    		var productType = $("#productType").val().trim();
+    		var productId = $("#productId").val().trim();
+    		var productName = $("#productName").val().trim();
+    		$("#pagination-ul").runnerPagination({
+	 			url: _base+"/prodquery/getProductList",
+	 			method: "POST",
+	 			dataType: "json",
+	 			processing: true,
+	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
+	           	pageSize: AddlistPager.DEFAULT_PAGE_SIZE,
+	           	visiblePages:5,
+	            message: "正在为您查询数据..",
+	            render: function (data) {
+	            	if(data != null && data != 'undefined' && data.length>0){
+	            		var template = $.templates("#searchProductTemple");
+	            	    var htmlOutput = template.render(data);
+	            	    $("#searchProductData").html(htmlOutput);
+	            	}else{
+    					$("#searchProductData").html("没有搜索到相关信息");
+	            	}
+	            }
+    		});
+    	},
+    	//加载分页信息-首次进入页面
     	_loadPagination: function(){
     		var _this = this;
     		var productCatId = $("#productCat"+count).find("option").val();
