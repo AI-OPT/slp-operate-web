@@ -121,8 +121,8 @@
                                 <td>{{:~timesToFmatter(operTime)}}</td>
                                 <td>
                                     <div>
-                                        <p><a href="#" class="blue-border">查看详情</a></p>
-                                        <p><a href="#" class="blue">查看商品</a></p>
+                                        <p><a href="${_base}/prodedit/{{:prodId}}" class="blue-border">编辑商品</a></p>
+                                        <%-- <p><a href="#" class="blue">查看商品</a></p> --%>
                                     </div>
                                 </td>
                             </tr>
