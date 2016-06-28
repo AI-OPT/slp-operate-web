@@ -58,7 +58,6 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 				url: _base+"/prodquery/getCat",
 				data:{"prodCatId":prodCatId},
 				success: function(data){
-					alert(data);
 					if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#prodCatTemple");
 	            	    var htmlOutput = template.render(data);
@@ -96,7 +95,6 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
 	            render: function (data) {
-	            	alert(data);
 	            	if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#searchProductTemple");
 	            	    var htmlOutput = template.render(data);
