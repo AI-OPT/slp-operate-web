@@ -117,7 +117,7 @@
                                 <td><img src="{{:picUrl}}"></td>
                                 <td>{{:prodName}}</td>
                                 <td>{{:totalNum}}</td>
-                                <td>{{:state}}</td>
+                                <td>{{:stateName}}</td>
                                 <td>{{:~timesToFmatter(operTime)}}</td>
                                 <td>
                                     <div>
