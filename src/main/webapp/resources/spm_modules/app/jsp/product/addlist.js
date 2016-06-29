@@ -2,7 +2,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
     Widget = require('arale-widget/1.2.0/widget'),
-    Dialog = require("artDialog/src/dialog"),
+    Dialog = require("optDialog/src/dialog"),
     Paging = require('paging/0.0.1/paging-debug'),
     AjaxController = require('opt-ajax/1.0.0/index');
     require("jsviews/jsrender.min");
@@ -65,6 +65,8 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 	            	}else{
 	            		var d = Dialog({
 							content:"获取类目信息出错:"+data.statusInfo,
+							icon:'fail',
+							okValue: '确 定',
 							ok:function(){
 								this.close();
 							}
