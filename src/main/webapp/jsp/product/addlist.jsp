@@ -103,7 +103,7 @@
 				                <td>类型</td>
 				                <td>预览图</td>
 				                <td width="30%">商品名称</td>
-				                <td>总库存</td>
+				                <!-- <td>总库存</td> -->
 				                <td>状态</td>
 				                <td>生成时间</td>    
 				                <td>操作</td>                                                                                
@@ -117,7 +117,7 @@
                                 <td>{{:productTypeName}}</td>
                                 <td><img src="{{:picUrl}}"></td>
                                 <td>{{:prodName}}</td>
-                                <td>{{:totalNum}}</td>
+                                <%-- <td>{{:totalNum}}</td>--%>
                                 <td>{{:stateName}}</td>
                                 <td>{{:~timesToFmatter(createTime)}}</td>
                                 <td>
