@@ -119,7 +119,7 @@
                                 <td>{{:prodName}}</td>
                                 <td>{{:totalNum}}</td>
                                 <td>{{:stateName}}</td>
-                                <td>{{:~timesToFmatter(operTime)}}</td>
+                                <td>{{:~timesToFmatter(createTime)}}</td>
                                 <td>
                                     <div>
                                         <p><a href="${_base}/prodedit/{{:prodId}}" class="blue-border">编辑商品</a></p>
