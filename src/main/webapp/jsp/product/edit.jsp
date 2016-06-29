@@ -257,7 +257,7 @@
 								<div class="width-xlag">
 									<c:forEach var="valInfo" items="${attr.value}">
 										<p><input type="checkbox" class="checkbox-small" attrId="noKeyAttr${attr.key.attrId}" value="${valInfo.attrValId}"
-												  <c:if test="${valInfo.productAttrValId= valInfo.attrValId}">checked</c:if> >${valInfo.attrVal}</p>
+												  <c:if test="${valInfo.productAttrValId == valInfo.attrValId}">checked</c:if> >${valInfo.attrVal}</p>
 									</c:forEach>
 								</div>
 							</c:when>
