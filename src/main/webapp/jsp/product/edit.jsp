@@ -248,7 +248,7 @@
 								<select class="select-medium" attrId="noKeyAttr${attr.key.attrId}">
 									<c:forEach var="valInfo" items="${attr.value}">
 										<option value="${valInfo.attrValId}"
-												<c:if test="${valInfo.productAttrValId}">selected</c:if>>${valInfo.attrVal}</option>
+												<c:if test="${valInfo.productAttrValId == valInfo.attrValId}">selected</c:if>>${valInfo.attrVal}</option>
 									</c:forEach>
 								</select>
 							</c:when>
@@ -256,8 +256,8 @@
 							<c:when test="${attr.key.valueWay == '2'}">
 								<div class="width-xlag">
 									<c:forEach var="valInfo" items="${attr.value}">
-										<p><input type="checkbox" class="checkbox-small" attrId="noKeyAttr${attr.key.attrId}"
-												  <c:if test="${valInfo.productAttrValId}">checked</c:if> >${valInfo.attrVal}</p>
+										<p><input type="checkbox" class="checkbox-small" attrId="noKeyAttr${attr.key.attrId}" value="${valInfo.attrValId}"
+												  <c:if test="${valInfo.productAttrValId= valInfo.attrValId}">checked</c:if> >${valInfo.attrVal}</p>
 									</c:forEach>
 								</div>
 							</c:when>
