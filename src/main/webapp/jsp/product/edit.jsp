@@ -209,7 +209,7 @@
 									  <c:if test="${productInfo.rechargeType == 'D'}">checked</c:if>>是</p>
 							<p><input type="radio" name="rechargeType" class="checkbox-small" value="C"
 									  <c:if test="${productInfo.rechargeType == 'C'}">checked</c:if>>否</p>
-							<p><img src="${_slpres}/images/icon-a.png"/>请完善此必填项信息</p>
+							<%--<p><img src="${_slpres}/images/icon-a.png"/>请完善此必填项信息</p>--%>
 						</li>
 					</ul>
 				</div>
@@ -309,7 +309,7 @@
 									  name="audiencesPerson" value="-1">全部可见</p>
 							<p><input type="radio" class="checkbox-small" <c:if test="${audiPerson != '-1'}">checked</c:if>
 									  name="audiencesPerson" value="0">全部不可见</p>
-							<p><img src="${_slpres}/images/icon-a.png">请完善此必填项信息</p>
+							<%--<p><img src="${_slpres}/images/icon-a.png">请完善此必填项信息</p>--%>
 						</li>
 					</ul>
 					<%-- 企业用户 --%>
@@ -323,7 +323,7 @@
 									  name="audiencesEnterprise" value="1">部分可见</p>
 							<p><input type="radio" class="checkbox-small" <c:if test="${audiEnt != '1' && audiEnt != '-1'}">checked</c:if>
 									  name="audiencesEnterprise" value="0">全部不可见</p>
-							<p><img src="${_slpres}/images/icon-a.png">请完善此必填项信息</p>
+							<%--<p><img src="${_slpres}/images/icon-a.png">请完善此必填项信息</p>--%>
 							<div id="entAudiDiv" class="cit-width cit-width-list2" <c:if test="${audiEnt != '1'}">style="display:none;"</c:if>>
 
 							</div>
@@ -392,9 +392,7 @@
 							</div>
 						</li>
 					</ul>
-					<%-- 目前全部是立即上架 --%>
-					<input type="hidden" name="upshelfType" value="1">
-					<%--<ul>
+					<ul>
 						<li class="width-xlag">
 							<p class="word">商品上架时间</p>
 						</li>
@@ -402,13 +400,12 @@
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>选择商品上架时间</p>
-							<p><input type="radio" class="checkbox-small">立即上架</p>
-							<p><input type="radio" class="checkbox-small">放入仓库</p>
-							<p><input type="radio" class="checkbox-small">定时上架</p>
-							<p><input type="text" class="int-small"><a href="#" class="ccc"><i
-									class="icon-calendar"></i></a></p>
+							<p><input type="radio" name="upshelfType" value="1" class="checkbox-small" checked>立即上架</p>
+							<%--<p><input type="radio" class="checkbox-small">放入仓库</p>--%>
+							<%--<p><input type="radio" class="checkbox-small">定时上架</p>--%>
+							<%--<p><input type="text" class="int-small"><a href="#" class="ccc"><i class="icon-calendar"></i></a></p>--%>
 						</li>
-					</ul>--%>
+					</ul>
 				</div>
 				<div class="nav-form-title">商品图片</div> <!--标题-->
 				<div class="nav-form nav-form-border"><!--查询条件-->
@@ -497,7 +494,7 @@
 					<textarea style="display: none;" name="detailConVal" id="detailConVal"></textarea>
 					<ul>
 						<li>
-							<p><input id="submitAudit" type="button" class="blling-btn width-btn" value="提交审核"></p>
+							<%--<p><input id="submitAudit" type="button" class="blling-btn width-btn" value="提交审核"></p>--%>
 							<p><input id="save" type="button" class="blling-btn width-btn" value="保存"></p>
 							<%--<p><input type="button" class="blling-btn width-btn" value="预览"></p>--%>
 						</li>
