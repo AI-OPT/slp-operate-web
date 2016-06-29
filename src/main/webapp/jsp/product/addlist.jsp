@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>运营管理</title>
     <%@ include file="/inc/inc.jsp" %>
+    <link href="${_slpres }/styles/bootstrap.css"rel="stylesheet" type="text/css">
     <link href="${_slpres }/styles/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="${_slpres }/styles/global.css" rel="stylesheet" type="text/css">
     <link href="${_slpres }/styles/frame.css" rel="stylesheet" type="text/css">
@@ -97,16 +98,16 @@
                     <div class="nav-tplist-table commodity-tplist-table">
                         <table width="100%" border="0">
                             <tr class="bj">
-                                <td>商品ID</td>
-                                <td>所属类目</td>
-                                <td>类型</td>
-                                <td>预览图</td>
-                                <td>商品名称</td>
-                                <td>总库存</td>
-                                <td>状态</td>
-                                <td>生成时间</td>
-                                <td>操作</td>
-                            </tr>
+				                <td width="10%">商品ID</td>                                                                                                      
+				                <td width="10%">所属类目</td>
+				                <td>类型</td>
+				                <td>预览图</td>
+				                <td width="30%">商品名称</td>
+				                <td>总库存</td>
+				                <td>状态</td>
+				                <td>生成时间</td>    
+				                <td>操作</td>                                                                                
+				             </tr>
                             <tbody id="searchProductData"></tbody>
                         </table>
                             <script id="searchProductTemple" type="text/template">
