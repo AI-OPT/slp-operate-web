@@ -204,6 +204,8 @@ public class ProdQueryController {
 					productEditQueryReq.setProductType("1");
 				}else if(searchProductType.equals("虚拟")){
 					productEditQueryReq.setProductType("2");
+				}else{
+					productEditQueryReq.setProductType(searchProductType);
 				}
 			}
 			if(request.getParameter("productId")!=null)
