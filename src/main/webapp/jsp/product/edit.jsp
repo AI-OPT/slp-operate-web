@@ -431,6 +431,7 @@
 											<c:when test="${valInd<prodPicNum && prodPic.get(valInd)!=null}">
 												<c:set var="valInfo" value="${prodPic.get(valInd)}"/>
 												<img src="<c:out value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/>"
+													 imgId="${valInfo.vfsId}" imgType="${valInfo.picType}"
 													 attrVal="0" picInd="${valInd}" id="prodPicId0ind${valInd}"/>
 												<i class="icon-remove-sign"></i>
 											</c:when>
@@ -576,6 +577,7 @@
 		$(".img").delegate("i[class='icon-remove-sign']","click",function(){
 			//获得当前删除图标的上一个图片对象
 			var imgObj = $(this).prev();
+			imgObj.removeAttr("display");
 			var valDefId = imgObj.attr('attrVal');
 			var attrInd = Number(imgObj.attr('picInd'));
 			console.log("attrValDefId:"+imgObj.attr('attrVal')+"index:"+attrInd);
