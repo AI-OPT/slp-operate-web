@@ -243,9 +243,9 @@ define('app/jsp/product/edit', function (require, exports, module) {
 					url: _base+"/prodedit/save",
 					data:$('#prodForm').serializeArray(),
 					success: function(data){
-						if("0"===data.statusCode){
+						if("1"===data.statusCode){
 							//_this._showMsg("保存成功");
-							保存成功,跳转到列表页面
+							//保存成功,跳转到列表页面
 							window.location.href = _base+"/prodquery/add";
 						}
 					}
