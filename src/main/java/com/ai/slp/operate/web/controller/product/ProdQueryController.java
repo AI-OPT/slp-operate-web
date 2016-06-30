@@ -1,19 +1,5 @@
 package com.ai.slp.operate.web.controller.product;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.ai.opt.base.vo.PageInfoResponse;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
@@ -34,6 +20,19 @@ import com.ai.slp.product.api.productcat.param.ProdCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatQuery;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 商城商品管理查询 Created by jackieliu on 16/6/16.
@@ -41,7 +40,7 @@ import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
 @Controller
 @RequestMapping("/prodquery")
 public class ProdQueryController {
-	private static final Logger LOG = Logger.getLogger(ProdQueryController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ProdQueryController.class);
 
 	/**
 	 * 进入页面调用-加载类目
@@ -111,7 +110,7 @@ public class ProdQueryController {
 		PageInfoResponse<ProductEditUp> result = productManagerSV.queryProductEdit(productEditQueryReq);
 		IImageClient imageClient = IDPSClientFactory.getImageClient(SysCommonConstants.ProductImage.IDPSNS);
 		String attrImageSize = "80x80";
-		ICacheSV cacheSV = DubboConsumerFactory.getService(ICacheSV.class);
+		ICacheSV cacheSV = DubboConsumerFactory.getService("iCacheSV");
 		SysParamSingleCond sysParamSingleCond = null;
 		for (ProductEditUp productEditUp : result.getResult()) {
 			// 获取类型和状态
