@@ -198,8 +198,14 @@ public class ProdQueryController {
 			ProductEditQueryReq productEditQueryReq = new ProductEditQueryReq();
 			productEditQueryReq.setTenantId("SLP");
 			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
-			if(request.getParameter("productType")!=null)
-				productEditQueryReq.setProductType(request.getParameter("productType"));
+			if(request.getParameter("productType")!=null){
+				String searchProductType = request.getParameter("productType");
+				if(searchProductType.equals("实物")){
+					productEditQueryReq.setProductType("1");
+				}else if(searchProductType.equals("虚拟")){
+					productEditQueryReq.setProductType("2");
+				}
+			}
 			if(request.getParameter("productId")!=null)
 				productEditQueryReq.setProdId(request.getParameter("productId"));
 			if(request.getParameter("productName")!=null)
