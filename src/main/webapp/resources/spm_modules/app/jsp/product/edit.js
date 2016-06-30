@@ -502,13 +502,13 @@ define('app/jsp/product/edit', function (require, exports, module) {
 		//商品信息保存检查
 		_checkInput:function(){
 			//商品名称不能为空
-			var prodName = $('prodName').val();
+			var prodName = $('#prodName').val();
 			if (prodName==null || prodName==''){
 				this._showMsg("商品名称不能为空");
 				return false;
 			}
 			//有效期不能为空
-			var activeCycle = $('activeCycle').val();
+			var activeCycle = $('#activeCycle').val();
 			if (activeCycle==null || activeCycle==''||isNaN(activeCycle)){
 				this._showMsg("商品有效期不能为空,且必须是数字");
 				return false;
