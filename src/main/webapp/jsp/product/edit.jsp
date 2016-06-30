@@ -277,7 +277,6 @@
 							</li>
 						</ul>
 					</c:forEach>
-
 				</div>
 				<div class="nav-form-title">其他设置</div> <!--标题-->
 				<div class="nav-form nav-form-border"><!--查询条件-->
@@ -430,8 +429,8 @@
 									<p class="img">
 										<c:choose>
 											<c:when test="${valInd<prodPicNum && prodPic.get(valInd)!=null}">
-												<c:set var="valInfo" value="${prodPic.get(valInd)}"></c:set>
-												<img src="<c:set value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/>"
+												<c:set var="valInfo" value="${prodPic.get(valInd)}"/>
+												<img src="<c:out value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/>"
 													 attrVal="0" picInd="${valInd}" id="prodPicId0ind${valInd}"/>
 												<i class="icon-remove-sign"></i>
 											</c:when>
