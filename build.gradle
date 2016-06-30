@@ -57,20 +57,15 @@ dependencies {
     compile	'org.apache.commons:commons-email:1.4'
     compile 'org.apache.commons:commons-compress:1.9'
     compile 'org.dom4j:dom4j:1.6.1'
-    compile 'org.quartz-scheduler:quartz:2.2.1'
-    compile 'org.apache.httpcomponents:httpclient:4.5'
-    compile 'org.apache.httpcomponents:httpcore:4.4.1'
-
-    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.4'
-	compile 'org.apache.logging.log4j:log4j-api:2.3'
-    compile 'org.apache.logging.log4j:log4j-core:2.3'
-    compile 'org.apache.logging.log4j:log4j-jcl:2.3'
-    
 
     //compile 'javax.validation:validation-api:1.1.0.Final'
     compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
     
-    compile 'org.apache.hadoop:hadoop-common:2.7.1'
+    compile ("org.apache.hadoop:hadoop-common:2.7.1") {
+        exclude group: 'com.sun.jersey', module: 'jersey-core'
+        exclude group: 'com.sun.jersey', module: 'jersey-json'
+        exclude group: 'com.sun.jersey', module: 'jersey-server'
+    }
 
 	compile 'com.ai.opt.sdk:opt-sdk:2.0-SNAPSHOT'
 	compile 'com.ai.opt.xss.filter:opt-xss-firewall:1.0-SNAPSHOT'
