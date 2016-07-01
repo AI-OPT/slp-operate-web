@@ -24,7 +24,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     	attrs: {
     	},
     	Statics: {
-    		DEFAULT_PAGE_SIZE: 5
+    		DEFAULT_PAGE_SIZE: 30
     	},
     	//事件代理
     	events: {
