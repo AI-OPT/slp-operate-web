@@ -425,7 +425,7 @@
 							<p class="word"><b class="red">*</b>商品主图</p>
 							<div class="width-img" id="prod_pic_0">
 								<c:set var="prodPicNum" value="${prodPic.size()}"></c:set>
-								<c:forEach var="valInd" begin="1" end="6">
+								<c:forEach var="valInd" begin="0" end="5">
 									<p class="img">
 										<c:choose>
 											<c:when test="${valInd<prodPicNum && prodPic.get(valInd)!=null}">
@@ -459,7 +459,7 @@
 							<div class="width-img" id="prod_pic_${attrValPicEnt.key.attrValId}">
 								<c:set var="attrValPic" value="${attrValPicEnt.value}"></c:set>
 								<c:set var="attrValSize" value="${attrValPic.size()}"></c:set>
-								<c:forEach var="valInd" begin="1" end="6">
+								<c:forEach var="valInd" begin="0" end="5">
 									<p class="img">
 										<c:choose>
 											<c:when test="${valInd<attrValSize && attrValPic.get(valInd)!=null}">
