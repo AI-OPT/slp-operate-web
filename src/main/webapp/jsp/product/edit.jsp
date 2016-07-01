@@ -409,7 +409,7 @@
 				<div class="nav-form-title">商品图片</div> <!--标题-->
 				<div class="nav-form nav-form-border"><!--查询条件-->
 					<%
-						String picSize = "78*78";
+						String picSize = "78x78";
 						IImageClient imageClient = IDPSClientFactory.getImageClient(SysCommonConstants.ProductImage.IDPSNS);
 						request.setAttribute("imgClient",imageClient);
 						request.setAttribute("picSize",picSize);
