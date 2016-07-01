@@ -577,7 +577,8 @@
 		$(".img").delegate("i[class='icon-remove-sign']","click",function(){
 			//获得当前删除图标的上一个图片对象
 			var imgObj = $(this).prev();
-			imgObj.removeAttr("display");
+			var imgP = $(this).parent();
+			imgP.removeAttr("style");
 			var valDefId = imgObj.attr('attrVal');
 			var attrInd = Number(imgObj.attr('picInd'));
 			console.log("attrValDefId:"+imgObj.attr('attrVal')+"index:"+attrInd);
