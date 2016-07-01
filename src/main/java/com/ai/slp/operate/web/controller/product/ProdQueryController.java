@@ -73,13 +73,12 @@ public class ProdQueryController {
 	 */
 	@RequestMapping("/getList")
 	@ResponseBody
-	private ResponseData<PageInfoResponse<ProductEditUp>> queryProductEdit(HttpServletRequest request) {
+	private ResponseData<PageInfoResponse<ProductEditUp>> queryProductEdit(HttpServletRequest request,ProductEditQueryReq productEditQueryReq) {
 		ResponseData<PageInfoResponse<ProductEditUp>> responseData = null;
 		try {
 			// HttpSession session = request.getSession();
 			// SSOClientUser user = (SSOClientUser)
 			// session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
-			ProductEditQueryReq productEditQueryReq = new ProductEditQueryReq();
 			productEditQueryReq.setTenantId("SLP");
 			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
 			// 设置商品状态为新增和未编辑
@@ -192,10 +191,9 @@ public class ProdQueryController {
 	 */
 	@RequestMapping("/getProductList")
 	@ResponseBody
-	public ResponseData<PageInfoResponse<ProductEditUp>> getProductList(HttpServletRequest request){
+	public ResponseData<PageInfoResponse<ProductEditUp>> getProductList(HttpServletRequest request,ProductEditQueryReq productEditQueryReq){
 		ResponseData<PageInfoResponse<ProductEditUp>> responseData = null;
 		try {
-			ProductEditQueryReq productEditQueryReq = new ProductEditQueryReq();
 			productEditQueryReq.setTenantId("SLP");
 			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
 			if(request.getParameter("productType")!=null){

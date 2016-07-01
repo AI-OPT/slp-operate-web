@@ -24,7 +24,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     	attrs: {
     	},
     	Statics: {
-    		DEFAULT_PAGE_SIZE: 30
+    		DEFAULT_PAGE_SIZE: 5
     	},
     	//事件代理
     	events: {
@@ -78,6 +78,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     	},
     	//查询未编辑商品-点击查询触发
     	_selectProductEdit:function(){
+    		var _this = this;
     		//获取下拉菜单的总个数
     		var length = document.getElementsByTagName("select").length;
     		var productCatId;
