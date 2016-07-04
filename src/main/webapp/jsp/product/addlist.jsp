@@ -77,22 +77,25 @@
                                 <!-- <p><select class="select-small">
                                     <option>三级类目</option>
                                 </select></p> -->
-                                <p class="word">商品类型</p>
-                                <p><input id="productType" type="text" class="int-medium"></p>
                             </li>
                         </ul>
                         <ul>
+                        	<li>
+                                <p class="word">商品类型</p>
+                                <p><input id="productType" type="text" class="int-medium"></p>
+                            </li>
                             <li>
                                 <p class="word">商品ID</p>
                                 <p><input id="productId" type="text" class="int-medium"></p>
                             </li>
-                            <li>
+                        </ul>
+                        <ul>
+                            <li class="width-xlag">
                                 <p class="word">商品名称</p>
                                 <p><input id="productName" type="text" class="int-medium"></p>
                                 <p><input id="selectProductEdit" type="button" value="查询" class="blling-btn blue-btn"></p>
                             </li>
-                        </ul>
-
+						</ul>
                     </div>
                     <!--结果表格-->
                     <div class="nav-tplist-table commodity-tplist-table">
