@@ -1,10 +1,10 @@
 define('app/jsp/product/addlist', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
-    Widget = require('arale-widget/1.2.0/widget'),
-    Dialog = require("optDialog/src/dialog"),
-    Paging = require('paging/0.0.1/paging-debug'),
-    AjaxController = require('opt-ajax/1.0.0/index');
+	    Widget = require('arale-widget/1.2.0/widget'),
+	    Dialog = require("optDialog/src/dialog"),
+	    Paging = require('paging/0.0.1/paging-debug'),
+	    AjaxController = require('opt-ajax/1.0.0/index');
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
     require("bootstrap-paginator/bootstrap-paginator.min");
@@ -112,7 +112,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     	//滚动到顶部
     	_returnTop:function(){
     		var container = $('.wrapper-right');
-    		container.scrollTop(0);//滚动到div 2px
+    		container.scrollTop(0);//滚动到div 顶部
     	},
     	//加载分页信息-首次进入页面
     	_loadPagination: function(){
