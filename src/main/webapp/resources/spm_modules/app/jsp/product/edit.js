@@ -525,6 +525,19 @@ define('app/jsp/product/edit', function (require, exports, module) {
 				this._showMsg("请选择运营商");
 				return false;
 			}
+			//检查企业受众类型
+			var entAudi = $("input:radio[name='audiencesEnterprise']:checked").val();
+			if (entAudi == "1" && this._noHasAudi("audiEntIds")){
+				this._showMsg("请选择受众的企业用户");
+				return false;
+			}
+			//检查代理商受众类型
+			var agentAudi = $("input:radio[name='audiencesAgents']:checked").val();
+			if (agentAudi == "1" && this._noHasAudi("audiAgentIds")){
+				this._showMsg("请选择受众的代理商用户");
+				return false;
+			}
+
 			//是否允许平台代销不能为空
 			var isReplaceSell = $("input:radio[name='isReplaceSell']:checked").val();
 			if (isReplaceSell==null || isReplaceSell == ''){
@@ -544,6 +557,13 @@ define('app/jsp/product/edit', function (require, exports, module) {
 				return false;
 			}
 			return true;
+		},
+		//检查受众为部分时,是否选择用户,若选择用户为false,否则为true
+		_noHasAudi:function(audiId){
+			//获取受众信息
+			var audiJson = $('#'+audiId).val();
+			var audiArry = eval(audiJson);
+			return audiArry.length > 1?false:true;
 		},
 		_showMsg:function(msg){
 			var msg = Dialog({
