@@ -105,8 +105,14 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 	            	}else{
     					$("#searchProductData").html("没有搜索到相关信息");
 	            	}
+	            	_this._returnTop();
 	            }
     		});
+    	},
+    	//滚动到顶部
+    	_returnTop:function(){
+    		var container = $('.wrapper-right');
+    		container.scrollTop(0);//滚动到div 2px
     	},
     	//加载分页信息-首次进入页面
     	_loadPagination: function(){
@@ -129,6 +135,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 	            	}else{
     					$("#searchProductData").html("没有搜索到相关信息");
 	            	}
+	            	_this._returnTop();
 	            }
     		});
     	}
