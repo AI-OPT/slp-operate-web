@@ -73,7 +73,7 @@ public class ProdEditController {
      * @return
      */
     @RequestMapping("/{id}")
-    public String editView(@PathVariable("id")String prodId,String fileId,Model uiModel){
+    public String editView(@PathVariable("id")String prodId,Model uiModel){
         initConsumer();
         //查询商品详情
         ProductInfoQuery infoQuery = new ProductInfoQuery();
@@ -134,7 +134,7 @@ public class ProdEditController {
         List<SysParam> basicOrgIds = cacheSV.getSysParamList(paramMultiCond);
         uiModel.addAttribute("orgIds",basicOrgIds);
         //设置商品详情
-        setProdDetail(fileId,uiModel);
+        setProdDetail(productInfo.getProDetailContent(),uiModel);
         return "product/edit";
     }
 
