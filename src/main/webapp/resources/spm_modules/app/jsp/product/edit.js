@@ -37,7 +37,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			USER_ENT_TYPE: "11",
 			USER_AGENT_TYPE: "12",
 			FILE_MAX_SIZE:3,
-			FILE_TYPES:['.JPG','.PNG']
+			FILE_TYPES:['.jpg','.png']
     	},
     	//事件代理
     	events: {
