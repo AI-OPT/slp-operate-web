@@ -47,6 +47,11 @@ public class ProdQueryController {
 	 */
 	@RequestMapping("/add")
 	public String editQuery(Model uiModel) {
+		loadCat(uiModel);
+		return "product/addlist";
+	}
+
+	private void loadCat(Model uiModel) {
 		IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
 		ProductCatQuery catQuery = new ProductCatQuery();
 		catQuery.setTenantId("SLP");
@@ -62,7 +67,6 @@ public class ProdQueryController {
 		} while (prodCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD));
 		uiModel.addAttribute("count", productCatMap.size() - 1);
 		uiModel.addAttribute("catInfoMap", productCatMap);
-		return "product/addlist";
 	}
 
 	/**
@@ -70,6 +74,7 @@ public class ProdQueryController {
 	 */
 	@RequestMapping("/storprod")
 	public String storProdQuery(Model uiModel) {
+		loadCat(uiModel);
 		return "product/storprodlist";
 	}
 	

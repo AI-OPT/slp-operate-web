@@ -58,11 +58,29 @@
 	           	<ul>
 	                <li class="width-xlag">
 	                    <p class="word">商品类目</p>
-	                    <p><select class="select-small"><option>一级类目</option></select></p>
+	                    <c:forEach var="map" items="${catInfoMap}" varStatus="status">
+                           <p id="productCat${status.index}">
+                               <select class="select-small" onChange="pager._selectChange(this);">
+                               <c:forEach var="info" items="${map.value}">
+                                   <option value="${info.productCatId}">${info.productCatName}</option>
+                               </c:forEach>
+                               </select>
+                           </p>
+                        </c:forEach>
+                        <script id="prodCatTemple" type="text/template">
+                            <p id="productCat{{:level}}">
+								<select class="select-small" onChange="pager._selectChange(this);">
+									{{for prodCatList}}
+                                   		<option value="{{:productCatId}}">{{:productCatName}}</option>
+									{{/for}}
+                               	</select>
+							</p>
+						</script>
+	                    <!-- <p><select class="select-small"><option>一级类目</option></select></p>
 	                    <p><select class="select-small"><option>二级类目</option></select></p>
 	                    <p><select class="select-small"><option>三级类目</option></select></p>
 	                    <p><select class="select-small"><option>三级类目</option></select></p>
-	                    <p><select class="select-small"><option>三级类目</option></select></p>
+	                    <p><select class="select-small"><option>三级类目</option></select></p> -->
 	                </li> 
 	            </ul>
 	            <ul>
@@ -524,6 +542,18 @@
 				timer = setInterval(Scroll,40);
 			}
 		}
+	</script>
+	<script type="text/javascript">
+		var pager;
+		var count = '${count}';
+		var prodInfoList = '${prodInfoList}';
+		var productEditInfo = '${productEditInfo}';
+		(function () {
+			seajs.use('app/jsp/product/storprodlist', function (StorprodlistPager) {
+				pager = new StorprodlistPager({element: document.body});
+				pager.render();
+			});
+		})();
 	</script>
 </html>
 

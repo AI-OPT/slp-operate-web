@@ -1,4 +1,4 @@
-define('app/jsp/product/addlist', function (require, exports, module) {
+define('app/jsp/product/storprodlist', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
 	    Widget = require('arale-widget/1.2.0/widget'),
@@ -17,7 +17,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     //定义页面组件类
-    var AddlistPager = Widget.extend({
+    var StorprodlistPager = Widget.extend({
     	
     	Implements:SendMessageUtil,
     	//属性，使用时由类的构造函数传入
@@ -33,7 +33,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
         },
     	//重写父类
     	setup: function () {
-    		AddlistPager.superclass.setup.call(this);
+    		StorprodlistPager.superclass.setup.call(this);
     		this._loadPagination();
     	},
     	// 改变商品类目
@@ -94,7 +94,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 	 			dataType: "json",
 	 			processing: true,
 	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
-	           	pageSize: AddlistPager.DEFAULT_PAGE_SIZE,
+	           	pageSize: StorprodlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
 	            render: function (data) {
@@ -124,7 +124,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 	 			dataType: "json",
 	 			processing: true,
 	            data: {"productCatId":productCatId},
-	           	pageSize: AddlistPager.DEFAULT_PAGE_SIZE,
+	           	pageSize: StorprodlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            message: "正在为您查询数据..",
 	            render: function (data) {
@@ -143,6 +143,6 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     	
     });
     
-    module.exports = AddlistPager
+    module.exports = StorprodlistPager
 });
 
