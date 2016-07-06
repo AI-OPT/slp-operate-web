@@ -9,6 +9,11 @@
                     <a href="${_base}/prodquery/add">待编辑商品</a>
                 </li>
             </ul>
+            <ul>
+                <li>
+                    <a href="${_base}/prodquery/insale">销售中商品</a>
+                </li>
+            </ul>
         </li>
     </ul>
 </div>
