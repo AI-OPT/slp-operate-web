@@ -66,6 +66,14 @@ public class ProdQueryController {
 	}
 
 	/**
+	 * 进入页面调用-加载类目
+	 */
+	@RequestMapping("/storprod")
+	public String storProdQuery(Model uiModel) {
+		return "product/storprodlist";
+	}
+	
+	/**
 	 * 查询在售商品
 	 * @param uiModel
 	 * @return

@@ -11,7 +11,7 @@
             </ul>
             <ul>
                 <li>
-                    <a href="${_base}/storprodquery/add">仓库中商品</a>
+                    <a href="${_base}/prodquery/storprod">仓库中商品</a>
                 </li>
             </ul>
             <ul>
