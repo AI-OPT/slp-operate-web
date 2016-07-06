@@ -36,7 +36,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			AUDI_AGENT_TYPE: "agent",
 			USER_ENT_TYPE: "11",
 			USER_AGENT_TYPE: "12",
-			FILE_MAX_SIZE:3,
+			FILE_MAX_SIZE:3145728,//大小为3*1024*1024的值
 			FILE_TYPES:['.jpg','.png']
     	},
     	//事件代理
@@ -405,8 +405,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			var fileName,fileSize;
 			if (fileupload.files && fileupload.files[0]) {
 				fileName = fileupload.files[0].name;
-				var size = fileupload.files[0].size;
-				fileSize = size/(1024 * 1024)
+				var fileSize = fileupload.files[0].size;
 			} else {
 				fileupload.select();
 				fileupload.blur();
@@ -416,8 +415,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 					fso = new ActiveXObject("Scripting.FileSystemObject");
 					f = fso.GetFile(filepath); //文件的物理路径
 					fileName = fso.GetFileName(filepath); //文件名（包括扩展名）
-					fsize = f.Size; //文件大小（bit）
-					fileSize = fsize / (1024*1024);
+					fileSize = f.Size; //文件大小（bit）
 				} catch (e) {
 					var msgDialog = Dialog({
 						title: '提示',
@@ -440,11 +438,10 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			var checkSize = true;
 			//文件类型
 			var checkType = true;
-			fileSize = fileSize.toFixed(4);
 			if(fileSize > ProdEditPager.FILE_MAX_SIZE){
 				this._showMsg('图片不能超过3M');
 				checkSize = false;
-			}else if(!$.inArray(fileType, ProdEditPager.FILE_TYPES)){
+			}else if($.inArray(fileType, ProdEditPager.FILE_TYPES)<0){
 				this._showMsg('请上传jpg/png格式图片');
 				checkType = false;
 			}
