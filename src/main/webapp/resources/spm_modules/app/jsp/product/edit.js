@@ -349,6 +349,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			var _this = this;
 			var checkFileData = this._checkFileData();
 			if(!checkFileData){
+				this._closeDialog();
 				return false;
 			}
 			var form = new FormData();
