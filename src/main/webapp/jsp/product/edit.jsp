@@ -464,7 +464,7 @@
 										<c:choose>
 											<c:when test="${valInd<attrValSize && attrValPic.get(valInd)!=null}">
 												<c:set var="valInfo" value="${attrValPic.get(valInd)}"></c:set>
-												<img src="<c:set value="${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}"/>" imgId="${valInfo.vfsId}"
+												<img src="<c:out value='${imgClient.getImageUrl(valInfo.vfsId,valInfo.picType,picSize)}'/>" imgId="${valInfo.vfsId}"
 													 imgType="${valInfo.picType}" attrVal="${attrValPicEnt.key.attrValId}" picInd="${valInd}"
 													 id="prodPicId${attrValPicEnt.key.attrValId}ind${valInd}" /><i class="icon-remove-sign"></i>
 											</c:when>

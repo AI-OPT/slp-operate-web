@@ -35,7 +35,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			AUDI_ENT_TYPE: "ent",
 			AUDI_AGENT_TYPE: "agent",
 			USER_ENT_TYPE: "11",
-			USER_AGENT_TYPE: "13",
+			USER_AGENT_TYPE: "12",
 			FILE_MAX_SIZE:3,
 			FILE_TYPES:['.jpg','.png']
     	},
