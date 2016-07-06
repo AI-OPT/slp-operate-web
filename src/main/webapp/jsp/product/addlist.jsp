@@ -118,7 +118,11 @@
                                 <td>{{:prodId}}</td>
                                 <td>{{:productCatName}}</td>
                                 <td>{{:productTypeName}}</td>
-                                <td><img src="{{:picUrl}}"></td>
+								{{if picUrl==null || picUrl==""}}
+                            	    <td><img src="${_slpres}/images/sp-03-a.png"></td>
+								{{else}}
+									<td><img src="{{:picUrl}}"></td>
+								{{/if}}
                                 <td>{{:prodName}}</td>
                                 <%-- <td>{{:totalNum}}</td>--%>
                                 <td>{{:stateName}}</td>
