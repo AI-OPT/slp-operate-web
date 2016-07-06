@@ -66,6 +66,16 @@ public class ProdQueryController {
 	}
 
 	/**
+	 * 查询在售商品
+	 * @param uiModel
+	 * @return
+     */
+	@RequestMapping("/insale")
+	public String inSaleQuery(Model uiModel){
+		return "product/insalelist";
+	}
+
+	/**
 	 * 首次打开页面时查询商品待编辑状态－默认显示第一页
 	 * 
 	 * @param productEditParam
