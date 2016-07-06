@@ -283,6 +283,8 @@ public class ProdEditController {
         List<ProdPicInfo> picInfoList = JSON.parseArray(prodAttrPic,ProdPicInfo.class);
         for (ProdPicInfo picInfo:picInfoList){
             picInfo.setProdId(prodId);
+            //页面序列号比数据库中小1,因此要进行+1处理
+            picInfo.setSerialNumber((short)(picInfo.getSerialNumber()+1));
             if (picInfo.getSerialNumber().equals(new Short("1"))){
                 picInfo.setIsMainPic("Y");
             }else
