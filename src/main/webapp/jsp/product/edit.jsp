@@ -560,12 +560,13 @@
 		<%-- 选择受众 --%>
 		$('#userList').delegate('.checkbox-medium','click',function(){
 			var userId = $(this).val(),userName = $(this).attr('title');
-			console.log(userId+","+userName);
+			console.log("The user:"+userId+","+userName+","+$(this).is(':checked'));
 			//若是选中,则添加,否则为删除
-			if($(this).checked)
+			if($(this).is(':checked')){
 				pager._addAudi(userId,userName);
-			else
+			}else{
 				pager._delAudi(userId);
+			}
 		});
 		<%-- 上传图片 --%>
 		$('.nav-form-border').delegate('.file-btn','click',function(){

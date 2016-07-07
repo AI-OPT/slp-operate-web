@@ -93,49 +93,55 @@ define('app/jsp/product/edit', function (require, exports, module) {
 				selectUserType = ProdEditPager.USER_AGENT_TYPE;
 			}else
 				return;
-			var ind = 0;
-			for (var key in audiMap) {
-				$('#audiSelectedDiv').append("<p>"+audiMap[key]+"<a href=\"#\"><i class=\"icon-remove-sign\" userId='"+key+"'></i></a></p>");
-				ind ++;
-			}
+			this._showCheckAudi(audiMap);
 			$("#audiType").text(typeName);
 			$("#selectType").text(typeName);
-			$('#audiNum').text(ind);
 			$('.eject-mask').fadeIn(100);
 			$('.eject-large').slideDown(200);
 		},
 		//删除受众用户
 		_delAudi:function (userId){
 			console.log("del audi userId:"+userId);
-			var audNum;
+			var audiMap;
 			//企业
 			if (ProdEditPager.AUDI_ENT_TYPE==nowAudiType){
 				delete(audiEntObjs[userId]);
-				audNum = Object.keys(audiEntObjs).length;
+				audiMap = audiEntObjs;
 			}//代理商
 			else if(ProdEditPager.AUDI_AGENT_TYPE==nowAudiType){
 				delete(audiAgentObjs[userId]);
-				audNum = Object.keys(audiAgentObjs).length;
+				audiMap = audiAgentObjs;
 			}else {
 				return;
 			}
-			$('#audiNum').text(audNum);
+			this._showCheckAudi(audiMap);
 		},
 		//添加受众用户
 		_addAudi:function(userId,userName){
-			var audNum;
+			console.log("add user audi,id:"+userId+",userName:"+userName);
+			var audiMap;
 			//企业
 			if (ProdEditPager.AUDI_ENT_TYPE==nowAudiType){
 				audiEntObjs[userId] = userName;
-				audNum = Object.keys(audiEntObjs).length;
+				audiMap = audiEntObjs;
 			}//代理商
 			else if(ProdEditPager.AUDI_AGENT_TYPE==nowAudiType){
 				audiAgentObjs[userId]=userName;
-				audNum = Object.keys(audiAgentObjs).length;
+				audiMap = audiAgentObjs;
 			}else{
 				return;
 			}
+			this._showCheckAudi(audiMap);
+		},
+		//显示选中受众
+		_showCheckAudi:function(audiMap){
+			var audNum = Object.keys(audiMap).length;
 			$('#audiNum').text(audNum);
+			//删除原来受众信息
+			$('#audiSelectedDiv').html("");
+			for (var key in audiMap) {
+				$('#audiSelectedDiv').append("<p>"+audiMap[key]+"<a href=\"#\"><i class=\"icon-remove-sign\" userId='"+key+"'></i></a></p>");
+			}
 		},
 		_showAudi:function(){
 			var partTarget = $("input:radio[name='audiencesEnterprise']:checked").val();
@@ -397,22 +403,26 @@ define('app/jsp/product/edit', function (require, exports, module) {
 		},
 		//检查文件
 		_checkFileData:function(){
+			var img = new Image();
 			var fileupload = document.getElementById("uploadFile");
 			var fileLocation = fileupload.value;
 			if(fileLocation == "" || fileLocation == null || fileLocation == undefined){
 				return false;
 			}
+
 			var fileType = fileLocation.substring(fileLocation.lastIndexOf("."));
 			var fileName,fileSize;
 			if (fileupload.files && fileupload.files[0]) {
 				fileName = fileupload.files[0].name;
+				var size = fileupload.files[0].size;
+				fileSize = size/(1024 * 1024);
 				var fileSize = fileupload.files[0].size;
 			} else {
 				fileupload.select();
 				fileupload.blur();
 				var filepath = document.selection.createRange().text;
 				try {
-					var fso, f, fname, fsize;
+					var fso, f, fsize;
 					fso = new ActiveXObject("Scripting.FileSystemObject");
 					f = fso.GetFile(filepath); //文件的物理路径
 					fileName = fso.GetFileName(filepath); //文件名（包括扩展名）
@@ -445,6 +455,13 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			}else if($.inArray(fileType, ProdEditPager.FILE_TYPES)<0){
 				this._showMsg('请上传jpg/png格式图片');
 				checkType = false;
+			}else {
+				img.src = "file:///"+fileLocation;
+				img.onload=function() {
+					alert(img.width);
+					alert(img.height);
+					console.log("图片宽:" + img.width + ",高:" + img.height);
+				}
 			}
 			return checkSize&&checkType;
 		},
