@@ -110,7 +110,7 @@
 		    		<p><input id="searchBut" type="button" value="查询" class="blling-btn blue-btn"></p>
 		    </div>
 		    <div class="user-list-title-list">
-		     	<ul id="userList">请输入用户名进行搜索</ul>
+		     	<ul id="userList">请输入公司名称进行搜索</ul>
 		    </div> 	
 		     
 			</div>	
