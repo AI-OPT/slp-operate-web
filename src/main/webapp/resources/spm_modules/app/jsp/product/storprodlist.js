@@ -106,7 +106,12 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 	            	    var htmlOutput = template.render(data);
 	            	    $("#selectStayUpProdData").html(htmlOutput);
 	            	}else{
-    					$("#selectStayUpProdData").html("没有搜索到相关信息");
+	            		$("#selectStayUpProdData").html('<tr><td colspan=8>'+
+										    				'<div class="not-query pt-20 pb-20">'+
+										    				'	<p><img src="'+_base+'/resources/slpoperate/images/not-query.png"/></p>'+
+										    				'	<p>抱歉没有查询到相关数据</p>'+
+										    				'</div>'+
+										    			'</td></tr>');
 	            	}
 	            	_this._returnTop();
 	            }
