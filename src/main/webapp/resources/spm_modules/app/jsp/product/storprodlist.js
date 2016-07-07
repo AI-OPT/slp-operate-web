@@ -82,12 +82,8 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     		var _this = this;
     		//获取下拉菜单的总个数
     		var div = document.getElementById("date1");
-    		var length = div.getElementsByTagName("select").length;
-    		var i = length-1;
-//    		var productCatId;
-//    		for(var i=0;i<length;i++){
-    		var	productCatId = $("#productCat"+i+" option:selected").val();
-//    		}
+    		var length = div.getElementsByTagName("select").length-1;
+    		var	productCatId = $("#productCat"+length+" option:selected").val();
     		var productType = $("#productType").val().trim();
     		var productId = $("#productId").val().trim();
     		var productName = $("#productName").val().trim();
