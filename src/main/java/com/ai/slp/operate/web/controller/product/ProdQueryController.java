@@ -1,5 +1,20 @@
 package com.ai.slp.operate.web.controller.product;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.ai.opt.base.vo.PageInfoResponse;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
@@ -15,24 +30,13 @@ import com.ai.slp.operate.web.vo.ProdQueryCatVo;
 import com.ai.slp.product.api.product.interfaces.IProductManagerSV;
 import com.ai.slp.product.api.product.param.ProductEditQueryReq;
 import com.ai.slp.product.api.product.param.ProductEditUp;
+import com.ai.slp.product.api.product.param.ProductStorageSale;
+import com.ai.slp.product.api.product.param.ProductStorageSaleParam;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProdCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatQuery;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 商城商品管理查询 Created by jackieliu on 16/6/16.
@@ -130,8 +134,6 @@ public class ProdQueryController {
 	private PageInfoResponse<ProductEditUp> queryEditProduct(ProductEditQueryReq productEditQueryReq) {
 		IProductManagerSV productManagerSV = DubboConsumerFactory.getService("iProductManagerSV");
 		PageInfoResponse<ProductEditUp> result = productManagerSV.queryProductEdit(productEditQueryReq);
-		IImageClient imageClient = IDPSClientFactory.getImageClient(SysCommonConstants.ProductImage.IDPSNS);
-		String attrImageSize = "80x80";
 		ICacheSV cacheSV = DubboConsumerFactory.getService("iCacheSV");
 		SysParamSingleCond sysParamSingleCond = null;
 		for (ProductEditUp productEditUp : result.getResult()) {
@@ -153,17 +155,24 @@ public class ProdQueryController {
 			}
 			// 产生图片地址
 			if (StringUtils.isNotBlank(productEditUp.getVfsId())) {
+				String attrImageSize = "80x80";
 				String vfsId = productEditUp.getVfsId();
 				String picType = productEditUp.getPicType();
-				if (StringUtils.isBlank(picType))
-					picType = ".jpg";
-				if (!picType.startsWith("."))
-					picType = "." + picType;
-				String imageUrl = imageClient.getImageUrl(vfsId, picType, attrImageSize);
+				String imageUrl = imageUrl(attrImageSize, vfsId, picType);
 				productEditUp.setPicUrl(imageUrl);
 			}
 		}
 		return result;
+	}
+
+	private String imageUrl(String attrImageSize, String vfsId, String picType) {
+		IImageClient imageClient = IDPSClientFactory.getImageClient(SysCommonConstants.ProductImage.IDPSNS);
+		if (StringUtils.isBlank(picType))
+			picType = ".jpg";
+		if (!picType.startsWith("."))
+			picType = "." + picType;
+		String imageUrl = imageClient.getImageUrl(vfsId, picType, attrImageSize);
+		return imageUrl;
 	}
 
 	/**
@@ -219,7 +228,7 @@ public class ProdQueryController {
 		try {
 			productEditQueryReq.setTenantId("SLP");
 			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
-			if(request.getParameter("productType")!=null){
+			if(!request.getParameter("productType").isEmpty()){
 				String searchProductType = request.getParameter("productType");
 				if(searchProductType.equals("实物")){
 					productEditQueryReq.setProductType("1");
@@ -229,9 +238,9 @@ public class ProdQueryController {
 					productEditQueryReq.setProductType(searchProductType);
 				}
 			}
-			if(request.getParameter("productId")!=null)
+			if(!request.getParameter("productId").isEmpty())
 				productEditQueryReq.setProdId(request.getParameter("productId"));
-			if(request.getParameter("productName")!=null)
+			if(!request.getParameter("productName").isEmpty())
 				productEditQueryReq.setProdName(request.getParameter("productName"));
 			// 设置商品状态为新增和未编辑
 			List<String> stateList = new ArrayList<>();
@@ -249,4 +258,84 @@ public class ProdQueryController {
 		}
 		return responseData;
 	}
+	/**
+	 * 点击查询按钮调用方法-获取待上架商品
+	 * @return
+	 */
+	@RequestMapping("/getStayUpList")
+	@ResponseBody
+	public ResponseData<PageInfoResponse<ProductStorageSale>> getStayUpProduct(HttpServletRequest request,ProductStorageSaleParam productStorageSaleParam){
+		ResponseData<PageInfoResponse<ProductStorageSale>> responseData = null;
+		try {
+			productStorageSaleParam.setTenantId("SLP");
+			productStorageSaleParam.setProductCatId(request.getParameter("productCatId"));
+			if(!request.getParameter("productType").isEmpty()){
+				String searchProductType = request.getParameter("productType");
+				if(searchProductType.equals("实物")){
+					productStorageSaleParam.setProductType("1");
+				}else if(searchProductType.equals("虚拟")){
+					productStorageSaleParam.setProductType("2");
+				}else{
+					productStorageSaleParam.setProductType(searchProductType);
+				}
+			}
+			if(!request.getParameter("productId").isEmpty())
+				productStorageSaleParam.setProdId(request.getParameter("productId"));
+			if(!request.getParameter("productName").isEmpty())
+				productStorageSaleParam.setProdName(request.getParameter("productName"));
+			// 设置商品状态为新增和未编辑
+			List<String> stateList = new ArrayList<>();
+			// 设置状态，6仓库中（审核通过、手动下架放入）.
+			stateList.add("6");
+			productStorageSaleParam.setStateList(stateList);
+			PageInfoResponse<ProductStorageSale> result = queryStorProduct(productStorageSaleParam);
+			responseData = new ResponseData<PageInfoResponse<ProductStorageSale>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
+					result);
+		} catch (Exception e) {
+			responseData = new ResponseData<PageInfoResponse<ProductStorageSale>>(ResponseData.AJAX_STATUS_FAILURE,
+					"获取信息异常");
+			LOG.error("获取信息出错：", e);
+		}
+		return responseData;
+	}
+	/**
+	 * 查询仓库商品
+	 * 
+	 * @param productStorageSaleParam
+	 * @return
+	 */
+	private PageInfoResponse<ProductStorageSale> queryStorProduct(ProductStorageSaleParam productStorageSaleParam) {
+		IProductManagerSV productManagerSV = DubboConsumerFactory.getService("iProductManagerSV");
+		PageInfoResponse<ProductStorageSale> result = productManagerSV.queryStorageProdByState(productStorageSaleParam);
+		ICacheSV cacheSV = DubboConsumerFactory.getService("iCacheSV");
+		SysParamSingleCond sysParamSingleCond = null;
+		for (ProductStorageSale productStorageSale : result.getResult()) {
+			// 获取类型和状态
+			if (StringUtils.isNotBlank(productStorageSale.getProductType())) {
+				// 获取类型
+				String productType = productStorageSale.getProductType();
+				sysParamSingleCond = new SysParamSingleCond(SysCommonConstants.COMMON_TENANT_ID,
+						ComCacheConstants.TypeProduct.CODE, ComCacheConstants.TypeProduct.PROD_PRODUCT_TYPE,
+						productType);
+				String productTypeName = cacheSV.getSysParamSingle(sysParamSingleCond).getColumnDesc();
+				productStorageSale.setProductTypeName(productTypeName);
+				// 获取状态
+				String state = productStorageSale.getState();
+				sysParamSingleCond = new SysParamSingleCond(SysCommonConstants.COMMON_TENANT_ID,
+						ComCacheConstants.TypeProduct.CODE, "STATE", state);
+				String stateName = cacheSV.getSysParamSingle(sysParamSingleCond).getColumnDesc();
+				productStorageSale.setStateName(stateName);
+			}
+			// 产生图片地址
+			if (StringUtils.isNotBlank(productStorageSale.getVfsId())) {
+				String attrImageSize = "80x80";
+				String vfsId = productStorageSale.getVfsId();
+				String picType = productStorageSale.getPicType();
+				String imageUrl = imageUrl(attrImageSize, vfsId, picType);
+				productStorageSale.setPicUrl(imageUrl);
+			}
+		}
+		return result;
+	}
+	
 }

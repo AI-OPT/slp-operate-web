@@ -76,28 +76,23 @@
                                	</select>
 							</p>
 						</script>
-	                    <!-- <p><select class="select-small"><option>一级类目</option></select></p>
-	                    <p><select class="select-small"><option>二级类目</option></select></p>
-	                    <p><select class="select-small"><option>三级类目</option></select></p>
-	                    <p><select class="select-small"><option>三级类目</option></select></p>
-	                    <p><select class="select-small"><option>三级类目</option></select></p> -->
 	                </li> 
 	            </ul>
 	            <ul>
 	           	 	<li>
 	            	 		<p class="word">商品类型</p>
-	                    <p><input type="text" class="int-medium"></p>
+	                    <p><input id="productType" type="text" class="int-medium"></p>
 	                 </li>
 	                 <li>
 	                    <p class="word">商品ID</p>
-	                    <p><select class="select-medium"></select></p>
+	                    <p><input id="productId"  type="text" class="int-medium"></p>
 	                </li>
 	            </ul>
 	            <ul>
 	                <li  class="width-xlag">
 	                    <p class="word">商品名称</p>
-	                    <p><select class="select-medium"></select></p>
-	                    <p><input type="button" value="查询" class="blling-btn blue-btn"></p>
+	                    <p><input  id="productName" type="text" class="int-medium"></p>
+	                    <p><input id="searchStayUpProd" type="button" value="查询" class="blling-btn blue-btn"></p>
 	                </li>
 	            </ul>  
 	            
@@ -111,85 +106,60 @@
 	                <td>类型</td>
 	                <td>预览图</td>
 	                <td width="20%">商品名称</td>
-	                <td>价格（￥）</td>
-	                <td>剩余库存</td>
-	                <td>总销量</td>
+	                <td>状态</td>
 	                <td>上架时间</td>    
 	                <td>操作</td>                                                                                
 	              </tr>
-	              <tr>
+	              <tbody id="selectStayUpProdData"></tbody>
+	              <%-- <tr>
 	                <td>24343433</td>
 	                <td>话费</td>
 	                <td>虚拟</td>
 	                <td><img src="${_slpres}/images/sp-01.png"></td>
 	                <td>中国移动100元充值卡</td>
-	                <td>30</td>
-	                <td>6000</td>
-	                <td>0</td>
+	                <td>状态</td>
 	                <td>2016-3-18  13:25</td>
 	                <td>
 		                	<div>
 		                		<p><a href="#" class="blue-border">上架销售</a></p>
-		                		<p><a href="#" class="blue">查看商品</a></p>
+		                		<p><a href="#" class="blue">编辑商品</a></p>
 		                	</div>
 	                </td> 
-	              </tr> 
-	              <tr>
-	                <td>24343433</td>
-	                <td>话费</td>
-	                <td>虚拟</td>
-	                <td><img src="${_slpres}/images/sp-01.png"></td>
-	                <td>中国移动100元充值卡</td>
-	                <td>30</td>
-	                <td>6000</td>
-	                <td>0</td>
-	                <td>2016-3-18  13:25</td>
-	                <td>
-		                	<div>
-		                		<p><a href="#" class="blue-border">上架销售</a></p>
-		                		<p><a href="#" class="blue">查看商品</a></p>
-		                	</div>
-	                </td> 
-	              </tr> 
-	              <tr>
-	                <td>24343433</td>
-	                <td>话费</td>
-	                <td>虚拟</td>
-	                <td><img src="${_slpres}/images/sp-01.png"></td>
-	                <td>中国移动100元充值卡</td>
-	                <td>30</td>
-	                <td>6000</td>
-	                <td>0</td>
-	                <td>2016-3-18  13:25</td>
-	                <td>
-		                	<div>
-		                		<p><a href="#" class="blue-border">上架销售</a></p>
-		                		<p><a href="#" class="blue">查看商品</a></p>
-		                	</div>
-	                </td> 
-	              </tr> 
-	              <tr>
-	                <td>24343433</td>
-	                <td>话费</td>
-	                <td>虚拟</td>
-	                <td><img src="${_slpres}/images/sp-01.png"></td>
-	                <td>中国移动100元充值卡</td>
-	                <td>30</td>
-	                <td>6000</td>
-	                <td>0</td>
-	                <td>2016-3-18  13:25</td>
-	                <td>
-		                	<div>
-		                		<p><a href="#" class="blue-border">上架销售</a></p>
-		                		<p><a href="#" class="blue">查看商品</a></p>
-		                	</div>
-	                </td> 
-	              </tr> 
+	              </tr>  --%>
 				</table>
-	          
+	          	 <script id="selectStayUpProdTemple" type="text/template">
+                            <tr>
+                                <td>{{:prodId}}</td>
+                                <td>{{:productCatName}}</td>
+                                <td>{{:productTypeName}}</td>
+								{{if picUrl==null || picUrl==""}}
+                            	    <td><img src="${_slpres}/images/sp-03-a.png"></td>
+								{{else}}
+									<td><img src="{{:picUrl}}"></td>
+								{{/if}}
+                                <td>{{:prodName}}</td>
+                                <%-- <td>{{:totalNum}}</td>--%>
+                                <td>{{:stateName}}</td>
+                                <td>{{:~timesToFmatter(createTime)}}</td>
+                                <td>
+                                    <div>
+                                        <p><a href="#" class="blue-border">上架销售</a></p>
+                                        <p><a href="${_base}/prodedit/{{:prodId}}" class="blue">编辑商品</a></p>
+                                    </div>
+                                </td>
+                            </tr>
+							</script>
 	          </div> 
 	        <!--结果表格结束-->
-	        <div class="paging-large">
+	        <!--分页-->
+					 <div>
+		 				 <nav style="text-align: right">
+							<ul id="stayup-pagination-ul">
+							</ul>
+						</nav>
+					  </div>
+					 <!--分页-->
+	        <!-- <div class="paging-large">
 	        <ul>
 	            <li class="prev-up"><a href="#">&lt;上一页</a> </li>
 	            <li class="active"> <a href="#">1 </a> </li>
@@ -212,7 +182,7 @@
 	            
 	         </ul>
 		</div>
-	        
+	         -->
 	         </div>
 	        <div id="date2" style="display:none;">
 	        <div class="nav-form">
@@ -233,13 +203,13 @@
 	                 </li>
 	                 <li>
 	                    <p class="word">商品ID</p>
-	                    <p><select class="select-medium"></select></p>
+	                    <p><input type="text" class="int-medium"></p>
 	                </li>
 	            </ul>
 	            <ul>
 	                <li  class="width-xlag">
 	                    <p class="word">商品名称</p>
-	                    <p><select class="select-medium"></select></p>
+	                    <p><input type="text" class="int-medium"></p>
 	                    <p><input type="button" value="查询" class="blling-btn blue-btn"></p>
 	                </li>
 	            </ul>  
@@ -252,10 +222,11 @@
 	                <td width="10%">所属类目</td>
 	                <td>类型</td>
 	                <td>预览图</td>
-	                <td width="20%">商品名称</td>
-	                <td>价格（￥）</td>
+	                <td width="30%">商品名称</td>
+	                <!-- <td>价格（￥）</td>
 	                <td>剩余库存</td>
-	                <td>总销量</td>
+	                <td>总销量</td> -->
+	                <td>状态</td>
 	                <td>下架时间</td>    
 	                <td>操作</td>                                                                                
 	              </tr>
@@ -265,9 +236,7 @@
 	                <td>虚拟</td>
 	                <td><img src="${_slpres}/images/sp-01.png"></td>
 	                <td>苹果正版iphone 6s</td>
-	                <td>6000</td>
-	                <td>20</td>
-	                <td>0</td>
+	                <td>状态</td>
 	                <td>2016-3-18  13:25</td>
 	                <td>
 	                	<div>
@@ -275,7 +244,7 @@
 	                	</div>
 	                </td> 
 	              </tr> 
-	              <tr>
+	              <%-- <tr>
 	                <td>24343433</td>
 	                <td>话费</td>
 	                <td>虚拟</td>
@@ -290,55 +259,7 @@
 	                		<p><a href="#" class="blue">查看商品</a></p>
 	                	</div>
 	                </td> 
-	              </tr>
-	               <tr>
-	                <td>24343433</td>
-	                <td>话费</td>
-	                <td>虚拟</td>
-	                <td><img src="${_slpres}/images/sp-01.png"></td>
-	                <td>苹果正版iphone 6s</td>
-	                <td>6000</td>
-	                <td>20</td>
-	                <td>0</td>
-	                <td>2016-3-18  13:25</td>
-	                <td>
-	                	<div>
-	                		<p><a href="#" class="blue">查看商品</a></p>
-	                	</div>
-	                </td> 
-	              </tr> 
-	              <tr>
-	                <td>24343433</td>
-	                <td>话费</td>
-	                <td>虚拟</td>
-	                <td><img src="${_slpres}/images/sp-01.png"></td>
-	                <td>苹果正版iphone 6s</td>
-	                <td>6000</td>
-	                <td>20</td>
-	                <td>0</td>
-	                <td>2016-3-18  13:25</td>
-	                <td>
-	                	<div>
-	                		<p><a href="#" class="blue">查看商品</a></p>
-	                	</div>
-	                </td> 
-	              </tr> 
-	              <tr>
-	                <td>24343433</td>
-	                <td>话费</td>
-	                <td>虚拟</td>
-	                <td><img src="${_slpres}/images/sp-01.png"></td>
-	                <td>苹果正版iphone 6s</td>
-	                <td>6000</td>
-	                <td>20</td>
-	                <td>0</td>
-	                <td>2016-3-18  13:25</td>
-	                <td>
-	                	<div>
-	                		<p><a href="#" class="blue">查看商品</a></p>
-	                	</div>
-	                </td> 
-	              </tr> 
+	              </tr>  --%>
 				</table>
 	          
 	          </div> 
@@ -387,13 +308,13 @@
 	                 </li>
 	                 <li>
 	                    <p class="word">商品ID</p>
-	                    <p><select class="select-medium"></select></p>
+	                    <p><input type="text" class="int-medium"></p>
 	                </li>
 	            </ul>
 	            <ul>
 	                <li class="width-xlag">
 	                    <p class="word">商品名称</p>
-	                    <p><select class="select-medium"></select></p>
+	                    <p><input type="text" class="int-medium"></p>
 	                    <p><input type="button" value="查询" class="blling-btn blue-btn"></p>
 	                </li>
 	            </ul>  
@@ -407,10 +328,8 @@
 	                <td width="10%">所属类目</td>
 	                <td>类型</td>
 	                <td>预览图</td>
-	                <td width="20%">商品名称</td>
-	                <td>价格（￥）</td>
-	                <td>剩余库存</td>
-	                <td>总销量</td>
+	                <td width="30%">商品名称</td>
+	                <td>状态</td>
 	                <td>暂停时间</td>    
 	                <td>操作</td>  
 	              </tr>
@@ -420,57 +339,7 @@
 	                <td>虚拟</td>
 	                <td><img src="${_slpres}/images/sp-01.png"></td>
 	                <td>中国移动100元充值卡</td>
-	                <td>30</td>
-	                <td>6000</td>
-	                <td>0</td>
-	                <td>2016-3-18  13:25</td>
-	                <td>
-		                	<div>
-		                		<p><a href="#" class="blue">查看商品</a></p>
-		                	</div>
-	                </td> 
-	              </tr> 
-	              <tr>
-	                <td>24343433</td>
-	                <td>话费</td>
-	                <td>虚拟</td>
-	                <td><img src="${_slpres}/images/sp-01.png"></td>
-	                <td>中国移动100元充值卡</td>
-	                <td>30</td>
-	                <td>6000</td>
-	                <td>0</td>
-	                <td>2016-3-18  13:25</td>
-	                <td>
-		                	<div>
-		                		<p><a href="#" class="blue">查看商品</a></p>
-		                	</div>
-	                </td> 
-	              </tr> 
-	               <tr>
-	                <td>24343433</td>
-	                <td>话费</td>
-	                <td>虚拟</td>
-	                <td><img src="${_slpres}/images/sp-01.png"></td>
-	                <td>中国移动100元充值卡</td>
-	                <td>30</td>
-	                <td>6000</td>
-	                <td>0</td>
-	                <td>2016-3-18  13:25</td>
-	                <td>
-		                	<div>
-		                		<p><a href="#" class="blue">查看商品</a></p>
-		                	</div>
-	                </td> 
-	              </tr> 
-	               <tr>
-	                <td>24343433</td>
-	                <td>话费</td>
-	                <td>虚拟</td>
-	                <td><img src="${_slpres}/images/sp-01.png"></td>
-	                <td>中国移动100元充值卡</td>
-	                <td>30</td>
-	                <td>6000</td>
-	                <td>0</td>
+	                <td>状态</td>
 	                <td>2016-3-18  13:25</td>
 	                <td>
 		                	<div>
