@@ -92,39 +92,6 @@ public class ProdQueryController {
 		return "product/insalelist";
 	}
 
-//	/**
-//	 * 首次打开页面时查询商品待编辑状态－默认显示第一页
-//	 * 
-//	 * @param productEditParam
-//	 * @return
-//	 */
-//	@RequestMapping("/getList")
-//	@ResponseBody
-//	private ResponseData<PageInfoResponse<ProductEditUp>> queryProductEdit(HttpServletRequest request,ProductEditQueryReq productEditQueryReq) {
-//		ResponseData<PageInfoResponse<ProductEditUp>> responseData = null;
-//		try {
-//			// HttpSession session = request.getSession();
-//			// SSOClientUser user = (SSOClientUser)
-//			// session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
-//			productEditQueryReq.setTenantId("SLP");
-//			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
-//			// 设置商品状态为新增和未编辑
-//			List<String> stateList = new ArrayList<>();
-//			// 设置状态，新增：0；未编辑1.
-//			stateList.add("0");
-//			stateList.add("1");
-//			productEditQueryReq.setStateList(stateList);
-//			PageInfoResponse<ProductEditUp> result = queryEditProduct(productEditQueryReq);
-//			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
-//					result);
-//		} catch (Exception e) {
-//			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_FAILURE,
-//					"获取信息异常");
-//			LOG.error("获取信息出错：", e);
-//		}
-//		return responseData;
-//	}
-
 	/**
 	 * 查询未编辑商品
 	 * 
