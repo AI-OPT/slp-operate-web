@@ -578,7 +578,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			//获取受众信息
 			var audiJson = $('#'+audiId).val();
 			var audiArry = eval(audiJson);
-			return audiArry.length > 1?false:true;
+			return audiArry.length > 0?false:true;
 		},
 		_showMsg:function(msg){
 			var msg = Dialog({
