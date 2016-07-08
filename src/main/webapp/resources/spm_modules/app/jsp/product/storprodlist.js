@@ -28,15 +28,23 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     	},
     	//事件代理
     	events: {
-    		//查询未编辑商品
+    		//查询待上架商品
             "click #searchStayUpProd":"_selectStayUpProd",
+            //查询售罄下架商品
+            "click #searchSaleDownProd":"_selectSaleDownProd",
+            //查询库存暂停商品
+            "click #searchStorStopProd":"_selectStorStopProd",
+            
+            "click #stayUpPage":"_selectStayUpProd",
+            "click #saleDownPage":"_selectSaleDownProd",
+            "click #storStopPage":"_selectStorStopProd",
         },
     	//重写父类
     	setup: function () {
     		StorprodlistPager.superclass.setup.call(this);
     		this._selectStayUpProd();
     	},
-    	// 改变商品类目
+    	// 待上架改变商品类目
     	_selectChange:function(osel){
     		var prodCatId = osel.options[osel.selectedIndex].value;
     		var clickId = $(osel).parent().attr('id');
@@ -61,6 +69,88 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 				success: function(data){
 					if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#prodCatTemple");
+	            	    var htmlOutput = template.render(data);
+	            	    $("#"+clickId).append(htmlOutput);
+	            	}else{
+	            		var d = Dialog({
+							content:"获取类目信息出错:"+data.statusInfo,
+							icon:'fail',
+							okValue: '确 定',
+							ok:function(){
+								this.close();
+							}
+						});
+						d.show();
+	            	}
+				}
+			});
+    	},
+    	// 售罄下架改变商品类目
+    	_selectChange2:function(osel){
+    		var prodCatId = osel.options[osel.selectedIndex].value;
+    		var clickId = $(osel).parent().attr('id');
+    		//获取当前ID的最后数字
+    		var index = Number(clickId.substring(11))+1;
+    		//获取下拉菜单的总个数
+    		var div = document.getElementById("date2");
+    		var length = div.getElementsByTagName("select").length;
+    		if(index==length){
+    			return;
+    		}
+    		//从当前元素开始移除后面的下拉菜单
+    		for(var i=index;i<length;i++){
+    			$("#productCat2"+i).remove();
+    		}
+    		ajaxController.ajax({
+				type: "post",
+				processing: false,
+				// message: "加载中，请等待...",
+				url: _base+"/prodquery/getCat",
+				data:{"prodCatId":prodCatId},
+				success: function(data){
+					if(data != null && data != 'undefined' && data.length>0){
+	            		var template = $.templates("#prodCatTemple2");
+	            	    var htmlOutput = template.render(data);
+	            	    $("#"+clickId).append(htmlOutput);
+	            	}else{
+	            		var d = Dialog({
+							content:"获取类目信息出错:"+data.statusInfo,
+							icon:'fail',
+							okValue: '确 定',
+							ok:function(){
+								this.close();
+							}
+						});
+						d.show();
+	            	}
+				}
+			});
+    	},
+    	// 待上架改变商品类目
+    	_selectChange3:function(osel){
+    		var prodCatId = osel.options[osel.selectedIndex].value;
+    		var clickId = $(osel).parent().attr('id');
+    		//获取当前ID的最后数字
+    		var index = Number(clickId.substring(11))+1;
+    		//获取下拉菜单的总个数
+    		var div = document.getElementById("date3");
+    		var length = div.getElementsByTagName("select").length;
+    		if(index==length){
+    			return;
+    		}
+    		//从当前元素开始移除后面的下拉菜单
+    		for(var i=index;i<length;i++){
+    			$("#productCat3"+i).remove();
+    		}
+    		ajaxController.ajax({
+				type: "post",
+				processing: false,
+				// message: "加载中，请等待...",
+				url: _base+"/prodquery/getCat",
+				data:{"prodCatId":prodCatId},
+				success: function(data){
+					if(data != null && data != 'undefined' && data.length>0){
+	            		var template = $.templates("#prodCatTemple3");
 	            	    var htmlOutput = template.render(data);
 	            	    $("#"+clickId).append(htmlOutput);
 	            	}else{
@@ -103,6 +193,78 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 	            	    $("#selectStayUpProdData").html(htmlOutput);
 	            	}else{
 	            		$("#selectStayUpProdData").html('<tr><td colspan=8>'+
+										    				'<div class="not-query pt-20 pb-20">'+
+										    				'	<p><img src="'+_base+'/resources/slpoperate/images/not-query.png"/></p>'+
+										    				'	<p>抱歉没有查询到相关数据</p>'+
+										    				'</div>'+
+										    			'</td></tr>');
+	            	}
+	            	_this._returnTop();
+	            }
+    		});
+    	},
+    	//查询库存暂停商品-点击查询触发
+    	_selectStorStopProd:function(){
+    		var _this = this;
+    		//获取下拉菜单的总个数
+    		var div = document.getElementById("date3");
+    		var length = div.getElementsByTagName("select").length-1;
+    		var	productCatId = $("#productCat"+length+" option:selected").val();
+    		var productType = $("#productType3").val().trim();
+    		var productId = $("#productId3").val().trim();
+    		var productName = $("#productName3").val().trim();
+    		$("#storstop-pagination-ul").runnerPagination({
+	 			url: _base+"/prodquery/getStorStopList",
+	 			method: "POST",
+	 			dataType: "json",
+	 			processing: true,
+	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
+	           	pageSize: StorprodlistPager.DEFAULT_PAGE_SIZE,
+	           	visiblePages:5,
+	            message: "正在为您查询数据..",
+	            render: function (data) {
+	            	if(data != null && data != 'undefined' && data.length>0){
+	            		var template = $.templates("#selectStorStopProdTemple");
+	            	    var htmlOutput = template.render(data);
+	            	    $("#selectStorStopProdData").html(htmlOutput);
+	            	}else{
+	            		$("#selectStorStopProdData").html('<tr><td colspan=8>'+
+										    				'<div class="not-query pt-20 pb-20">'+
+										    				'	<p><img src="'+_base+'/resources/slpoperate/images/not-query.png"/></p>'+
+										    				'	<p>抱歉没有查询到相关数据</p>'+
+										    				'</div>'+
+										    			'</td></tr>');
+	            	}
+	            	_this._returnTop();
+	            }
+    		});
+    	},
+    	//查询售罄下架商品-点击查询触发
+    	_selectSaleDownProd:function(){
+    		var _this = this;
+    		//获取下拉菜单的总个数
+    		var div = document.getElementById("date2");
+    		var length = div.getElementsByTagName("select").length-1;
+    		var	productCatId = $("#productCat"+length+" option:selected").val();
+    		var productType = $("#productType2").val().trim();
+    		var productId = $("#productId2").val().trim();
+    		var productName = $("#productName2").val().trim();
+    		$("#saledown-pagination-ul").runnerPagination({
+	 			url: _base+"/prodquery/getSaleDownList",
+	 			method: "POST",
+	 			dataType: "json",
+	 			processing: true,
+	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
+	           	pageSize: StorprodlistPager.DEFAULT_PAGE_SIZE,
+	           	visiblePages:5,
+	            message: "正在为您查询数据..",
+	            render: function (data) {
+	            	if(data != null && data != 'undefined' && data.length>0){
+	            		var template = $.templates("#selectSaleDownProdTemple");
+	            	    var htmlOutput = template.render(data);
+	            	    $("#selectSaleDownProdData").html(htmlOutput);
+	            	}else{
+	            		$("#selectSaleDownProdData").html('<tr><td colspan=8>'+
 										    				'<div class="not-query pt-20 pb-20">'+
 										    				'	<p><img src="'+_base+'/resources/slpoperate/images/not-query.png"/></p>'+
 										    				'	<p>抱歉没有查询到相关数据</p>'+

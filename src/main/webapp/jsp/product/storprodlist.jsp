@@ -47,9 +47,9 @@
 	         <div class="nav-tplist-wrapper"><!--白底内侧-->
 	         	 <div class="order-list-table">
 		           <ul>
-			           <li><a href="#" class="current">待上架</a></li>
-			           <li><a href="#">售罄下架</a></li>
-			           <li><a href="#">库存暂停</a></li>
+			           <li><a id="stayUpPage" href="#" class="current">待上架</a></li>
+			           <li><a id="saleDownPage" href="#">售罄下架</a></li>
+			           <li><a id="storStopPage" href="#">库存暂停</a></li>
 		           </ul>                                        
 		     	</div>
 	          <!--结果标题-->
@@ -154,17 +154,17 @@
 	                <li class="width-xlag">
 	                    <p class="word">商品类目</p>
 	                    <c:forEach var="map" items="${catInfoMap}" varStatus="status">
-                           <p id="productCat${status.index}">
-                               <select class="select-small" onChange="pager._selectChange(this);">
+                           <p id="productCat2${status.index}">
+                               <select class="select-small" onChange="pager._selectChange2(this);">
                                <c:forEach var="info" items="${map.value}">
                                    <option value="${info.productCatId}">${info.productCatName}</option>
                                </c:forEach>
                                </select>
                            </p>
                         </c:forEach>
-                        <script id="prodCatTemple" type="text/template">
-                            <p id="productCat{{:level}}">
-								<select class="select-small" onChange="pager._selectChange(this);">
+                        <script id="prodCatTemple2" type="text/template">
+                            <p id="productCat2{{:level}}">
+								<select class="select-small" onChange="pager._selectChange2(this);">
 									{{for prodCatList}}
                                    		<option value="{{:productCatId}}">{{:productCatName}}</option>
 									{{/for}}
@@ -232,7 +232,7 @@
 	        <!--分页-->
 				 <div>
 	 				 <nav style="text-align: right">
-						<ul id="stayup-pagination-ul">
+						<ul id="saledown-pagination-ul">
 						</ul>
 					</nav>
 				  </div>
@@ -246,17 +246,17 @@
 	                <li class="width-xlag">
 	                    <p class="word">商品类目</p>
 	                    <c:forEach var="map" items="${catInfoMap}" varStatus="status">
-                           <p id="productCat${status.index}">
-                               <select class="select-small" onChange="pager._selectChange(this);">
+                           <p id="productCat3${status.index}">
+                               <select class="select-small" onChange="pager._selectChange3(this);">
                                <c:forEach var="info" items="${map.value}">
                                    <option value="${info.productCatId}">${info.productCatName}</option>
                                </c:forEach>
                                </select>
                            </p>
                         </c:forEach>
-                        <script id="prodCatTemple" type="text/template">
-                            <p id="productCat{{:level}}">
-								<select class="select-small" onChange="pager._selectChange(this);">
+                        <script id="prodCatTemple3" type="text/template">
+                            <p id="productCat3{{:level}}">
+								<select class="select-small" onChange="pager._selectChange3(this);">
 									{{for prodCatList}}
                                    		<option value="{{:productCatId}}">{{:productCatName}}</option>
 									{{/for}}
@@ -323,7 +323,7 @@
 	        <!--分页-->
 			 <div class="paging-large">
  				 <nav style="text-align: right">
-					<ul id="stayup-pagination-ul">
+					<ul id="storstop-pagination-ul">
 					</ul>
 				</nav>
 			  </div>
