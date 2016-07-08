@@ -87,7 +87,7 @@ public class HomeController {
 			logger.error("Add file faile.",e);
 			responseData = new ResponseData<ImgFileInfoVo>(ResponseData.AJAX_STATUS_FAILURE,"上传失败:"+e.getMessage());
 		} catch (ImageSizeIllegalException e){
-			logger.error("Add file faile.",e);
+			logger.error("Add file faile.","上传失败:图片的高度或宽度不符合最低要求(700*700)");
 			responseData = new ResponseData<ImgFileInfoVo>(ResponseData.AJAX_STATUS_FAILURE,"上传失败:图片的高度或宽度不符合要求");
 		}
 		return responseData;
