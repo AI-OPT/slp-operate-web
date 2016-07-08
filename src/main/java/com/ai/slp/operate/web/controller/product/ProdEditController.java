@@ -15,6 +15,7 @@ import com.ai.slp.operate.web.constants.ComCacheConstants;
 import com.ai.slp.operate.web.constants.ProductCatConstants;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
 import com.ai.slp.operate.web.model.product.ProductEditInfo;
+import com.ai.slp.operate.web.util.AdminUtil;
 import com.ai.slp.product.api.normproduct.interfaces.INormProductSV;
 import com.ai.slp.product.api.normproduct.param.AttrMap;
 import com.ai.slp.product.api.normproduct.param.AttrQuery;
@@ -37,8 +38,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 /**
@@ -144,7 +145,8 @@ public class ProdEditController {
      */
     @RequestMapping("/save")
     @ResponseBody
-    public ResponseData<String> saveProductInfo(ProductEditInfo editInfo, String detailConVal, RedirectAttributes redirectModel){
+    public ResponseData<String> saveProductInfo(
+            ProductEditInfo editInfo, String detailConVal, HttpSession session){
         ResponseData<String> responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "添加成功");
         initConsumer();
         //商品详情信息
@@ -167,7 +169,7 @@ public class ProdEditController {
         ProductInfoForUpdate prodInfo = new ProductInfoForUpdate();
         BeanUtils.copyProperties(prodInfo,editInfo);
         prodInfo.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
-        prodInfo.setOperId(1l);//TODO... 需要添加获取管理员账号标识
+        prodInfo.setOperId(AdminUtil.getAdminId(session));//TODO... 需要添加获取管理员账号标识
         prodInfo.setNoKeyAttrValMap(attrValMap);
         //添加省份编码
         if ("N".equals(editInfo.getIsSaleNationwide()) && StringUtils.isNotBlank(editInfo.getTargetProd()))
