@@ -44,6 +44,40 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     		StorprodlistPager.superclass.setup.call(this);
     		this._selectStayUpProd();
     	},
+    	//上架销售
+    	_prodToInSale: function(prodId){
+    		ajaxController.ajax({
+				type: "post",
+				processing: false,
+				message: "上架中，请等待...",
+				url: _base+"/prodquery/prodToSale",
+				data:{"productId":prodId},
+				success: function(data){
+					alert(data);
+					if("1"===data.statusCode){
+						var d = Dialog({
+							content:"上架成功.",
+							icon:'success',
+							okValue: '确 定',
+							ok:function(){
+								this.close();
+							}
+						});
+						d.show();
+	            	}else{
+	            		var d = Dialog({
+							content:"上架失败:"+data.statusInfo,
+							icon:'fail',
+							okValue: '确 定',
+							ok:function(){
+								this.close();
+							}
+						});
+						d.show();
+	            	}
+				}
+			});
+    	},
     	// 待上架改变商品类目
     	_selectChange:function(osel){
     		var prodCatId = osel.options[osel.selectedIndex].value;
