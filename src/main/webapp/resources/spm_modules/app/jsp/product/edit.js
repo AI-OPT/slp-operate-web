@@ -69,7 +69,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 				this._changeAudiAgent();
 			}
 			//清除已有搜索
-			$('#userList').text("请输入用户名进行搜索");
+			$('#userList').text("请输入公司名称进行搜索");
 			$('#selectName').val('');
 			$('#pagination-ul').empty();
 			$('.eject-mask').fadeOut(100);
@@ -327,7 +327,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			var _this = this;
 			var selectName = $("#selectName").val();
 			if (selectName == null || '' == selectName) {
-				this._showMsg("请输入要查询用户名");
+				this._showMsg("请输入要查询公司名称");
 				return;
 			}
 			$("#pagination-ul").runnerPagination({
