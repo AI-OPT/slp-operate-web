@@ -34,7 +34,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     	//重写父类
     	setup: function () {
     		AddlistPager.superclass.setup.call(this);
-    		this._loadPagination();
+    		this._selectProductEdit();
     	},
     	// 改变商品类目
     	_selectChange:function(osel){
@@ -76,15 +76,12 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 				}
 			});
     	},
-    	//查询未编辑商品-点击查询触发
+    	//查询未编辑商品
     	_selectProductEdit:function(){
     		var _this = this;
-    		//获取下拉菜单的总个数
-    		var length = document.getElementsByTagName("select").length;
-    		var productCatId;
-    		for(var i=0;i<length;i++){
-    			productCatId = $("#productCat"+i+" option:selected").val();
-    		}
+    		//获取下拉菜单的总个数-1即为ID后的数值
+    		var length = document.getElementsByTagName("select").length-1;
+    		var productCatId = $("#productCat"+length+" option:selected").val();
     		var productType = $("#productType").val().trim();
     		var productId = $("#productId").val().trim();
     		var productName = $("#productName").val().trim();
@@ -103,7 +100,12 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 	            	    var htmlOutput = template.render(data);
 	            	    $("#searchProductData").html(htmlOutput);
 	            	}else{
-    					$("#searchProductData").html("没有搜索到相关信息");
+    					$("#searchProductData").html('<tr><td colspan=8>'+
+									    				'<div class="not-query pt-20 pb-20">'+
+									    				'	<p><img src="'+_base+'/resources/slpoperate/images/not-query.png"/></p>'+
+									    				'	<p>抱歉没有查询到相关数据</p>'+
+									    				'</div>'+
+									    			'</td></tr>');
 	            	}
 	            	_this._returnTop();
 	            }
@@ -114,32 +116,6 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     		var container = $('.wrapper-right');
     		container.scrollTop(0);//滚动到div 顶部
     	},
-    	//加载分页信息-首次进入页面
-    	_loadPagination: function(){
-    		var _this = this;
-    		var productCatId = $("#productCat"+count).find("option").val();
-    		$("#pagination-ul").runnerPagination({
-	 			url: _base+"/prodquery/getList",
-	 			method: "POST",
-	 			dataType: "json",
-	 			processing: true,
-	            data: {"productCatId":productCatId},
-	           	pageSize: AddlistPager.DEFAULT_PAGE_SIZE,
-	           	visiblePages:5,
-	            message: "正在为您查询数据..",
-	            render: function (data) {
-	            	if(data != null && data != 'undefined' && data.length>0){
-	            		var template = $.templates("#searchProductTemple");
-	            	    var htmlOutput = template.render(data);
-	            	    $("#searchProductData").html(htmlOutput);
-	            	}else{
-    					$("#searchProductData").html("没有搜索到相关信息");
-	            	}
-	            	_this._returnTop();
-	            }
-    		});
-    	}
-    	
     	
     });
     
