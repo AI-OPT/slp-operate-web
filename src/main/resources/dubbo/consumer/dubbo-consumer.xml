@@ -19,7 +19,7 @@
 	<!-- 消费方 -->
 	<dubbo:application name="${dubbo.appname}" />
 	<dubbo:registry protocol="${dubbo.registry.protocol}"
-		address="${baas.dubbo.registry.address}" id="slpRegistry" />
+		address="${dubbo.registry.address}" id="slpRegistry" />
 	<dubbo:consumer timeout="${dubbo.provider.timeout}" />
 
 	<context:component-scan base-package="com.ai.slp" />
