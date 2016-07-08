@@ -386,6 +386,18 @@ define('app/jsp/product/edit', function (require, exports, module) {
 								_this._showProdPicPreview(filePosition,fileName,fileUrl);
 								return;
 							}
+						}//上传失败
+						else if(responseData.statusCode=="0"){
+							var msgDialog = Dialog({
+								title: '提示',
+								content: responseData.statusInfo,
+								ok: function () {
+									this.close();
+								}
+							});
+							_this._closeDialog();
+							msgDialog.showModal();
+							return;
 						}
 					}
 					var msgDialog = Dialog({

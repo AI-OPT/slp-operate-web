@@ -169,7 +169,7 @@ public class ProdEditController {
         ProductInfoForUpdate prodInfo = new ProductInfoForUpdate();
         BeanUtils.copyProperties(prodInfo,editInfo);
         prodInfo.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
-        prodInfo.setOperId(AdminUtil.getAdminId(session));//TODO... 需要添加获取管理员账号标识
+        prodInfo.setOperId(AdminUtil.getAdminId(session));
         prodInfo.setNoKeyAttrValMap(attrValMap);
         //添加省份编码
         if ("N".equals(editInfo.getIsSaleNationwide()) && StringUtils.isNotBlank(editInfo.getTargetProd()))
