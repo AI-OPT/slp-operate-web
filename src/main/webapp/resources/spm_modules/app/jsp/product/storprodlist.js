@@ -215,23 +215,15 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 	 			url: _base+"/prodquery/getStayUpList",
 	 			method: "POST",
 	 			dataType: "json",
-	 			processing: true,
+	 			renderId:"selectStayUpProdData",
 	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
 	           	pageSize: StorprodlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
-	            message: "正在为您查询数据..",
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#selectStayUpProdTemple");
 	            	    var htmlOutput = template.render(data);
 	            	    $("#selectStayUpProdData").html(htmlOutput);
-	            	}else{
-	            		$("#selectStayUpProdData").html('<tr><td colspan=8>'+
-										    				'<div class="not-query pt-20 pb-20">'+
-										    				'	<p><img src="'+_base+'/resources/slpoperate/images/not-query.png"/></p>'+
-										    				'	<p>抱歉没有查询到相关数据</p>'+
-										    				'</div>'+
-										    			'</td></tr>');
 	            	}
 	            	_this._returnTop();
 	            }
@@ -243,7 +235,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     		//获取下拉菜单的总个数
     		var div = document.getElementById("date3");
     		var length = div.getElementsByTagName("select").length-1;
-    		var	productCatId = $("#productCat"+length+" option:selected").val();
+    		var	productCatId = $("#productCat3"+length+" option:selected").val();
     		var productType = $("#productType3").val().trim();
     		var productId = $("#productId3").val().trim();
     		var productName = $("#productName3").val().trim();
@@ -251,23 +243,15 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 	 			url: _base+"/prodquery/getStorStopList",
 	 			method: "POST",
 	 			dataType: "json",
-	 			processing: true,
+	 			renderId:"selectStorStopProdData",
 	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
 	           	pageSize: StorprodlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
-	            message: "正在为您查询数据..",
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#selectStorStopProdTemple");
 	            	    var htmlOutput = template.render(data);
 	            	    $("#selectStorStopProdData").html(htmlOutput);
-	            	}else{
-	            		$("#selectStorStopProdData").html('<tr><td colspan=8>'+
-										    				'<div class="not-query pt-20 pb-20">'+
-										    				'	<p><img src="'+_base+'/resources/slpoperate/images/not-query.png"/></p>'+
-										    				'	<p>抱歉没有查询到相关数据</p>'+
-										    				'</div>'+
-										    			'</td></tr>');
 	            	}
 	            	_this._returnTop();
 	            }
@@ -279,7 +263,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     		//获取下拉菜单的总个数
     		var div = document.getElementById("date2");
     		var length = div.getElementsByTagName("select").length-1;
-    		var	productCatId = $("#productCat"+length+" option:selected").val();
+    		var	productCatId = $("#productCat2"+length+" option:selected").val();
     		var productType = $("#productType2").val().trim();
     		var productId = $("#productId2").val().trim();
     		var productName = $("#productName2").val().trim();
@@ -287,23 +271,15 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 	 			url: _base+"/prodquery/getSaleDownList",
 	 			method: "POST",
 	 			dataType: "json",
-	 			processing: true,
+	 			renderId:"selectSaleDownProdData",
 	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
 	           	pageSize: StorprodlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
-	            message: "正在为您查询数据..",
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#selectSaleDownProdTemple");
 	            	    var htmlOutput = template.render(data);
 	            	    $("#selectSaleDownProdData").html(htmlOutput);
-	            	}else{
-	            		$("#selectSaleDownProdData").html('<tr><td colspan=8>'+
-										    				'<div class="not-query pt-20 pb-20">'+
-										    				'	<p><img src="'+_base+'/resources/slpoperate/images/not-query.png"/></p>'+
-										    				'	<p>抱歉没有查询到相关数据</p>'+
-										    				'</div>'+
-										    			'</td></tr>');
 	            	}
 	            	_this._returnTop();
 	            }

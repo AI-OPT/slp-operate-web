@@ -228,7 +228,6 @@
 					</script>
 	          </div> 
 	        <!--结果表格结束-->
-	        <div class="paging-large">
 	        <!--分页-->
 				 <div>
 	 				 <nav style="text-align: right">
@@ -237,8 +236,6 @@
 					</nav>
 				  </div>
 			 <!--分页-->
-		</div>
-	        
 	         </div>
 	        <div id="date3" style="display:none;">
 	        <div class="nav-form">
@@ -321,7 +318,7 @@
 	          </div> 
 	        <!--结果表格结束-->
 	        <!--分页-->
-			 <div class="paging-large">
+			 <div>
  				 <nav style="text-align: right">
 					<ul id="storstop-pagination-ul">
 					</ul>

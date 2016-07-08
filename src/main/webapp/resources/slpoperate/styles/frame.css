@@ -49,7 +49,7 @@
 
 
 /**分页**/
-.paging-large{ text-align:center;}
+.paging-large{ text-align:center;width:100%;float:left}
 .paging-large ul{ display:inline-block;  margin-top:20px;}
 .paging-large ul li{ display:inline; float:left; line-height:32px; margin-left:5px;}
 .paging-large ul li a{ width:34px; height:34px;  border:1px solid #ccc;  background:#f6f7f8; float:left; text-align:center; padding:0 0px; text-decoration:none; margin-left:5px;color:#555;}
@@ -58,7 +58,7 @@
 .paging-large ul .prev-up a{ width:65px;}
 .paging-large ul .next-down a{width:65px;}
 .paging-large ul li span{ float:left; margin-left:5px;margin-right:5px; }
-.int-verysmall{ width:40px; height:30px; border:1px solid #ccc;}
+.int-verysmall{ width:40px; height:30px; border:1px solid #ccc;text-align:center;}
 .int-verysmall:hover{ border:1px solid #3eabff;}
 .paging-large ul li span .but-determine{ width:40px; height:30px; background:#0697ef; border:1px solid #06a7e1; color:#fff; margin-left:0px; cursor:pointer; }
 .paging-large ul li .btn-span{ margin-left:0px;}

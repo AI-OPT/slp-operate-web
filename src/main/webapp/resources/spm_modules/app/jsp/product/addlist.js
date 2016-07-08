@@ -89,23 +89,15 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 	 			url: _base+"/prodquery/getProductList",
 	 			method: "POST",
 	 			dataType: "json",
-	 			processing: true,
+	 			renderId:"searchProductData",
 	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
 	           	pageSize: AddlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
-	            message: "正在为您查询数据..",
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#searchProductTemple");
 	            	    var htmlOutput = template.render(data);
 	            	    $("#searchProductData").html(htmlOutput);
-	            	}else{
-    					$("#searchProductData").html('<tr><td colspan=8>'+
-									    				'<div class="not-query pt-20 pb-20">'+
-									    				'	<p><img src="'+_base+'/resources/slpoperate/images/not-query.png"/></p>'+
-									    				'	<p>抱歉没有查询到相关数据</p>'+
-									    				'</div>'+
-									    			'</td></tr>');
 	            	}
 	            	_this._returnTop();
 	            }

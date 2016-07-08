@@ -45,7 +45,7 @@ $('.pst-table ul li a').click(function(){
 
 //点击展开
 $(document).ready(function(){
-  $(".nav-form ul li .sos a").click(function () {
+  $(".form-label ul li .sos a").click(function () {
 	  $(".open ").slideToggle(100);
 	  $(".nav-form ").toggleClass("reorder remove");
 	  });
@@ -180,17 +180,80 @@ jQuery(document).ready(function($) {
 	$('.eject-samll-first').slideUp(150);
 	})
 })
+//小弹出框450 生成虚拟库弹出
+jQuery(document).ready(function($) {
+	$('#small-eject1').click(function(){
+	$('#eject-mask').fadeIn(100);
+	$('#eject-samll').slideDown(200);
+	})
+	$('.eject-samll-title .img').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#eject-samll').slideUp(150);
+	})
+})
+
+//小弹出框450 生成虚拟库弹出
+jQuery(document).ready(function($) {
+	$('#small-eject2').click(function(){
+	$('#eject-mask').fadeIn(100);
+	$('#eject-samll-1').slideDown(200);
+	})
+	$('.eject-samll-title .img').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#eject-samll-1').slideUp(150);
+	})
+})
+
+//小弹出框450 生成虚拟库弹出
+jQuery(document).ready(function($) {
+	$('#small-eject3').click(function(){
+	$('#eject-mask').fadeIn(100);
+	$('#eject-samll-2').slideDown(200);
+	})
+	$('.eject-samll-title .img').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#eject-samll-2').slideUp(150);
+	})
+})
+
+//小弹出框450 生成虚拟库弹出
+jQuery(document).ready(function($) {
+	$('#small-eject4').click(function(){
+	$('#eject-mask').fadeIn(100);
+	$('#eject-samll-3').slideDown(200);
+	})
+	$('.eject-samll-title .img').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#eject-samll-3').slideUp(150);
+	})
+})
+
 //中弹出框600 通讯录详情 批量导入弹出
 jQuery(document).ready(function($) {
-	//$('.upload').click(function(){
-	//$('.eject-mask').fadeIn(100);
-	//$('.eject-medium').slideDown(200);
-	//})
+	$('.upload').click(function(){
+	$('.eject-mask').fadeIn(100);
+	$('.eject-medium').slideDown(200);
+	})
 	$('.eject-medium-title .img').click(function(){
 	$('.eject-mask').fadeOut(100);
 	$('.eject-medium').slideUp(150);
 	})
+	$('.pst-bttton .cancel').click(function(){
+	$('.eject-mask').fadeOut(100);
+	$('.eject-medium').slideUp(150);
+	})
 })	
+//中弹出框600 虚拟库存 查看详情
+jQuery(document).ready(function($) {
+	$('#medium-eject1').click(function(){
+	$('#eject-mask').fadeIn(100);
+	$('#eject-medium').slideDown(200);
+	})
+	$('.eject-medium-title .img').click(function(){
+	$('#eject-mask').fadeOut(100);
+	$('#eject-medium').slideUp(150);
+	})
+})
 //大弹出框800  商品编辑 添加弹出弹出
 jQuery(document).ready(function($) {
 	$('.modify').click(function(){
@@ -266,7 +329,7 @@ $(".radiod").click(function () {
 
 //搜索已选中关闭
 $(function(){
-$(".nav-form .icon-remove-sign").click(function () {
+$(".form-label .icon-remove-sign").click(function () {
 	$(this).parent('.img').hide();
 	});
 	});  

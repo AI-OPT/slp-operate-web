@@ -93,7 +93,7 @@
                             <li class="width-xlag">
                                 <p class="word">商品名称</p>
                                 <p><input id="productName" type="text" class="int-medium"></p>
-                                <p><input id="selectProductEdit" type="button" value="查询" class="blling-btn blue-btn"></p>
+                                <p><input id="selectProductEdit" type="button" value="查询" class="biu-btn btn-blue btn-mini"></p>
                             </li>
 						</ul>
                     </div>
