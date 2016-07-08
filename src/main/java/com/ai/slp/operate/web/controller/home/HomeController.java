@@ -8,6 +8,7 @@ import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.paas.ipaas.PaasRuntimeException;
 import com.ai.paas.ipaas.image.IImageClient;
+import com.ai.paas.ipaas.image.ImageSizeIllegalException;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
 import com.ai.slp.operate.web.vo.ImgFileInfoVo;
 import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
@@ -81,10 +82,13 @@ public class HomeController {
 			responseData = new ResponseData<ImgFileInfoVo>(ResponseData.AJAX_STATUS_SUCCESS,"上传成功",imgFileInfoVo);
 		} catch (IOException e) {
 			logger.error("Add file faile.",e);
-			responseData = new ResponseData<ImgFileInfoVo>(ResponseData.AJAX_STATUS_SUCCESS,"上传失败:文件获取失败");
-		} catch (BusinessException|PaasRuntimeException e){
+			responseData = new ResponseData<ImgFileInfoVo>(ResponseData.AJAX_STATUS_FAILURE,"上传失败:文件获取失败");
+		} catch (BusinessException e){
 			logger.error("Add file faile.",e);
-			responseData = new ResponseData<ImgFileInfoVo>(ResponseData.AJAX_STATUS_SUCCESS,"上传失败:"+e.getMessage());
+			responseData = new ResponseData<ImgFileInfoVo>(ResponseData.AJAX_STATUS_FAILURE,"上传失败:"+e.getMessage());
+		} catch (ImageSizeIllegalException e){
+			logger.error("Add file faile.",e);
+			responseData = new ResponseData<ImgFileInfoVo>(ResponseData.AJAX_STATUS_FAILURE,"上传失败:图片的高度或宽度不符合要求");
 		}
 		return responseData;
 	}
