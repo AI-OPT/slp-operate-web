@@ -131,7 +131,7 @@
 								{{/if}}
                                 <td>
                                     <div>
-                                        <p><a href="#" class="blue-border">上架销售</a></p>
+                                        <p><a id="{{:prodId}}" href="#" class="blue-border">上架销售</a></p>
                                         <p><a href="${_base}/prodedit/{{:prodId}}" class="blue">编辑商品</a></p>
                                     </div>
                                 </td>
@@ -372,6 +372,10 @@
 		var prodInfoList = '${prodInfoList}';
 		var productEditInfo = '${productEditInfo}';
 		(function () {
+			$('#selectStayUpProdData').delegate('.blue-border','click',function(){
+				console.log('prodId:'+$(this).attr('id'));
+				pager._prodToInSale($(this).attr('id'));
+			});
 			seajs.use('app/jsp/product/storprodlist', function (StorprodlistPager) {
 				pager = new StorprodlistPager({element: document.body});
 				pager.render();

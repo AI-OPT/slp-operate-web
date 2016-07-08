@@ -6,17 +6,20 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.protocol.ResponseDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.opt.base.vo.BaseResponse;
 import com.ai.opt.base.vo.PageInfoResponse;
+import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
@@ -27,10 +30,12 @@ import com.ai.slp.common.api.cache.param.SysParamSingleCond;
 import com.ai.slp.operate.web.constants.ComCacheConstants;
 import com.ai.slp.operate.web.constants.ProductCatConstants;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
+import com.ai.slp.operate.web.util.AdminUtil;
 import com.ai.slp.operate.web.vo.ProdQueryCatVo;
 import com.ai.slp.product.api.product.interfaces.IProductManagerSV;
 import com.ai.slp.product.api.product.param.ProductEditQueryReq;
 import com.ai.slp.product.api.product.param.ProductEditUp;
+import com.ai.slp.product.api.product.param.ProductInfoQuery;
 import com.ai.slp.product.api.product.param.ProductStorageSale;
 import com.ai.slp.product.api.product.param.ProductStorageSaleParam;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
@@ -59,7 +64,7 @@ public class ProdQueryController {
 	private void loadCat(Model uiModel) {
 		IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
 		ProductCatQuery catQuery = new ProductCatQuery();
-		catQuery.setTenantId("SLP");
+		catQuery.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
 		Map<Short, List<ProdCatInfo>> productCatMap = new HashMap<>();
 		ProdCatInfo prodCatInfo = null;
 		do {
@@ -163,7 +168,7 @@ public class ProdQueryController {
 			IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
 			//通过id查询当前类目信息
 			ProductCatUniqueReq productCatUniqueReq = new ProductCatUniqueReq();
-			productCatUniqueReq.setTenantId("SLP");
+			productCatUniqueReq.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
 			String prodCatId = request.getParameter("prodCatId");
 			productCatUniqueReq.setProductCatId(prodCatId);
 			ProductCatInfo productCatInfo = productCatSV.queryByCatId(productCatUniqueReq);
@@ -201,7 +206,7 @@ public class ProdQueryController {
 	public ResponseData<PageInfoResponse<ProductEditUp>> getProductList(HttpServletRequest request,ProductEditQueryReq productEditQueryReq){
 		ResponseData<PageInfoResponse<ProductEditUp>> responseData = null;
 		try {
-			productEditQueryReq.setTenantId("SLP");
+			productEditQueryReq.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
 			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
 			if(!request.getParameter("productType").isEmpty()){
 				String searchProductType = request.getParameter("productType");
@@ -242,7 +247,7 @@ public class ProdQueryController {
 	public ResponseData<PageInfoResponse<ProductStorageSale>> getStayUpProduct(HttpServletRequest request,ProductStorageSaleParam productStorageSaleParam){
 		ResponseData<PageInfoResponse<ProductStorageSale>> responseData = null;
 		try {
-			productStorageSaleParam.setTenantId("SLP");
+			productStorageSaleParam.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
 			productStorageSaleParam.setProductCatId(request.getParameter("productCatId"));
 			if(!request.getParameter("productType").isEmpty()){
 				String searchProductType = request.getParameter("productType");
@@ -282,7 +287,7 @@ public class ProdQueryController {
 	public ResponseData<PageInfoResponse<ProductStorageSale>> getSaleDownProduct(HttpServletRequest request,ProductStorageSaleParam productStorageSaleParam){
 		ResponseData<PageInfoResponse<ProductStorageSale>> responseData = null;
 		try {
-			productStorageSaleParam.setTenantId("SLP");
+			productStorageSaleParam.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
 			productStorageSaleParam.setProductCatId(request.getParameter("productCatId"));
 			if(!request.getParameter("productType").isEmpty()){
 				String searchProductType = request.getParameter("productType");
@@ -322,7 +327,7 @@ public class ProdQueryController {
 	public ResponseData<PageInfoResponse<ProductStorageSale>> getStorStopProduct(HttpServletRequest request,ProductStorageSaleParam productStorageSaleParam){
 		ResponseData<PageInfoResponse<ProductStorageSale>> responseData = null;
 		try {
-			productStorageSaleParam.setTenantId("SLP");
+			productStorageSaleParam.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
 			productStorageSaleParam.setProductCatId(request.getParameter("productCatId"));
 			if(!request.getParameter("productType").isEmpty()){
 				String searchProductType = request.getParameter("productType");
@@ -391,6 +396,28 @@ public class ProdQueryController {
 			}
 		}
 		return result;
+	}
+	/**
+	 * 待上架商品上架
+	 */
+	@RequestMapping("/prodToSale")
+	@ResponseBody
+	public ResponseData<String> prodToInSale(@RequestParam String productId,HttpSession session){
+		ResponseData<String> responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "添加成功");
+		IProductManagerSV productManagerSV = DubboConsumerFactory.getService(IProductManagerSV.class);
+		//封装参数进行上架操作
+		ProductInfoQuery productInfoQuery = new ProductInfoQuery();
+		productInfoQuery.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+		productInfoQuery.setOperId(AdminUtil.getAdminId(session));
+		productInfoQuery.setProductId(productId);
+		BaseResponse baseResponse = productManagerSV.changeToInSale(productInfoQuery);
+		LOG.debug("上架返回信息:"+JSonUtil.toJSon(baseResponse));
+		ResponseHeader header = baseResponse.getResponseHeader();
+		//上架出错
+        if (header!=null && !header.isSuccess()){
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "添加失败:"+header.getResultMessage());
+        }
+		return responseData;
 	}
 	
 }
