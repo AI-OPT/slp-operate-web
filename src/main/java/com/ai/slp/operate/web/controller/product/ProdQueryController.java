@@ -249,16 +249,8 @@ public class ProdQueryController {
 		try {
 			productStorageSaleParam.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
 			productStorageSaleParam.setProductCatId(request.getParameter("productCatId"));
-			if(!request.getParameter("productType").isEmpty()){
-				String searchProductType = request.getParameter("productType");
-				if(searchProductType.equals("实物")){
-					productStorageSaleParam.setProductType("1");
-				}else if(searchProductType.equals("虚拟")){
-					productStorageSaleParam.setProductType("2");
-				}else{
-					productStorageSaleParam.setProductType(searchProductType);
-				}
-			}
+			if(!request.getParameter("productType").isEmpty())
+				productStorageSaleParam.setProductType(request.getParameter("productType"));
 			if(!request.getParameter("productId").isEmpty())
 				productStorageSaleParam.setProdId(request.getParameter("productId"));
 			if(!request.getParameter("productName").isEmpty())

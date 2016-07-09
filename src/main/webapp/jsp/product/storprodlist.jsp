@@ -54,13 +54,13 @@
 		     	</div>
 	          <!--结果标题-->
 	         <div id="date1">
-	          <div class="nav-form">
+	          <div class="form-label">
 	           	<ul>
 	                <li class="width-xlag">
 	                    <p class="word">商品类目</p>
 	                    <c:forEach var="map" items="${catInfoMap}" varStatus="status">
                            <p id="productCat${status.index}">
-                               <select class="select-small" onChange="pager._selectChange(this);">
+                               <select class="select select-small" onChange="pager._selectChange(this);">
                                <c:forEach var="info" items="${map.value}">
                                    <option value="${info.productCatId}">${info.productCatName}</option>
                                </c:forEach>
@@ -69,7 +69,7 @@
                         </c:forEach>
                         <script id="prodCatTemple" type="text/template">
                             <p id="productCat{{:level}}">
-								<select class="select-small" onChange="pager._selectChange(this);">
+								<select class="select select-small" onChange="pager._selectChange(this);">
 									{{for prodCatList}}
                                    		<option value="{{:productCatId}}">{{:productCatName}}</option>
 									{{/for}}
@@ -80,38 +80,45 @@
 	            </ul>
 	            <ul>
 	           	 	<li>
-	            	 		<p class="word">商品类型</p>
-	                    <p><input id="productType" type="text" class="int-medium"></p>
+	            	 	 <p class="word">商品类型</p>
+                         <p>
+                          <select id="productType" class="select select-medium">
+                          	<option value="">全部</option>
+                          	<option value="1">实物</option>
+                          	<option value="2">虚拟</option>
+                          </select>
+                         </p>
 	                 </li>
 	                 <li>
 	                    <p class="word">商品ID</p>
-	                    <p><input id="productId"  type="text" class="int-medium"></p>
+	                    <p><input id="productId"  type="text" class="int-text int-medium"></p>
 	                </li>
 	            </ul>
 	            <ul>
 	                <li  class="width-xlag">
 	                    <p class="word">商品名称</p>
-	                    <p><input  id="productName" type="text" class="int-medium"></p>
-	                    <p><input id="searchStayUpProd" type="button" value="查询" class="blling-btn blue-btn"></p>
+	                    <p><input  id="productName" type="text" class="int-text int-medium"></p>
+	                    <p><input id="searchStayUpProd" type="button" value="查询" class="biu-btn btn-blue btn-mini"></p>
 	                </li>
 	            </ul>  
 	            
 	        </div>
 	         <!--结果表格-->
-	        <div class="nav-tplist-table commodity-tplist-table">
+	        <div class="table table-border table-bordered table-bg table-hover mt-10 commodity-tplist-table">
 	          <table width="100%" border="0">
 	              <tr class="bj">
 	                <td width="10%">商品ID</td>                                                                                                      
 	                <td width="10%">所属类目</td>
 	                <td>类型</td>
 	                <td>预览图</td>
-	                <td width="20%">商品名称</td>
+	                <td width="30%">商品名称</td>
 	                <td>状态</td>
 	                <td>上架时间</td>    
 	                <td>操作</td>                                                                                
 	              </tr>
 	              <tbody id="selectStayUpProdData"></tbody>
 				</table>
+					<div id="showMessageDiv"></div>
 	          	 <script id="selectStayUpProdTemple" type="text/template">
                             <tr>
                                 <td>{{:prodId}}</td>
@@ -149,13 +156,13 @@
 			 <!--分页-->
 	         </div>
 	        <div id="date2" style="display:none;">
-	        <div class="nav-form">
+	        <div class="form-label">
 	           	<ul>
 	                <li class="width-xlag">
 	                    <p class="word">商品类目</p>
 	                    <c:forEach var="map" items="${catInfoMap}" varStatus="status">
                            <p id="productCat2${status.index}">
-                               <select class="select-small" onChange="pager._selectChange2(this);">
+                               <select class="select select-small" onChange="pager._selectChange2(this);">
                                <c:forEach var="info" items="${map.value}">
                                    <option value="${info.productCatId}">${info.productCatName}</option>
                                </c:forEach>
@@ -164,7 +171,7 @@
                         </c:forEach>
                         <script id="prodCatTemple2" type="text/template">
                             <p id="productCat2{{:level}}">
-								<select class="select-small" onChange="pager._selectChange2(this);">
+								<select class="select select-small" onChange="pager._selectChange2(this);">
 									{{for prodCatList}}
                                    		<option value="{{:productCatId}}">{{:productCatName}}</option>
 									{{/for}}
@@ -173,26 +180,32 @@
 						</script>
 	                </li> 
 	            </ul>
-	           <ul>
+	            <ul>
 	           	 	<li>
-	            	 		<p class="word">商品类型</p>
-	                    <p><input id="productType2" type="text" class="int-medium"></p>
+	            	 	 <p class="word">商品类型</p>
+                         <p>
+                          <select id="productType2" class="select select-medium">
+                          	<option value="">全部</option>
+                          	<option value="1">实物</option>
+                          	<option value="2">虚拟</option>
+                          </select>
+                         </p>
 	                 </li>
 	                 <li>
 	                    <p class="word">商品ID</p>
-	                    <p><input id="productId2"  type="text" class="int-medium"></p>
+	                    <p><input id="productId2"  type="text" class="int-text int-medium"></p>
 	                </li>
 	            </ul>
 	            <ul>
 	                <li  class="width-xlag">
 	                    <p class="word">商品名称</p>
-	                    <p><input  id="productName2" type="text" class="int-medium"></p>
-	                    <p><input id="searchSaleDownProd" type="button" value="查询" class="blling-btn blue-btn"></p>
+	                    <p><input  id="productName2" type="text" class="int-text int-medium"></p>
+	                    <p><input id="searchStayUpProd" type="button" value="查询" class="biu-btn btn-blue btn-mini"></p>
 	                </li>
 	            </ul>  
 	        </div>
 	         <!--结果表格-->
-	        <div class="nav-tplist-table commodity-tplist-table">
+	        <div class="table table-border table-bordered table-bg table-hover mt-10 commodity-tplist-table">
 	          <table width="100%" border="0">
 	              <tr class="bj">
 	                <td width="10%">>商品ID</td>                                                                                                      
@@ -206,6 +219,7 @@
 	              </tr>
 	              <tbody id="selectSaleDownProdData"></tbody>
 				</table>
+				<div id="showMessageDiv2"></div>
 	          	<script id="selectSaleDownProdTemple" type="text/template">
                             <tr>
                                 <td>{{:prodId}}</td>
@@ -238,13 +252,13 @@
 			 <!--分页-->
 	         </div>
 	        <div id="date3" style="display:none;">
-	        <div class="nav-form">
+	        <div class="form-label">
 	           	<ul>
 	                <li class="width-xlag">
 	                    <p class="word">商品类目</p>
 	                    <c:forEach var="map" items="${catInfoMap}" varStatus="status">
                            <p id="productCat3${status.index}">
-                               <select class="select-small" onChange="pager._selectChange3(this);">
+                               <select class="select select-small" onChange="pager._selectChange3(this);">
                                <c:forEach var="info" items="${map.value}">
                                    <option value="${info.productCatId}">${info.productCatName}</option>
                                </c:forEach>
@@ -253,7 +267,7 @@
                         </c:forEach>
                         <script id="prodCatTemple3" type="text/template">
                             <p id="productCat3{{:level}}">
-								<select class="select-small" onChange="pager._selectChange3(this);">
+								<select class="select select-small" onChange="pager._selectChange3(this);">
 									{{for prodCatList}}
                                    		<option value="{{:productCatId}}">{{:productCatName}}</option>
 									{{/for}}
@@ -262,26 +276,32 @@
 						</script>
 	                </li> 
 	            </ul>
-	           <ul>
+	            <ul>
 	           	 	<li>
-	            	 		<p class="word">商品类型</p>
-	                    <p><input id="productType3" type="text" class="int-medium"></p>
+	            	 	 <p class="word">商品类型</p>
+                         <p>
+                          <select id="productType3" class="select select-medium">
+                          	<option value="">全部</option>
+                          	<option value="1">实物</option>
+                          	<option value="2">虚拟</option>
+                          </select>
+                         </p>
 	                 </li>
 	                 <li>
 	                    <p class="word">商品ID</p>
-	                    <p><input id="productId3"  type="text" class="int-medium"></p>
+	                    <p><input id="productId3"  type="text" class="int-text int-medium"></p>
 	                </li>
 	            </ul>
 	            <ul>
 	                <li  class="width-xlag">
 	                    <p class="word">商品名称</p>
-	                    <p><input  id="productName3" type="text" class="int-medium"></p>
-	                    <p><input id="searchStorStopProd" type="button" value="查询" class="blling-btn blue-btn"></p>
+	                    <p><input  id="productName3" type="text" class="int-text int-medium"></p>
+	                    <p><input id="searchStayUpProd" type="button" value="查询" class="biu-btn btn-blue btn-mini"></p>
 	                </li>
 	            </ul>  
 	        </div>
 	         <!--结果表格-->
-	        <div class="nav-tplist-table commodity-tplist-table">
+	        <div class="table table-border table-bordered table-bg table-hover mt-10 commodity-tplist-table">
 	          <table width="100%" border="0">
 	          	<tr class="bj">
 	                <td width="10%">>商品ID</td>                                                                                                      
@@ -295,6 +315,7 @@
 	              </tr>
 	              <tbody id="selectStorStopProdData"></tbody>
 				</table>
+					<div id="showMessageDiv3"></div>
 	          		<script id="selectStorStopProdTemple" type="text/template">
                             <tr>
                                 <td>{{:prodId}}</td>

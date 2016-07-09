@@ -104,7 +104,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 					if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#prodCatTemple");
 	            	    var htmlOutput = template.render(data);
-	            	    $("#"+clickId).append(htmlOutput);
+	            	    $("#"+clickId).after(htmlOutput);
 	            	}else{
 	            		var d = Dialog({
 							content:"获取类目信息出错:"+data.statusInfo,
@@ -145,7 +145,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 					if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#prodCatTemple2");
 	            	    var htmlOutput = template.render(data);
-	            	    $("#"+clickId).append(htmlOutput);
+	            	    $("#"+clickId).after(htmlOutput);
 	            	}else{
 	            		var d = Dialog({
 							content:"获取类目信息出错:"+data.statusInfo,
@@ -186,7 +186,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 					if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#prodCatTemple3");
 	            	    var htmlOutput = template.render(data);
-	            	    $("#"+clickId).append(htmlOutput);
+	            	    $("#"+clickId).after(htmlOutput);
 	            	}else{
 	            		var d = Dialog({
 							content:"获取类目信息出错:"+data.statusInfo,
@@ -216,6 +216,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"selectStayUpProdData",
+	 			messageId:"showMessageDiv",
 	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
 	           	pageSize: StorprodlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -244,6 +245,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"selectStorStopProdData",
+	 			messageId:"showMessageDiv3",
 	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
 	           	pageSize: StorprodlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
@@ -272,6 +274,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"selectSaleDownProdData",
+	 			messageId:"showMessageDiv2",
 	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
 	           	pageSize: StorprodlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,

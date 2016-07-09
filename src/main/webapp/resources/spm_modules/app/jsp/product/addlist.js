@@ -61,7 +61,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 					if(data != null && data != 'undefined' && data.length>0){
 	            		var template = $.templates("#prodCatTemple");
 	            	    var htmlOutput = template.render(data);
-	            	    $("#"+clickId).append(htmlOutput);
+	            	    $("#"+clickId).after(htmlOutput);
 	            	}else{
 	            		var d = Dialog({
 							content:"获取类目信息出错:"+data.statusInfo,
@@ -90,6 +90,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"searchProductData",
+	 			messageId:"showMessageDiv",
 	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
 	           	pageSize: AddlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
