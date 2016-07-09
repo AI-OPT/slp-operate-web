@@ -48,7 +48,7 @@
 				<div class="medium-list-form medium-list-form-center">
 					<ul>
 						<li class="img"><img src="${_slpres}/images/sp-04.png" /></li>
-						<li><input id="" type="button" class="blling-btn qu-btn" value="上传图片"></li>
+						<li><input id="" type="button" class="biu-btn btn-blue qu-btn" value="上传图片"></li>
 					</ul>
 				</div>
 				<div class="medium-list-word">
@@ -106,8 +106,8 @@
 				</div>
 		    <div class="search-firm">
 		    		<p>搜索<span id="selectType"></span>用户</p>
-		    		<p><input id="selectName" type="input" class="int-xlarge" /></p>
-		    		<p><input id="searchBut" type="button" value="查询" class="blling-btn blue-btn"></p>
+		    		<p><input id="selectName" type="input" class="int-text int-xlarge" /></p>
+		    		<p><input id="searchBut" type="button" value="查询" class="biu-btn btn-blue blue-btn"></p>
 		    </div>
 		    <div class="user-list-title-list">
 		     	<ul id="userList">请输入公司名称进行搜索</ul>
@@ -131,7 +131,7 @@
 </script>
 <!--弹出受众选择弹出框 大结束-->
 
-<div class="wrapper"><!--外围框架-->
+<div class="wrapper wrapper-big"><!--外围框架-->
 	<input type="file" id="uploadFile" style="display: none;">
 	<!--右侧框架-->
 	<div class="wrapper-right">
@@ -160,7 +160,7 @@
 				<form id="prodForm" action="${_base}/prodedit/save" method="post">
 					<input type="hidden" name="prodId" value="${productInfo.prodId}">
 				<div class="nav-form-title">商品基础信息</div> <!--标题-->
-				<div class="nav-form nav-form-border"><!--查询条件-->
+				<div class="form-label nav-form-border"><!--查询条件-->
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>类目信息</p>
@@ -179,14 +179,14 @@
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>商品名称</p>
-							<p><input type="text" id="prodName" name="prodName" class="int-xlarge" value="${productInfo.prodName}" maxlength="60">
+							<p><input type="text" id="prodName" name="prodName" class="int-text int-xlarge" value="${productInfo.prodName}" maxlength="60">
 							</p>
 						</li>
 					</ul>
 					<ul>
 						<li class="width-xlag">
 							<p class="word">商品卖点</p>
-							<p><textarea name="productSellPoint" class="textarea-xlarge" maxlength="100">${productInfo.productSellPoint}</textarea></p>
+							<p><textarea name="productSellPoint" class="int-text textarea-xlarge" maxlength="100">${productInfo.productSellPoint}</textarea></p>
 						</li>
 					</ul>
 					<ul>
@@ -194,8 +194,8 @@
 							<p class="word"><b class="red">*</b>商品有效期</p>
 							<%-- 目前指定周期类型为:灵活有效期 --%>
 							<input type="hidden" name="activeType" value="2">
-							<p><input type="text" id="activeCycle" name="activeCycle" class="int-small" value="${productInfo.activeCycle}" maxlength="5"></p>
-							<p><select class="select-small" name="unit">
+							<p><input type="text" id="activeCycle" name="activeCycle" class="int-text int-medium" value="${productInfo.activeCycle}" maxlength="5"></p>
+							<p><select class="select select-small" name="unit">
 								<c:forEach var="unit" items="${prodUnits}">
 									<option value="${unit.columnValue}">${unit.columnDesc}</option>
 								</c:forEach>
@@ -236,7 +236,7 @@
 					</c:forEach>
 				</div>
 				<div class="nav-form-title">商品非关键属性</div> <!--标题-->
-				<div class="nav-form nav-form-border" id="noKeyAttrDiv"><!--查询条件-->
+				<div class="form-label nav-form-border" id="noKeyAttrDiv"><!--查询条件-->
 					<input type="hidden" id="noKeyAttrStr" name="noKeyAttrStr">
 					<c:forEach var="attr" items="${noKeyAttr}">
 						<ul>
@@ -279,7 +279,7 @@
 					</c:forEach>
 				</div>
 				<div class="nav-form-title">其他设置</div> <!--标题-->
-				<div class="nav-form nav-form-border"><!--查询条件-->
+				<div class="form-label nav-form-border"><!--查询条件-->
 					<ul>
 						<li class="width-xlag">
 							<p class="word">话费/流量适用号段</p>
@@ -380,7 +380,7 @@
 							<p class="word"><b class="red">*</b>选择商品目标地域</p>
 							<p><input type="radio" name="isSaleNationwide" class="checkbox-small radioc " value="Y"
 									  <c:if test="${productInfo.isSaleNationwide == 'Y'}">checked</c:if> >全国</p>
-							<p><input type="radio" name="isSaleNationwide"class="checkbox-small radiod" value="N"
+							<p><input type="radio" name="isSaleNationwide"class="checkbox-small radiod city" value="N"
 									  <c:if test="${productInfo.isSaleNationwide == 'N'}">checked</c:if> >部分</p>
 							<div id="check3"></div>
 							<div id="check4" style="display:none;">
@@ -407,7 +407,7 @@
 					</ul>
 				</div>
 				<div class="nav-form-title">商品图片</div> <!--标题-->
-				<div class="nav-form nav-form-border"><!--查询条件-->
+				<div class="form-label nav-form-border"><!--查询条件-->
 					<%
 						String picSize = "78x78";
 						IImageClient imageClient = IDPSClientFactory.getImageClient(SysCommonConstants.ProductImage.IDPSNS);
@@ -445,7 +445,7 @@
 									</p>
 								</c:forEach>
 							</div>
-							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片" attrVal = "0"/>
+							<p class="upload"><input type="button" class="biu-btn btn-blue file-btn btn-large mt-10" value="上传图片" attrVal = "0"/>
 								<!--<input type="file" class="file">--></p>
 						</li>
 					</ul>
@@ -477,7 +477,7 @@
 									</p>
 								</c:forEach>
 							</div>
-							<p class="upload"><input type="button" class="blling-btn file-btn" value="上传图片" attrVal = "${attrValPicEnt.key.attrValId}"/>
+							<p class="upload"><input type="button" class="biu-btn btn-blue file-btn btn-large mt-10" value="上传图片" attrVal = "${attrValPicEnt.key.attrValId}"/>
 								<!--<input type="file" class="file">--></p>
 						</li>
 					</ul>
@@ -495,7 +495,7 @@
 					<ul>
 						<li>
 							<%--<p><input id="submitAudit" type="button" class="blling-btn width-btn" value="提交审核"></p>--%>
-							<p><input id="save" type="button" class="blling-btn width-btn" value="保存"></p>
+							<p><input id="save" type="button" class="biu-btn btn-blue btn-large mr-10" value="保存"></p>
 							<%--<p><input type="button" class="blling-btn width-btn" value="预览"></p>--%>
 						</li>
 					</ul>

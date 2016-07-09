@@ -99,12 +99,12 @@ public class ProdQueryController {
 	}
 
 	/**
-	 * 查询未编辑商品
+	 * 根据状态不同查询商品
 	 * 
 	 * @param productEditQueryReq
 	 * @return
 	 */
-	private PageInfoResponse<ProductEditUp> queryEditProduct(ProductEditQueryReq productEditQueryReq) {
+	private PageInfoResponse<ProductEditUp> queryProductByState(ProductEditQueryReq productEditQueryReq) {
 		IProductManagerSV productManagerSV = DubboConsumerFactory.getService("iProductManagerSV");
 		PageInfoResponse<ProductEditUp> result = productManagerSV.queryProductEdit(productEditQueryReq);
 		ICacheSV cacheSV = DubboConsumerFactory.getService("iCacheSV");
@@ -131,7 +131,7 @@ public class ProdQueryController {
 				String attrImageSize = "80x80";
 				String vfsId = productEditUp.getVfsId();
 				String picType = productEditUp.getPicType();
-				String imageUrl = imageUrl(attrImageSize, vfsId, picType);
+				String imageUrl = getImageUrl(attrImageSize, vfsId, picType);
 				productEditUp.setPicUrl(imageUrl);
 			}
 		}
@@ -145,7 +145,7 @@ public class ProdQueryController {
 	 * @param picType
 	 * @return
 	 */
-	private String imageUrl(String attrImageSize, String vfsId, String picType) {
+	private String getImageUrl(String attrImageSize, String vfsId, String picType) {
 		IImageClient imageClient = IDPSClientFactory.getImageClient(SysCommonConstants.ProductImage.IDPSNS);
 		if (StringUtils.isBlank(picType))
 			picType = ".jpg";
@@ -206,29 +206,14 @@ public class ProdQueryController {
 	public ResponseData<PageInfoResponse<ProductEditUp>> getProductList(HttpServletRequest request,ProductEditQueryReq productEditQueryReq){
 		ResponseData<PageInfoResponse<ProductEditUp>> responseData = null;
 		try {
-			productEditQueryReq.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
-			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
-			if(!request.getParameter("productType").isEmpty()){
-				String searchProductType = request.getParameter("productType");
-				if(searchProductType.equals("实物")){
-					productEditQueryReq.setProductType("1");
-				}else if(searchProductType.equals("虚拟")){
-					productEditQueryReq.setProductType("2");
-				}else{
-					productEditQueryReq.setProductType(searchProductType);
-				}
-			}
-			if(!request.getParameter("productId").isEmpty())
-				productEditQueryReq.setProdId(request.getParameter("productId"));
-			if(!request.getParameter("productName").isEmpty())
-				productEditQueryReq.setProdName(request.getParameter("productName"));
-			// 设置商品状态为新增和未编辑
-			List<String> stateList = new ArrayList<>();
+			//查询条件
+			queryBuilder(request, productEditQueryReq);
 			// 设置状态，新增：0；未编辑1.
+			List<String> stateList = new ArrayList<>();
 			stateList.add("0");
 			stateList.add("1");
 			productEditQueryReq.setStateList(stateList);
-			PageInfoResponse<ProductEditUp> result = queryEditProduct(productEditQueryReq);
+			PageInfoResponse<ProductEditUp> result = queryProductByState(productEditQueryReq);
 			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
 					result);
 		} catch (Exception e) {
@@ -238,33 +223,42 @@ public class ProdQueryController {
 		}
 		return responseData;
 	}
+
+	/**
+	 * 查询条件检查设置
+	 * @param request
+	 * @param productEditQueryReq
+	 */
+	private void queryBuilder(HttpServletRequest request, ProductEditQueryReq productEditQueryReq) {
+		productEditQueryReq.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+		productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
+		if(!request.getParameter("productType").isEmpty())
+			productEditQueryReq.setProductType(request.getParameter("productType"));
+		if(!request.getParameter("productId").isEmpty())
+			productEditQueryReq.setProdId(request.getParameter("productId"));
+		if(!request.getParameter("productName").isEmpty())
+			productEditQueryReq.setProdName(request.getParameter("productName"));
+	}
 	/**
 	 * 点击查询按钮调用方法-获取待上架商品
 	 * @return
 	 */
 	@RequestMapping("/getStayUpList")
 	@ResponseBody
-	public ResponseData<PageInfoResponse<ProductStorageSale>> getStayUpProduct(HttpServletRequest request,ProductStorageSaleParam productStorageSaleParam){
-		ResponseData<PageInfoResponse<ProductStorageSale>> responseData = null;
+	public ResponseData<PageInfoResponse<ProductEditUp>> getStayUpProduct(HttpServletRequest request,ProductEditQueryReq productEditQueryReq){
+		ResponseData<PageInfoResponse<ProductEditUp>> responseData = null;
 		try {
-			productStorageSaleParam.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
-			productStorageSaleParam.setProductCatId(request.getParameter("productCatId"));
-			if(!request.getParameter("productType").isEmpty())
-				productStorageSaleParam.setProductType(request.getParameter("productType"));
-			if(!request.getParameter("productId").isEmpty())
-				productStorageSaleParam.setProdId(request.getParameter("productId"));
-			if(!request.getParameter("productName").isEmpty())
-				productStorageSaleParam.setProdName(request.getParameter("productName"));
-			// 设置商品状态为新增和未编辑
-			List<String> stateList = new ArrayList<>();
+			//查询条件
+			queryBuilder(request, productEditQueryReq);
 			// 设置状态，6仓库中（审核通过、手动下架放入）.
+			List<String> stateList = new ArrayList<>();
 			stateList.add("6");
-			productStorageSaleParam.setStateList(stateList);
-			PageInfoResponse<ProductStorageSale> result = queryStorProduct(productStorageSaleParam);
-			responseData = new ResponseData<PageInfoResponse<ProductStorageSale>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
+			productEditQueryReq.setStateList(stateList);
+			PageInfoResponse<ProductEditUp> result = queryProductByState(productEditQueryReq);
+			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
 					result);
 		} catch (Exception e) {
-			responseData = new ResponseData<PageInfoResponse<ProductStorageSale>>(ResponseData.AJAX_STATUS_FAILURE,
+			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_FAILURE,
 					"获取信息异常");
 			LOG.error("获取信息出错：", e);
 		}
@@ -276,35 +270,20 @@ public class ProdQueryController {
 	 */
 	@RequestMapping("/getSaleDownList")
 	@ResponseBody
-	public ResponseData<PageInfoResponse<ProductStorageSale>> getSaleDownProduct(HttpServletRequest request,ProductStorageSaleParam productStorageSaleParam){
-		ResponseData<PageInfoResponse<ProductStorageSale>> responseData = null;
+	public ResponseData<PageInfoResponse<ProductEditUp>> getSaleDownProduct(HttpServletRequest request,ProductEditQueryReq productEditQueryReq){
+		ResponseData<PageInfoResponse<ProductEditUp>> responseData = null;
 		try {
-			productStorageSaleParam.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
-			productStorageSaleParam.setProductCatId(request.getParameter("productCatId"));
-			if(!request.getParameter("productType").isEmpty()){
-				String searchProductType = request.getParameter("productType");
-				if(searchProductType.equals("实物")){
-					productStorageSaleParam.setProductType("1");
-				}else if(searchProductType.equals("虚拟")){
-					productStorageSaleParam.setProductType("2");
-				}else{
-					productStorageSaleParam.setProductType(searchProductType);
-				}
-			}
-			if(!request.getParameter("productId").isEmpty())
-				productStorageSaleParam.setProdId(request.getParameter("productId"));
-			if(!request.getParameter("productName").isEmpty())
-				productStorageSaleParam.setProdName(request.getParameter("productName"));
-			// 设置商品状态为新增和未编辑
-			List<String> stateList = new ArrayList<>();
+			//查询条件
+			queryBuilder(request, productEditQueryReq);
 			// 设置状态，61售罄下架.
+			List<String> stateList = new ArrayList<>();
 			stateList.add("61");
-			productStorageSaleParam.setStateList(stateList);
-			PageInfoResponse<ProductStorageSale> result = queryStorProduct(productStorageSaleParam);
-			responseData = new ResponseData<PageInfoResponse<ProductStorageSale>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
+			productEditQueryReq.setStateList(stateList);
+			PageInfoResponse<ProductEditUp> result = queryProductByState(productEditQueryReq);
+			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
 					result);
 		} catch (Exception e) {
-			responseData = new ResponseData<PageInfoResponse<ProductStorageSale>>(ResponseData.AJAX_STATUS_FAILURE,
+			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_FAILURE,
 					"获取信息异常");
 			LOG.error("获取信息出错：", e);
 		}
@@ -316,79 +295,26 @@ public class ProdQueryController {
 	 */
 	@RequestMapping("/getStorStopList")
 	@ResponseBody
-	public ResponseData<PageInfoResponse<ProductStorageSale>> getStorStopProduct(HttpServletRequest request,ProductStorageSaleParam productStorageSaleParam){
-		ResponseData<PageInfoResponse<ProductStorageSale>> responseData = null;
+	public ResponseData<PageInfoResponse<ProductEditUp>> getStorStopProduct(HttpServletRequest request,ProductEditQueryReq productEditQueryReq){
+		ResponseData<PageInfoResponse<ProductEditUp>> responseData = null;
 		try {
-			productStorageSaleParam.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
-			productStorageSaleParam.setProductCatId(request.getParameter("productCatId"));
-			if(!request.getParameter("productType").isEmpty()){
-				String searchProductType = request.getParameter("productType");
-				if(searchProductType.equals("实物")){
-					productStorageSaleParam.setProductType("1");
-				}else if(searchProductType.equals("虚拟")){
-					productStorageSaleParam.setProductType("2");
-				}else{
-					productStorageSaleParam.setProductType(searchProductType);
-				}
-			}
-			if(!request.getParameter("productId").isEmpty())
-				productStorageSaleParam.setProdId(request.getParameter("productId"));
-			if(!request.getParameter("productName").isEmpty())
-				productStorageSaleParam.setProdName(request.getParameter("productName"));
-			// 设置商品状态为新增和未编辑
-			List<String> stateList = new ArrayList<>();
+			//查询条件
+			queryBuilder(request, productEditQueryReq);
 			// 设置状态，62停用下架.
+			List<String> stateList = new ArrayList<>();
 			stateList.add("62");
-			productStorageSaleParam.setStateList(stateList);
-			PageInfoResponse<ProductStorageSale> result = queryStorProduct(productStorageSaleParam);
-			responseData = new ResponseData<PageInfoResponse<ProductStorageSale>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
+			productEditQueryReq.setStateList(stateList);
+			PageInfoResponse<ProductEditUp> result = queryProductByState(productEditQueryReq);
+			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
 					result);
 		} catch (Exception e) {
-			responseData = new ResponseData<PageInfoResponse<ProductStorageSale>>(ResponseData.AJAX_STATUS_FAILURE,
+			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_FAILURE,
 					"获取信息异常");
 			LOG.error("获取信息出错：", e);
 		}
 		return responseData;
 	}
-	/**
-	 * 查询仓库商品
-	 * 
-	 * @param productStorageSaleParam
-	 * @return
-	 */
-	private PageInfoResponse<ProductStorageSale> queryStorProduct(ProductStorageSaleParam productStorageSaleParam) {
-		IProductManagerSV productManagerSV = DubboConsumerFactory.getService("iProductManagerSV");
-		PageInfoResponse<ProductStorageSale> result = productManagerSV.queryStorageProdByState(productStorageSaleParam);
-		ICacheSV cacheSV = DubboConsumerFactory.getService("iCacheSV");
-		SysParamSingleCond sysParamSingleCond = null;
-		for (ProductStorageSale productStorageSale : result.getResult()) {
-			// 获取类型和状态
-			if (StringUtils.isNotBlank(productStorageSale.getProductType())) {
-				// 获取类型
-				String productType = productStorageSale.getProductType();
-				sysParamSingleCond = new SysParamSingleCond(SysCommonConstants.COMMON_TENANT_ID,
-						ComCacheConstants.TypeProduct.CODE, ComCacheConstants.TypeProduct.PROD_PRODUCT_TYPE,
-						productType);
-				String productTypeName = cacheSV.getSysParamSingle(sysParamSingleCond).getColumnDesc();
-				productStorageSale.setProductTypeName(productTypeName);
-				// 获取状态
-				String state = productStorageSale.getState();
-				sysParamSingleCond = new SysParamSingleCond(SysCommonConstants.COMMON_TENANT_ID,
-						ComCacheConstants.TypeProduct.CODE, "STATE", state);
-				String stateName = cacheSV.getSysParamSingle(sysParamSingleCond).getColumnDesc();
-				productStorageSale.setStateName(stateName);
-			}
-			// 产生图片地址
-			if (StringUtils.isNotBlank(productStorageSale.getVfsId())) {
-				String attrImageSize = "80x80";
-				String vfsId = productStorageSale.getVfsId();
-				String picType = productStorageSale.getPicType();
-				String imageUrl = imageUrl(attrImageSize, vfsId, picType);
-				productStorageSale.setPicUrl(imageUrl);
-			}
-		}
-		return result;
-	}
+	
 	/**
 	 * 待上架商品上架
 	 */
