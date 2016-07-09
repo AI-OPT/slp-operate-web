@@ -78,14 +78,14 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 				}
 			});
     	},
-    	// 待上架改变商品类目
+    	// 改变商品类目
     	_selectChange:function(osel){
     		var prodCatId = osel.options[osel.selectedIndex].value;
     		var clickId = $(osel).parent().attr('id');
     		//获取当前ID的最后数字
     		var index = Number(clickId.substring(10))+1;
     		//获取下拉菜单的总个数
-    		var div = document.getElementById("date1");
+    		var div = document.getElementById("data1ProdCat");
     		var length = div.getElementsByTagName("select").length;
     		if(index==length){
     			return;
@@ -126,7 +126,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     		//获取当前ID的最后数字
     		var index = Number(clickId.substring(11))+1;
     		//获取下拉菜单的总个数
-    		var div = document.getElementById("date2");
+    		var div = document.getElementById("data2ProdCat");
     		var length = div.getElementsByTagName("select").length;
     		if(index==length){
     			return;
@@ -160,14 +160,14 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 				}
 			});
     	},
-    	// 待上架改变商品类目
+    	// 库存暂停改变商品类目
     	_selectChange3:function(osel){
     		var prodCatId = osel.options[osel.selectedIndex].value;
     		var clickId = $(osel).parent().attr('id');
     		//获取当前ID的最后数字
     		var index = Number(clickId.substring(11))+1;
     		//获取下拉菜单的总个数
-    		var div = document.getElementById("date3");
+    		var div = document.getElementById("data3ProdCat");
     		var length = div.getElementsByTagName("select").length;
     		if(index==length){
     			return;

@@ -53,7 +53,7 @@
                 <!--结果标题-->
                 <div id="date1">
                     <div class="form-label">
-                        <ul>
+                        <ul id="data1ProdCat">
                             <li class="width-xlag">
                                 <p class="word">商品类目</p>
                                 <c:forEach var="map" items="${catInfoMap}" varStatus="status">
