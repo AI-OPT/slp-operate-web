@@ -131,7 +131,7 @@
 </script>
 <!--弹出受众选择弹出框 大结束-->
 
-<div class="wrapper wrapper-big"><!--外围框架-->
+<div class="wrapper"><!--外围框架-->
 	<input type="file" id="uploadFile" style="display: none;">
 	<!--右侧框架-->
 	<div class="wrapper-right">
@@ -160,7 +160,7 @@
 				<form id="prodForm" action="${_base}/prodedit/save" method="post">
 					<input type="hidden" name="prodId" value="${productInfo.prodId}">
 				<div class="nav-form-title">商品基础信息</div> <!--标题-->
-				<div class="form-label nav-form-border"><!--查询条件-->
+				<div class="nav-form nav-form-border"><!--查询条件-->
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>类目信息</p>
@@ -194,7 +194,7 @@
 							<p class="word"><b class="red">*</b>商品有效期</p>
 							<%-- 目前指定周期类型为:灵活有效期 --%>
 							<input type="hidden" name="activeType" value="2">
-							<p><input type="text" id="activeCycle" name="activeCycle" class="int-text int-medium" value="${productInfo.activeCycle}" maxlength="5"></p>
+							<p><input type="text" id="activeCycle" name="activeCycle" class="int-text int-small" value="${productInfo.activeCycle}" maxlength="5"></p>
 							<p><select class="select select-small" name="unit">
 								<c:forEach var="unit" items="${prodUnits}">
 									<option value="${unit.columnValue}">${unit.columnDesc}</option>
@@ -236,7 +236,7 @@
 					</c:forEach>
 				</div>
 				<div class="nav-form-title">商品非关键属性</div> <!--标题-->
-				<div class="form-label nav-form-border" id="noKeyAttrDiv"><!--查询条件-->
+				<div class="nav-form nav-form-border" id="noKeyAttrDiv"><!--查询条件-->
 					<input type="hidden" id="noKeyAttrStr" name="noKeyAttrStr">
 					<c:forEach var="attr" items="${noKeyAttr}">
 						<ul>
@@ -279,7 +279,7 @@
 					</c:forEach>
 				</div>
 				<div class="nav-form-title">其他设置</div> <!--标题-->
-				<div class="form-label nav-form-border"><!--查询条件-->
+				<div class="nav-form nav-form-border"><!--查询条件-->
 					<ul>
 						<li class="width-xlag">
 							<p class="word">话费/流量适用号段</p>
@@ -407,7 +407,7 @@
 					</ul>
 				</div>
 				<div class="nav-form-title">商品图片</div> <!--标题-->
-				<div class="form-label nav-form-border"><!--查询条件-->
+				<div class="nav-form nav-form-border"><!--查询条件-->
 					<%
 						String picSize = "78x78";
 						IImageClient imageClient = IDPSClientFactory.getImageClient(SysCommonConstants.ProductImage.IDPSNS);
