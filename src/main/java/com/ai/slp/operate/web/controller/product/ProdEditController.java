@@ -123,10 +123,15 @@ public class ProdEditController {
 
         //商品主图
         uiModel.addAttribute("prodPic",otherSet.getProductPics());
+        //属性值图
+        uiModel.addAttribute("attrValList",otherSet.getAttrValInfoList());
+        uiModel.addAttribute("valPicMap",otherSet.getAttrValPics());
+
         SysParamMultiCond paramMultiCond = new SysParamMultiCond();
         paramMultiCond.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
         paramMultiCond.setTypeCode(ComCacheConstants.TypeProduct.CODE);
         paramMultiCond.setParamCode(ComCacheConstants.TypeProduct.PROD_UNIT);
+
         //有效期单位
         List<SysParam> prodUnits = cacheSV.getSysParamList(paramMultiCond);
         uiModel.addAttribute("prodUnits",prodUnits);

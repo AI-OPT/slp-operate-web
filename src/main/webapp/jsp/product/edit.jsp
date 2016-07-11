@@ -451,13 +451,12 @@
 					</ul>
 					<%-- 属性值图片 --%>
 					<input id="prodAttrValPicStr" name="prodAttrValPicStr" type="hidden">
-					<c:set var="attrValPicMap" value="${otherSet.attrValPics}"></c:set>
-					<c:forEach var="attrValPicEnt" items="${attrValPicMap}">
+					<c:forEach var="attrValInfo" items="${attrValList}">
 					<ul>
 						<li class="width-xlag">
-							<p class="word"><b class="red">*</b>${attrValPicEnt.key.attrVal}</p>
-							<div class="width-img" id="prod_pic_${attrValPicEnt.key.attrValId}">
-								<c:set var="attrValPic" value="${attrValPicEnt.value}"></c:set>
+							<p class="word"><b class="red">*</b>${attrValInfo.attrVal}</p>
+							<div class="width-img" id="prod_pic_${attrValInfo.attrValId}">
+								<c:set var="attrValPic" value="${valPicMap.get(attrValInfo.attrValId)}"></c:set>
 								<c:set var="attrValSize" value="${attrValPic.size()}"></c:set>
 								<c:forEach var="valInd" begin="0" end="5">
 									<p class="img">
