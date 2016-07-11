@@ -301,5 +301,21 @@ public class ProdEditController {
         return attrPicMap;
     }
 
+    /**
+     * 商品下架
+     */
+    @RequestMapping("/editState")
+    public String editState(String prodId){
+    	initConsumer();
+        if (StringUtils.isNotBlank(prodId)) {
+        	ResponseData<String> responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "添加成功");
+            
+		}
+        
+        
+        
+        return "product/edit";
+    }
 
+    
 }

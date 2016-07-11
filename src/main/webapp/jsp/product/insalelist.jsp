@@ -137,11 +137,22 @@
                                         <%-- <p><a href="#" class="blue">查看商品</a></p> --%>
                                     </div>
                                     <div>
-                                        <p><a href="#" class="blue-border">商品下架</a></p>
+                                        <p><a href="${_base}/prodedit/editState" onclick="return editState()" class="blue-border">商品下架</a></p>
+										
                                     </div>
+
                                 </td>
                             </tr>
 							</script>
+							<SCRIPT type="text/javascript">
+							function del(){
+							if(confirm("真的要删除该条记录吗?")){
+							return true;
+							}else{
+							return false;
+							}
+							}
+							</SCRIPT>
                     </div>
                     <!--分页-->
 					 <div>
