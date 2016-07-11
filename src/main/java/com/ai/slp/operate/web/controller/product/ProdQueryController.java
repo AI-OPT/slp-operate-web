@@ -97,8 +97,6 @@ public class ProdQueryController {
 		loadCat(uiModel);
 		return "product/insalelist";
 	}
-	
-	
 
 	/**
 	 * 根据状态不同查询商品
