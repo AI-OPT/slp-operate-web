@@ -89,12 +89,12 @@ public class ProdQueryController {
 	}
 	
 	/**
-	 * 查询在售商品
-	 * @param uiModel
-	 * @return
-     */
+	 * 进入在售商品页面
+	 * 
+	 */
 	@RequestMapping("/insale")
-	public String inSaleQuery(Model uiModel){
+	public String inSalelistQuery(Model uiModel) {
+		loadCat(uiModel);
 		return "product/insalelist";
 	}
 
@@ -212,6 +212,32 @@ public class ProdQueryController {
 			List<String> stateList = new ArrayList<>();
 			stateList.add("0");
 			stateList.add("1");
+			productEditQueryReq.setStateList(stateList);
+			PageInfoResponse<ProductEditUp> result = queryProductByState(productEditQueryReq);
+			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
+					result);
+		} catch (Exception e) {
+			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_FAILURE,
+					"获取信息异常");
+			LOG.error("获取信息出错：", e);
+		}
+		return responseData;
+	}
+	
+	/**
+	 * 点击查询按钮调用方法-查询在售商品
+	 * @return
+	 */
+	@RequestMapping("/getInsaleList")
+	@ResponseBody
+	private ResponseData<PageInfoResponse<ProductEditUp>> queryinsaleProduct(HttpServletRequest request,ProductEditQueryReq productEditQueryReq) {
+		ResponseData<PageInfoResponse<ProductEditUp>> responseData = null;
+		try {
+			productEditQueryReq.setTenantId("SLP");
+			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
+			// 设置商品状态为新增和未编辑
+			List<String> stateList = new ArrayList<>();
+			stateList.add("5");
 			productEditQueryReq.setStateList(stateList);
 			PageInfoResponse<ProductEditUp> result = queryProductByState(productEditQueryReq);
 			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
