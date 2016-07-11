@@ -445,7 +445,7 @@
 									</p>
 								</c:forEach>
 							</div>
-							<p class="upload"><input type="button" class="biu-btn btn-blue file-btn btn-large mt-10" value="上传图片" attrVal = "0"/>
+							<p ><input type="button" class="biu-btn btn-blue file-btn btn-large mt-10" value="上传图片" attrVal = "0"/>
 								<!--<input type="file" class="file">--></p>
 						</li>
 					</ul>
@@ -477,7 +477,7 @@
 									</p>
 								</c:forEach>
 							</div>
-							<p class="upload"><input type="button" class="biu-btn btn-blue file-btn btn-large mt-10" value="上传图片" attrVal = "${attrValPicEnt.key.attrValId}"/>
+							<p ><input type="button" class="biu-btn btn-blue file-btn btn-large mt-10" value="上传图片" attrVal = "${attrValPicEnt.key.attrValId}"/>
 								<!--<input type="file" class="file">--></p>
 						</li>
 					</ul>
