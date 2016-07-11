@@ -106,6 +106,7 @@ public class ProdEditController {
         //商品非关键属性
         ProdNoKeyAttr noKeyAttr = productManagerSV.queryNoKeyAttrOfProd(infoQuery);
         uiModel.addAttribute("noKeyAttr",noKeyAttr.getAttrInfoForProdList());
+        uiModel.addAttribute("noKeyAttrValMap",noKeyAttr.getAttrValMap());
         //查询商品其他设置
         OtherSetOfProduct otherSet = productManagerSV.queryOtherSetOfProduct(infoQuery);
         uiModel.addAttribute("otherSet",otherSet);
@@ -123,10 +124,15 @@ public class ProdEditController {
 
         //商品主图
         uiModel.addAttribute("prodPic",otherSet.getProductPics());
+        //属性值图
+        uiModel.addAttribute("attrValList",otherSet.getAttrValInfoList());
+        uiModel.addAttribute("valPicMap",otherSet.getAttrValPics());
+
         SysParamMultiCond paramMultiCond = new SysParamMultiCond();
         paramMultiCond.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
         paramMultiCond.setTypeCode(ComCacheConstants.TypeProduct.CODE);
         paramMultiCond.setParamCode(ComCacheConstants.TypeProduct.PROD_UNIT);
+
         //有效期单位
         List<SysParam> prodUnits = cacheSV.getSysParamList(paramMultiCond);
         uiModel.addAttribute("prodUnits",prodUnits);

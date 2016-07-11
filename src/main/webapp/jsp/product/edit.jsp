@@ -246,7 +246,7 @@
 							<%-- 下拉选择 --%>
 							<c:when test="${attr.valueWay == '1'}">
 								<select class="select-medium" attrId="noKeyAttr${attr.attrId}">
-									<c:forEach var="valInfo" items="${attr.attrValInfoList}">
+									<c:forEach var="valInfo" items="${noKeyAttrValMap.get(attr.attrId)}">
 										<option value="${valInfo.attrValId}"
 												<c:if test="${valInfo.productAttrValId == valInfo.attrValId}">selected</c:if>>${valInfo.attrVal}</option>
 									</c:forEach>
@@ -255,7 +255,7 @@
 							<%--多选--%>
 							<c:when test="${attr.valueWay == '2'}">
 								<div class="width-xlag">
-									<c:forEach var="valInfo" items="${attr.attrValInfoList}">
+									<c:forEach var="valInfo" items="${noKeyAttrValMap.get(attr.attrId)}">
 										<p><input type="checkbox" class="checkbox-small" attrId="noKeyAttr${attr.attrId}" value="${valInfo.attrValId}"
 												  <c:if test="${valInfo.productAttrValId == valInfo.attrValId}">checked</c:if> >${valInfo.attrVal}</p>
 									</c:forEach>
@@ -263,13 +263,13 @@
 							</c:when>
 							<%--单行输入--%>
 							<c:when test="${attr.valueWay == '3'}">
-								<c:set var="valInfo" value="${attr.attrValInfoList.get(0)}"></c:set>
+								<c:set var="valInfo" value="${noKeyAttrValMap.get(attr.attrId).get(0)}"></c:set>
 								<p><input type="text" class="int-xlarge" attrId="noKeyAttr${attr.attrId}" maxlength="100"
 										  <c:if test="${valInfo!=null}">value="${valInfo.attrVal}"</c:if> ></p>
 							</c:when>
 							<%--多行输入--%>
 							<c:when test="${attr.valueWay == '4'}">
-								<c:set var="valInfo" value="${attr.attrValInfoList.get(0)}"></c:set>
+								<c:set var="valInfo" value="${noKeyAttrValMap.get(attr.attrId).get(0)}"></c:set>
 								<p><textarea class="textarea-xlarge" maxlength="100"
 											 attrId="noKeyAttr${attr.attrId}"><c:if test="${valInfo!=null}">${valInfo.attrVal}</c:if></textarea></p>
 							</c:when>
@@ -451,13 +451,12 @@
 					</ul>
 					<%-- 属性值图片 --%>
 					<input id="prodAttrValPicStr" name="prodAttrValPicStr" type="hidden">
-					<c:set var="attrValPicMap" value="${otherSet.attrValPics}"></c:set>
-					<c:forEach var="attrValPicEnt" items="${attrValPicMap}">
+					<c:forEach var="attrValInfo" items="${attrValList}">
 					<ul>
 						<li class="width-xlag">
-							<p class="word"><b class="red">*</b>${attrValPicEnt.key.attrVal}</p>
-							<div class="width-img" id="prod_pic_${attrValPicEnt.key.attrValId}">
-								<c:set var="attrValPic" value="${attrValPicEnt.value}"></c:set>
+							<p class="word"><b class="red">*</b>${attrValInfo.attrVal}</p>
+							<div class="width-img" id="prod_pic_${attrValInfo.attrValId}">
+								<c:set var="attrValPic" value="${valPicMap.get(attrValInfo.attrValId)}"></c:set>
 								<c:set var="attrValSize" value="${attrValPic.size()}"></c:set>
 								<c:forEach var="valInd" begin="0" end="5">
 									<p class="img">
