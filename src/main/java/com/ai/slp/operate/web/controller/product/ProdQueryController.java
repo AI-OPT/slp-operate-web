@@ -235,9 +235,6 @@ public class ProdQueryController {
 	private ResponseData<PageInfoResponse<ProductEditUp>> queryinsaleProduct(HttpServletRequest request,ProductEditQueryReq productEditQueryReq) {
 		ResponseData<PageInfoResponse<ProductEditUp>> responseData = null;
 		try {
-			// HttpSession session = request.getSession();
-			// SSOClientUser user = (SSOClientUser)
-			// session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
 			productEditQueryReq.setTenantId("SLP");
 			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
 			// 设置商品状态为新增和未编辑
