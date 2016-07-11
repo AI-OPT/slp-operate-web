@@ -80,8 +80,8 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     	//查询未编辑商品
     	_selectProductEdit:function(){
     		var _this = this;
-    		//获取下拉菜单的总个数-1即为ID后的数值
-    		var length = document.getElementsByTagName("select").length-1;
+    		//获取下拉菜单的总个数-2即为ID后的数值
+    		var length = document.getElementsByTagName("select").length-2;
     		var productCatId = $("#productCat"+length+" option:selected").val();
     		var productType = $("#productType").val().trim();
     		var productId = $("#productId").val().trim();

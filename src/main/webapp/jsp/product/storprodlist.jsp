@@ -200,7 +200,7 @@
 	                <li  class="width-xlag">
 	                    <p class="word">商品名称</p>
 	                    <p><input  id="productName2" type="text" class="int-text int-medium"></p>
-	                    <p><input id="searchStayUpProd" type="button" value="查询" class="biu-btn btn-blue btn-mini"></p>
+	                    <p><input id="searchSaleDownProd" type="button" value="查询" class="biu-btn btn-blue btn-mini"></p>
 	                </li>
 	            </ul>  
 	        </div>
@@ -296,7 +296,7 @@
 	                <li  class="width-xlag">
 	                    <p class="word">商品名称</p>
 	                    <p><input  id="productName3" type="text" class="int-text int-medium"></p>
-	                    <p><input id="searchStayUpProd" type="button" value="查询" class="biu-btn btn-blue btn-mini"></p>
+	                    <p><input id="searchStorStopProd" type="button" value="查询" class="biu-btn btn-blue btn-mini"></p>
 	                </li>
 	            </ul>  
 	        </div>

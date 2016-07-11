@@ -205,7 +205,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     	_selectStayUpProd:function(){
     		var _this = this;
     		//获取下拉菜单的总个数
-    		var div = document.getElementById("date1");
+    		var div = document.getElementById("data1ProdCat");
     		var length = div.getElementsByTagName("select").length-1;
     		var	productCatId = $("#productCat"+length+" option:selected").val();
     		var productType = $("#productType").val().trim();
@@ -234,7 +234,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     	_selectStorStopProd:function(){
     		var _this = this;
     		//获取下拉菜单的总个数
-    		var div = document.getElementById("date3");
+    		var div = document.getElementById("date3ProdCat");
     		var length = div.getElementsByTagName("select").length-1;
     		var	productCatId = $("#productCat3"+length+" option:selected").val();
     		var productType = $("#productType3").val().trim();
@@ -263,7 +263,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     	_selectSaleDownProd:function(){
     		var _this = this;
     		//获取下拉菜单的总个数
-    		var div = document.getElementById("date2");
+    		var div = document.getElementById("date2ProdCat");
     		var length = div.getElementsByTagName("select").length-1;
     		var	productCatId = $("#productCat2"+length+" option:selected").val();
     		var productType = $("#productType2").val().trim();
