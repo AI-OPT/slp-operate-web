@@ -105,7 +105,7 @@ public class ProdEditController {
         uiModel.addAttribute("attrAndVal",getAttrAndVals(attrMap));
         //商品非关键属性
         ProdNoKeyAttr noKeyAttr = productManagerSV.queryNoKeyAttrOfProd(infoQuery);
-        uiModel.addAttribute("noKeyAttr",noKeyAttr.getAttrMap());
+        uiModel.addAttribute("noKeyAttr",noKeyAttr.getAttrInfoForProdList());
         //查询商品其他设置
         OtherSetOfProduct otherSet = productManagerSV.queryOtherSetOfProduct(infoQuery);
         uiModel.addAttribute("otherSet",otherSet);

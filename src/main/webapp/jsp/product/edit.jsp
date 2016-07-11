@@ -236,42 +236,42 @@
 					</c:forEach>
 				</div>
 				<div class="nav-form-title">商品非关键属性</div> <!--标题-->
-				<div class="nav-form nav-form-border" id="noKeyAttrDiv"><!--查询条件-->
+				<div class="nav-form nav-form-border" id="noKeyAttrDiv"><!--非关键属性条件-->
 					<input type="hidden" id="noKeyAttrStr" name="noKeyAttrStr">
 					<c:forEach var="attr" items="${noKeyAttr}">
 						<ul>
 							<li class="width-xlag">
-						<p class="word" attrId="${attr.key.attrId}" valueType="${attr.key.valueWay}">${attr.key.attrName}</p>
+						<p class="word" attrId="${attr.attrId}" valueType="${attr.valueWay}">${attr.attrName}</p>
 						<c:choose>
 							<%-- 下拉选择 --%>
-							<c:when test="${attr.key.valueWay == '1'}">
-								<select class="select-medium" attrId="noKeyAttr${attr.key.attrId}">
-									<c:forEach var="valInfo" items="${attr.value}">
+							<c:when test="${attr.valueWay == '1'}">
+								<select class="select-medium" attrId="noKeyAttr${attr.attrId}">
+									<c:forEach var="valInfo" items="${attr.attrValInfoList}">
 										<option value="${valInfo.attrValId}"
 												<c:if test="${valInfo.productAttrValId == valInfo.attrValId}">selected</c:if>>${valInfo.attrVal}</option>
 									</c:forEach>
 								</select>
 							</c:when>
 							<%--多选--%>
-							<c:when test="${attr.key.valueWay == '2'}">
+							<c:when test="${attr.valueWay == '2'}">
 								<div class="width-xlag">
-									<c:forEach var="valInfo" items="${attr.value}">
-										<p><input type="checkbox" class="checkbox-small" attrId="noKeyAttr${attr.key.attrId}" value="${valInfo.attrValId}"
+									<c:forEach var="valInfo" items="${attr.attrValInfoList}">
+										<p><input type="checkbox" class="checkbox-small" attrId="noKeyAttr${attr.attrId}" value="${valInfo.attrValId}"
 												  <c:if test="${valInfo.productAttrValId == valInfo.attrValId}">checked</c:if> >${valInfo.attrVal}</p>
 									</c:forEach>
 								</div>
 							</c:when>
 							<%--单行输入--%>
-							<c:when test="${attr.key.valueWay == '3'}">
-								<c:set var="valInfo" value="${attr.value.get(0)}"></c:set>
-								<p><input type="text" class="int-xlarge" attrId="noKeyAttr${attr.key.attrId}" maxlength="100"
+							<c:when test="${attr.valueWay == '3'}">
+								<c:set var="valInfo" value="${attr.attrValInfoList.get(0)}"></c:set>
+								<p><input type="text" class="int-xlarge" attrId="noKeyAttr${attr.attrId}" maxlength="100"
 										  <c:if test="${valInfo!=null}">value="${valInfo.attrVal}"</c:if> ></p>
 							</c:when>
 							<%--多行输入--%>
-							<c:when test="${attr.key.valueWay == '4'}">
-								<c:set var="valInfo" value="${attr.value.get(0)}"></c:set>
+							<c:when test="${attr.valueWay == '4'}">
+								<c:set var="valInfo" value="${attr.attrValInfoList.get(0)}"></c:set>
 								<p><textarea class="textarea-xlarge" maxlength="100"
-											 attrId="noKeyAttr${attr.key.attrId}"><c:if test="${valInfo!=null}">${valInfo.attrVal}</c:if></textarea></p>
+											 attrId="noKeyAttr${attr.attrId}"><c:if test="${valInfo!=null}">${valInfo.attrVal}</c:if></textarea></p>
 							</c:when>
 						</c:choose>
 							</li>
