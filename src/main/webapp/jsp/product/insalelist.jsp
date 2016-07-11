@@ -137,7 +137,7 @@
                                         <%-- <p><a href="#" class="blue">查看商品</a></p> --%>
                                     </div>
                                     <div>
-                                        <p><a href="#" id="selectProductInSale" class="blue-border">商品下架</a></p>
+                                        <p><a href="#" class="blue-border">商品下架</a></p>
                                     </div>
                                 </td>
                             </tr>

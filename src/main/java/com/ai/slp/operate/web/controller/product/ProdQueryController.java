@@ -94,105 +94,12 @@ public class ProdQueryController {
 	 */
 	@RequestMapping("/insale")
 	public String inSalelistQuery(Model uiModel) {
-		
-		IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
-		
-		ProductCatQuery catQuery = new ProductCatQuery();
-		//租户Id
-		catQuery.setTenantId("SLP");
-		Map<Short, List<ProdCatInfo>> productCatMap = new HashMap<>();
-		ProdCatInfo prodCatInfo = null;
-		do {
-			// 查询同一级的类目信息
-			List<ProdCatInfo> productCatInfos = productCatSV.queryCatByNameOrFirst(catQuery);
-			prodCatInfo = productCatInfos.get(0);
-			// 把类目信息按照类目等级放入集合
-			productCatMap.put(prodCatInfo.getCatLevel(), productCatInfos);
-			catQuery.setParentProductCatId(prodCatInfo.getProductCatId());
-		} while (prodCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD));
-		uiModel.addAttribute("count", productCatMap.size() - 1);
-		uiModel.addAttribute("catInfoMap", productCatMap);
+		loadCat(uiModel);
 		return "product/insalelist";
 	}
 	
-	/**
-	 * 点击查询按钮调用方法-查询在售商品
-	 * @return
-	 */
-	@RequestMapping("/getInsaleList")
-	@ResponseBody
-	private ResponseData<PageInfoResponse<ProductEditUp>> queryinsaleProduct(HttpServletRequest request,ProductEditQueryReq productEditQueryReq) {
-		ResponseData<PageInfoResponse<ProductEditUp>> responseData = null;
-		try {
-			// HttpSession session = request.getSession();
-			// SSOClientUser user = (SSOClientUser)
-			// session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
-			productEditQueryReq.setTenantId("SLP");
-			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
-			// 设置商品状态为新增和未编辑
-			List<String> stateList = new ArrayList<>();
-			// 设置状态，新增：0；未编辑1.
-			//stateList.add("0");
-			stateList.add("5");
-			productEditQueryReq.setStateList(stateList);
-			PageInfoResponse<ProductEditUp> result = queryinsaleProduct(productEditQueryReq);
-			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
-					result);
-		} catch (Exception e) {
-			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_FAILURE,
-					"获取信息异常");
-			LOG.error("获取信息出错：", e);
-		}
-		return responseData;
-	}
-
-	/**
-	 * 查询在售商品
-	 */
-	private PageInfoResponse<ProductEditUp> queryinsaleProduct(ProductEditQueryReq productEditQueryReq) {
-		
-		IProductManagerSV productManagerSV = DubboConsumerFactory.getService("iProductManagerSV");
-
-		PageInfoResponse<ProductEditUp> result = productManagerSV.queryProductEdit(productEditQueryReq);
-		IImageClient imageClient = IDPSClientFactory.getImageClient(SysCommonConstants.ProductImage.IDPSNS);
-		String attrImageSize = "80x80";
-		ICacheSV cacheSV = DubboConsumerFactory.getService("iCacheSV");
-		SysParamSingleCond sysParamSingleCond = null;
-		
-		for (ProductEditUp productEditUp : result.getResult()) {
-			// 获取类型和状态
-			if (StringUtils.isNotBlank(productEditUp.getProductType())) {
-				// 获取类型
-				String productType = productEditUp.getProductType();
-				sysParamSingleCond = new SysParamSingleCond(SysCommonConstants.COMMON_TENANT_ID,
-						ComCacheConstants.TypeProduct.CODE, ComCacheConstants.TypeProduct.PROD_PRODUCT_TYPE,
-						productType);
-				String productTypeName = cacheSV.getSysParamSingle(sysParamSingleCond).getColumnDesc();
-				productEditUp.setProductTypeName(productTypeName);
-				// 获取状态
-				String state = productEditUp.getState();
-				sysParamSingleCond = new SysParamSingleCond(SysCommonConstants.COMMON_TENANT_ID,
-						ComCacheConstants.TypeProduct.CODE, "STATE", state);
-				String stateName = cacheSV.getSysParamSingle(sysParamSingleCond).getColumnDesc();
-				productEditUp.setStateName(stateName);
-			}
-			
-			
-			// 产生图片地址
-			if (StringUtils.isNotBlank(productEditUp.getVfsId())) {
-				String vfsId = productEditUp.getVfsId();
-				String picType = productEditUp.getPicType();
-				if (StringUtils.isBlank(picType))
-					picType = ".jpg";
-				if (!picType.startsWith("."))
-					picType = "." + picType;
-				String imageUrl = imageClient.getImageUrl(vfsId, picType, attrImageSize);
-				productEditUp.setPicUrl(imageUrl);
-			}
-		}
-		return result;
-	}
 	
+
 	/**
 	 * 根据状态不同查询商品
 	 * 
@@ -307,6 +214,35 @@ public class ProdQueryController {
 			List<String> stateList = new ArrayList<>();
 			stateList.add("0");
 			stateList.add("1");
+			productEditQueryReq.setStateList(stateList);
+			PageInfoResponse<ProductEditUp> result = queryProductByState(productEditQueryReq);
+			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
+					result);
+		} catch (Exception e) {
+			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_FAILURE,
+					"获取信息异常");
+			LOG.error("获取信息出错：", e);
+		}
+		return responseData;
+	}
+	
+	/**
+	 * 点击查询按钮调用方法-查询在售商品
+	 * @return
+	 */
+	@RequestMapping("/getInsaleList")
+	@ResponseBody
+	private ResponseData<PageInfoResponse<ProductEditUp>> queryinsaleProduct(HttpServletRequest request,ProductEditQueryReq productEditQueryReq) {
+		ResponseData<PageInfoResponse<ProductEditUp>> responseData = null;
+		try {
+			// HttpSession session = request.getSession();
+			// SSOClientUser user = (SSOClientUser)
+			// session.getAttribute(SSOClientConstants.USER_SESSION_KEY);
+			productEditQueryReq.setTenantId("SLP");
+			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
+			// 设置商品状态为新增和未编辑
+			List<String> stateList = new ArrayList<>();
+			stateList.add("5");
 			productEditQueryReq.setStateList(stateList);
 			PageInfoResponse<ProductEditUp> result = queryProductByState(productEditQueryReq);
 			responseData = new ResponseData<PageInfoResponse<ProductEditUp>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
