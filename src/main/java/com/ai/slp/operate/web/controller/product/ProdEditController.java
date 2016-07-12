@@ -146,7 +146,7 @@ public class ProdEditController {
     }
 
     /**
-     * 保持编辑信息
+     * 保存编辑信息
      * @return
      */
     @RequestMapping("/save")

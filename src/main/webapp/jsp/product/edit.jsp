@@ -399,8 +399,10 @@
 					<ul>
 						<li class="width-xlag">
 							<p class="word"><b class="red">*</b>选择商品上架时间</p>
-							<p><input type="radio" name="upshelfType" value="1" class="checkbox-small" checked>立即上架</p>
-							<%--<p><input type="radio" class="checkbox-small">放入仓库</p>--%>
+							<p><input type="radio" name="upshelfType" value="1"
+									  class="checkbox-small" <c:if test="${productInfo.upshelfType != '2'}">checked</c:if>>立即上架</p>
+							<p><input type="radio" name="upshelfType" value="2"
+									  class="checkbox-small" <c:if test="${productInfo.upshelfType == '2'}">checked</c:if>>放入仓库</p>
 							<%--<p><input type="radio" class="checkbox-small">定时上架</p>--%>
 							<%--<p><input type="text" class="int-small"><a href="#" class="ccc"><i class="icon-calendar"></i></a></p>--%>
 						</li>
