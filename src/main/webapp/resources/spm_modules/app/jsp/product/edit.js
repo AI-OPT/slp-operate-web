@@ -252,7 +252,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 						if("1"===data.statusCode){
 							//_this._showMsg("保存成功");
 							//保存成功,回退到进入的列表页
-							history.go(-1);
+							window.history.go(-1);
 							//window.location.href = _base+"/prodquery/add";
 						}
 					}
