@@ -46,22 +46,16 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     	},
     	//弹出上架确认提示框
     	_showUpConfirm:function(prodId){
+    		$(".eject-big").show();
+    		$(".eject-samll").show();
+    		$(".eject-mask").show();
     		var _this = this;
-    		var timeFunction = null; 
-			// 取消上次延时未执行的方法 
-			clearTimeout(timeFunction); 
-			//执行延时 
-			timeFunction = setTimeout(function(){ 
-				$(".eject-big").show();
-				$(".eject-samll").show();
-				$(".eject-mask").show();
-				$("#upConfirm").click(function(){
-					$(".eject-big").toggle();
-					$(".eject-samll").toggle();
-					$(".eject-mask").toggle();
-					_this._prodToInSale(prodId);
-				});
-			},1);
+    		$("#upConfirm").click(function(){
+    			$(".eject-big").toggle();
+        		$(".eject-samll").toggle();
+        		$(".eject-mask").toggle();
+    			_this._prodToInSale(prodId);
+    		});
     	},
     	//上架销售
     	_prodToInSale: function(prodId){
