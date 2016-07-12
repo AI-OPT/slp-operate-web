@@ -245,7 +245,7 @@
 						<c:choose>
 							<%-- 下拉选择 --%>
 							<c:when test="${attr.valueWay == '1'}">
-								<select class="select-medium" attrId="noKeyAttr${attr.attrId}">
+								<select class="select select-medium" attrId="noKeyAttr${attr.attrId}">
 									<c:forEach var="valInfo" items="${noKeyAttrValMap.get(attr.attrId)}">
 										<option value="${valInfo.attrValId}"
 												<c:if test="${valInfo.productAttrValId == valInfo.attrValId}">selected</c:if>>${valInfo.attrVal}</option>
@@ -264,7 +264,7 @@
 							<%--单行输入--%>
 							<c:when test="${attr.valueWay == '3'}">
 								<c:set var="valInfo" value="${noKeyAttrValMap.get(attr.attrId).get(0)}"></c:set>
-								<p><input type="text" class="int-xlarge" attrId="noKeyAttr${attr.attrId}" maxlength="100"
+								<p><input type="text" class="int-text int-xlarge" attrId="noKeyAttr${attr.attrId}" maxlength="100"
 										  <c:if test="${valInfo!=null}">value="${valInfo.attrVal}"</c:if> ></p>
 							</c:when>
 							<%--多行输入--%>

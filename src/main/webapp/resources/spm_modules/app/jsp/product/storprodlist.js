@@ -22,6 +22,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     	Implements:SendMessageUtil,
     	//属性，使用时由类的构造函数传入
     	attrs: {
+    		clickId:""
     	},
     	Statics: {
     		DEFAULT_PAGE_SIZE: 30
@@ -38,15 +39,27 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
             "click #stayUpPage":"_selectStayUpProd",
             "click #saleDownPage":"_selectSaleDownProd",
             "click #storStopPage":"_selectStorStopProd",
+            "click #upConfirm":"_prodToInSale"
         },
     	//重写父类
     	setup: function () {
     		StorprodlistPager.superclass.setup.call(this);
     		this._selectStayUpProd();
     	},
+    	//弹出上架确认提示框
+    	_showUpConfirm:function(prodId){
+    		$(".eject-big").show();
+    		$(".eject-samll").show();
+    		$(".eject-mask").show();
+    		clickId = prodId;
+    	},
     	//上架销售
-    	_prodToInSale: function(prodId){
+    	_prodToInSale: function(){
+    		$(".eject-big").hide();
+    		$(".eject-samll").hide();
+    		$(".eject-mask").hide();
     		var _this = this;
+    		var prodId = clickId;
     		ajaxController.ajax({
 				type: "post",
 				processing: false,
