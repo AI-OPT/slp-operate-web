@@ -46,6 +46,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     	},
     	//上架销售
     	_prodToInSale: function(prodId){
+    		var _this = this;
     		ajaxController.ajax({
 				type: "post",
 				processing: false,
@@ -53,8 +54,8 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 				url: _base+"/prodOperate/prodToSale",
 				data:{"productId":prodId},
 				success: function(data){
-					alert(data);
 					if("1"===data.statusCode){
+						_this._selectStayUpProd();
 						var d = Dialog({
 							content:"上架成功.",
 							icon:'success',
@@ -205,7 +206,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     	_selectStayUpProd:function(){
     		var _this = this;
     		//获取下拉菜单的总个数
-    		var div = document.getElementById("data1ProdCat");
+    		var div = document.getElementById("date1ProdCat");
     		var length = div.getElementsByTagName("select").length-1;
     		var	productCatId = $("#productCat"+length+" option:selected").val();
     		var productType = $("#productType").val().trim();

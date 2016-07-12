@@ -55,7 +55,7 @@
 	          <!--结果标题-->
 	         <div id="date1">
 	          <div class="form-label">
-	           	<ul id="data1ProdCat">
+	           	<ul id="date1ProdCat">
 	                <li class="width-xlag">
 	                    <p class="word">商品类目</p>
 	                    <c:forEach var="map" items="${catInfoMap}" varStatus="status">
@@ -157,7 +157,7 @@
 	         </div>
 	        <div id="date2" style="display:none;">
 	        <div class="form-label">
-	           	<ul id="data2ProdCat">
+	           	<ul id="date2ProdCat">
 	                <li class="width-xlag">
 	                    <p class="word">商品类目</p>
 	                    <c:forEach var="map" items="${catInfoMap}" varStatus="status">
@@ -253,7 +253,7 @@
 	         </div>
 	        <div id="date3" style="display:none;">
 	        <div class="form-label">
-	           	<ul id="data3ProdCat">
+	           	<ul id="date3ProdCat">
 	                <li class="width-xlag">
 	                    <p class="word">商品类目</p>
 	                    <c:forEach var="map" items="${catInfoMap}" varStatus="status">
