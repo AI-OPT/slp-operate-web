@@ -23,7 +23,7 @@
 		<!--确认上架-->
 		<div class="eject-samll-confirm">
 			<ul>
-			<li class="word">确定要上架此商品吗？</li>
+			<li class="word">确定要将商品上架进行销售吗?</li>
 			<li><input id="upConfirm" type="button"  class="slp-btn eject-small-btn" value="确认"><input type="button"  class="slp-btn eject-small-btn close-btn" value="取消"></li>		
 			</ul>
 		</div>
@@ -410,6 +410,7 @@
 		(function () {
 			$('#selectStayUpProdData').delegate('.blue-border','click',function(){
 				console.log('prodId:'+$(this).attr('id'));
+				clickId = $(this).attr('id');
 				pager._showUpConfirm($(this).attr('id'));
 				/* pager._prodToInSale($(this).attr('id')); */
 			});
