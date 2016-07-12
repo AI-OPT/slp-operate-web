@@ -341,27 +341,4 @@ public class ProdQueryController {
 		return responseData;
 	}
 	
-	/**
-	 * 待上架商品上架
-	 */
-	@RequestMapping("/prodToSale")
-	@ResponseBody
-	public ResponseData<String> prodToInSale(@RequestParam String productId,HttpSession session){
-		ResponseData<String> responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "添加成功");
-		IProductManagerSV productManagerSV = DubboConsumerFactory.getService(IProductManagerSV.class);
-		//封装参数进行上架操作
-		ProductInfoQuery productInfoQuery = new ProductInfoQuery();
-		productInfoQuery.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
-		productInfoQuery.setOperId(AdminUtil.getAdminId(session));
-		productInfoQuery.setProductId(productId);
-		BaseResponse baseResponse = productManagerSV.changeToInSale(productInfoQuery);
-		LOG.debug("上架返回信息:"+JSonUtil.toJSon(baseResponse));
-		ResponseHeader header = baseResponse.getResponseHeader();
-		//上架出错
-        if (header!=null && !header.isSuccess()){
-            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "添加失败:"+header.getResultMessage());
-        }
-		return responseData;
-	}
-	
 }

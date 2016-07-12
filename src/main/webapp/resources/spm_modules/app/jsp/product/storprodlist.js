@@ -50,7 +50,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 				type: "post",
 				processing: false,
 				message: "上架中，请等待...",
-				url: _base+"/prodquery/prodToSale",
+				url: _base+"/prodOperate/prodToSale",
 				data:{"productId":prodId},
 				success: function(data){
 					alert(data);
