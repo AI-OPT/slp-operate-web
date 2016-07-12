@@ -54,15 +54,14 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 				url: _base+"/prodOperate/prodToSale",
 				data:{"productId":prodId},
 				success: function(data){
-					alert(data);
 					if("1"===data.statusCode){
+						_this._selectStayUpProd();
 						var d = Dialog({
 							content:"上架成功.",
 							icon:'success',
 							okValue: '确 定',
 							ok:function(){
 								this.close();
-								_this._selectStayUpProd();
 							}
 						});
 						d.show();
