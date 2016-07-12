@@ -46,6 +46,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     	},
     	//上架销售
     	_prodToInSale: function(prodId){
+    		var _this = this;
     		ajaxController.ajax({
 				type: "post",
 				processing: false,
@@ -61,6 +62,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 							okValue: '确 定',
 							ok:function(){
 								this.close();
+								_this._selectStayUpProd();
 							}
 						});
 						d.show();
