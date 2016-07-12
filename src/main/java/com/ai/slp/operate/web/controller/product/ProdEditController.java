@@ -232,7 +232,7 @@ public class ProdEditController {
     }
 
     private String audiType(Map<String,ProdAudiencesInfo> audiMap){
-        //默认不分可见
+        //默认部分可见
         String audiEnt = "1";
         //代理商受众
         //为空表示全部不可见
