@@ -174,7 +174,7 @@ public class ProdQueryController {
 			ProductCatInfo productCatInfo = productCatSV.queryByCatId(productCatUniqueReq);
 			ProductCatQuery catQuery = new ProductCatQuery();
 			ProdCatInfo prodCatInfo = null;
-			catQuery.setTenantId("SLP");
+			catQuery.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
 			//如果当前类目有子类则查询下一级类目
 			if(productCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD)){
 				catQuery.setParentProductCatId(prodCatId);
