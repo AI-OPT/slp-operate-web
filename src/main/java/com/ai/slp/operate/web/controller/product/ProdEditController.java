@@ -118,7 +118,7 @@ public class ProdEditController {
         uiModel.addAttribute("audiEnt",audiType(entMap));
         uiModel.addAttribute("audiEnts",audiStr(entMap));
         //代理商受众
-        Map<String,ProdAudiencesInfo> agentMap = otherSet.getEnterpriseMap();
+        Map<String,ProdAudiencesInfo> agentMap = otherSet.getAgentsMap();
         uiModel.addAttribute("audiAgent",audiType(agentMap));
         uiModel.addAttribute("audiAgents",audiStr(agentMap));
 
@@ -199,7 +199,7 @@ public class ProdEditController {
 
         //保存错误
         if (header!=null && !header.isSuccess()){
-            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "添加失败:"+header.getResultMessage());
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "更新失败:"+header.getResultMessage());
         }
         return responseData;
     }
