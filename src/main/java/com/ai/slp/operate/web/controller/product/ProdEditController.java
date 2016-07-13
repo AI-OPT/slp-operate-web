@@ -118,7 +118,7 @@ public class ProdEditController {
         uiModel.addAttribute("audiEnt",audiType(entMap));
         uiModel.addAttribute("audiEnts",audiStr(entMap));
         //代理商受众
-        Map<String,ProdAudiencesInfo> agentMap = otherSet.getEnterpriseMap();
+        Map<String,ProdAudiencesInfo> agentMap = otherSet.getAgentsMap();
         uiModel.addAttribute("audiAgent",audiType(agentMap));
         uiModel.addAttribute("audiAgents",audiStr(agentMap));
 
@@ -146,7 +146,7 @@ public class ProdEditController {
     }
 
     /**
-     * 保持编辑信息
+     * 保存编辑信息
      * @return
      */
     @RequestMapping("/save")
@@ -199,7 +199,7 @@ public class ProdEditController {
 
         //保存错误
         if (header!=null && !header.isSuccess()){
-            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "添加失败:"+header.getResultMessage());
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "更新失败:"+header.getResultMessage());
         }
         return responseData;
     }
@@ -232,7 +232,7 @@ public class ProdEditController {
     }
 
     private String audiType(Map<String,ProdAudiencesInfo> audiMap){
-        //默认不分可见
+        //默认部分可见
         String audiEnt = "1";
         //代理商受众
         //为空表示全部不可见

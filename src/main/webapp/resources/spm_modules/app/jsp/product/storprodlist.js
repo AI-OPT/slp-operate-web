@@ -22,6 +22,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     	Implements:SendMessageUtil,
     	//属性，使用时由类的构造函数传入
     	attrs: {
+    		clickId:""
     	},
     	Statics: {
     		DEFAULT_PAGE_SIZE: 30
@@ -38,14 +39,27 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
             "click #stayUpPage":"_selectStayUpProd",
             "click #saleDownPage":"_selectSaleDownProd",
             "click #storStopPage":"_selectStorStopProd",
+            "click #upConfirm":"_prodToInSale"
         },
     	//重写父类
     	setup: function () {
     		StorprodlistPager.superclass.setup.call(this);
     		this._selectStayUpProd();
     	},
+    	//弹出上架确认提示框
+    	_showUpConfirm:function(prodId){
+    		$(".eject-big").show();
+    		$(".eject-samll").show();
+    		$(".eject-mask").show();
+    		clickId = prodId;
+    	},
     	//上架销售
-    	_prodToInSale: function(prodId){
+    	_prodToInSale: function(){
+    		$(".eject-big").hide();
+    		$(".eject-samll").hide();
+    		$(".eject-mask").hide();
+    		var _this = this;
+    		var prodId = clickId;
     		ajaxController.ajax({
 				type: "post",
 				processing: false,
@@ -53,8 +67,8 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 				url: _base+"/prodOperate/prodToSale",
 				data:{"productId":prodId},
 				success: function(data){
-					alert(data);
 					if("1"===data.statusCode){
+						_this._selectStayUpProd();
 						var d = Dialog({
 							content:"上架成功.",
 							icon:'success',
@@ -205,7 +219,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
     	_selectStayUpProd:function(){
     		var _this = this;
     		//获取下拉菜单的总个数
-    		var div = document.getElementById("data1ProdCat");
+    		var div = document.getElementById("date1ProdCat");
     		var length = div.getElementsByTagName("select").length-1;
     		var	productCatId = $("#productCat"+length+" option:selected").val();
     		var productType = $("#productType").val().trim();

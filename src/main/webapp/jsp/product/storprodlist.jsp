@@ -13,6 +13,24 @@
 </head>
 
 <body>
+	<!--确认是否上架弹出框 -->
+	<div class="eject-big">
+	<div class="eject-samll">
+		<div class="eject-samll-title">
+			<p>上架操作确认</p>
+			<p class="img"><A href="#"></A></p>
+		</div>
+		<!--确认上架-->
+		<div class="eject-samll-confirm">
+			<ul>
+			<li class="word">确定要将商品上架进行销售吗?</li>
+			<li><input id="upConfirm" type="button"  class="slp-btn eject-small-btn" value="确认"><input type="button"  class="slp-btn eject-small-btn close-btn" value="取消"></li>		
+			</ul>
+		</div>
+	</div>	
+	<div class="eject-mask"></div>	
+	</div>
+	<!--确认是否上架弹出框 结束-->
 	<!--顶部菜单-->
 	<%@ include file="/inc/top-menu.jsp" %>
 	<!--顶部菜单结束-->
@@ -55,7 +73,7 @@
 	          <!--结果标题-->
 	         <div id="date1">
 	          <div class="form-label">
-	           	<ul id="data1ProdCat">
+	           	<ul id="date1ProdCat">
 	                <li class="width-xlag">
 	                    <p class="word">商品类目</p>
 	                    <c:forEach var="map" items="${catInfoMap}" varStatus="status">
@@ -157,7 +175,7 @@
 	         </div>
 	        <div id="date2" style="display:none;">
 	        <div class="form-label">
-	           	<ul id="data2ProdCat">
+	           	<ul id="date2ProdCat">
 	                <li class="width-xlag">
 	                    <p class="word">商品类目</p>
 	                    <c:forEach var="map" items="${catInfoMap}" varStatus="status">
@@ -253,7 +271,7 @@
 	         </div>
 	        <div id="date3" style="display:none;">
 	        <div class="form-label">
-	           	<ul id="data3ProdCat">
+	           	<ul id="date3ProdCat">
 	                <li class="width-xlag">
 	                    <p class="word">商品类目</p>
 	                    <c:forEach var="map" items="${catInfoMap}" varStatus="status">
@@ -392,7 +410,9 @@
 		(function () {
 			$('#selectStayUpProdData').delegate('.blue-border','click',function(){
 				console.log('prodId:'+$(this).attr('id'));
-				pager._prodToInSale($(this).attr('id'));
+				clickId = $(this).attr('id');
+				pager._showUpConfirm($(this).attr('id'));
+				/* pager._prodToInSale($(this).attr('id')); */
 			});
 			seajs.use('app/jsp/product/storprodlist', function (StorprodlistPager) {
 				pager = new StorprodlistPager({element: document.body});
