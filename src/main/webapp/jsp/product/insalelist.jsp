@@ -10,36 +10,39 @@
     <link href="${_slpres }/styles/global.css" rel="stylesheet" type="text/css">
     <link href="${_slpres }/styles/frame.css" rel="stylesheet" type="text/css">
     <link href="${_slpres }/styles/modular.css" rel="stylesheet" type="text/css">
-    
-    <!-- <script type="text/javascript">
-		function editState()
-		{
-		var se=confirm("是否确认下架?");
-		if (se==true)
-		  {
-		  alert("你按下的是【确认】");
-		  }
-		else
-		  {
-		  alert("你按下的是【取消】");
-		  }
-		}
-	</script> -->
 </head>
 
 <body>
-<!--顶部菜单-->
-<%@ include file="/inc/top-menu.jsp" %>
-<!--顶部菜单结束-->
-<!-- 左侧菜单 -->
-<%@ include file="/inc/left-menu.jsp" %>
-<!-- 左侧菜单结束 -->
+	<!--确认是否下架弹出框 -->
+	<div class="eject-big">
+	<div class="eject-samll">
+		<div class="eject-samll-title">
+			<p>下架操作确认</p>
+			<p class="img"><A href="#"></A></p>
+		</div>
+		<!--确认上架-->
+		<div class="eject-samll-confirm">
+			<ul>
+			<li class="word">确定要将商品手动下架吗?</li>
+			<li><input id="upConfirm" type="button"  class="slp-btn eject-small-btn" value="确认"><input type="button"  class="slp-btn eject-small-btn close-btn" value="取消"></li>		
+			</ul>
+		</div>
+	</div>	
+	<div class="eject-mask"></div>	
+	</div>
+	<!--确认是否上架弹出框 结束-->
+	<!--顶部菜单-->
+	<%@ include file="/inc/top-menu.jsp" %>
+	<!--顶部菜单结束-->
+	<!-- 左侧菜单 -->
+	<%@ include file="/inc/left-menu.jsp" %>
+	<!-- 左侧菜单结束 -->
 
-<div class="wrapper"><!--外围框架-->
+	<div class="wrapper"><!--外围框架-->
     <!--右侧框架-->
     <div class="wrapper-right">
         <!--公告位置-->
-        <%@ include file="/inc/public-msg.jsp" %>
+        	<%@ include file="/inc/public-msg.jsp" %>
         <!--公告位置结束-->
         <!--标签-->
         <div class="right-tags">
@@ -68,7 +71,7 @@
                 <!--结果标题-->
                 <div id="date1">
                     <div class="form-label">
-                        <ul id="data1ProdCat">
+                        <ul id="date1ProdCat">
                             <li class="width-xlag">
                                 <p class="word">商品类目</p>
                                 <c:forEach var="map" items="${catInfoMap}" varStatus="status">
@@ -113,6 +116,11 @@
                                 <p><input id="productName" type="text" class="int-text int-medium"></p>
                                 <p><input id="selectProductInSale" type="button" value="查询" class="biu-btn btn-blue btn-mini"></p>
                             </li>
+                            <!-- <li  class="width-xlag">
+			                    <p class="word">商品名称</p>
+			                    <p><input  id="productName" type="text" class="int-text int-medium"></p>
+			                    <p><input id="searchStayUpProd" type="button" value="查询" class="biu-btn btn-blue btn-mini"></p>
+			                </li> -->
 						</ul>
                     </div>
                     <!--结果表格-->
@@ -143,16 +151,14 @@
 									<td><img src="{{:picUrl}}"></td>
 								{{/if}}
                                 <td>{{:prodName}}</td>
-                                <%-- <td>{{:totalNum}}</td>--%>
+                                <!--<td>{{:totalNum}}</td>--!>
                                 <td>{{:stateName}}</td>
                                 <td>{{:~timesToFmatter(createTime)}}</td>
                                 <td>
                                     <div>
                                         <p><a href="${_base}/prodedit/{{:prodId}}" class="blue-border">编辑商品</a></p>
-                                    </div>
-                                    <div>
-                                     <!--  <p><a href="${_base}/prodquery/inStore" onclick="inStore()" class="blue-border">商品下架</a></p>  --!> 
-                                        <p><a id="{{:prodId}}" href="#" onclick="inStore()" class="blue-border">商品下架</a></p>
+										<p><a id="{{:prodId}}" href="#" class="blue-border">下架</a></p> 
+                                    <%--   <p><a id="{{:prodId}}" href="#" onclick="inStore()" class="blue-border">商品下架</a></p>  --%>
                                     </div>
                                 </td>
                             </tr>
@@ -167,16 +173,21 @@
 					  </div>
 					 <!--分页-->
                     <!--结果表格结束-->
-                </div>
+                    
+                    <!--结果表格-->
+                   
+               	 </div> 
             </div>
         </div>
         <!--查询结果结束-->
 
     </div>
 </div>
+<!-- footer -->
+	<div class="footer">版权所有 © SLP版权归运营家所有</div>
 </body>
-
-
+	<script src="${_slpres }/scripts/frame.js" type="text/javascript"></script>
+	<script src="${_slpres }/scripts/metismenu.js"></script>
 	<script type="text/javascript">
 	    window.onload = function () {
 	        var timer;
@@ -201,52 +212,33 @@
 	        }
 	    }
 	</script>
-	<script src="${_slpres }/scripts/frame.js" type="text/javascript"></script>
-<!-- 	<script type="text/javascript">
-		var pager;
-		var count = '${count}';
-		var prodInfoList = '${prodInfoList}';
-		var productEditInfo = '${productEditInfo}';
-		(function () {
-			seajs.use('app/jsp/product/insalelist', function (InsalelistPager) {
-				pager = new InsalelistPager({element: document.body});
-				pager.render();
-			});
-		})();
-	</script> -->
 	<script type="text/javascript">
 		var pager;
 		var count = '${count}';
 		var prodInfoList = '${prodInfoList}';
 		var productEditInfo = '${productEditInfo}';
 		(function () {
-			$('#selectStayUpProdData').delegate('.blue-border','click',function(){
+			$('#searchProductData').delegate("a[class='blue-border']",'click',function(){
 				console.log('prodId:'+$(this).attr('id'));
-				pager._prodToInSale($(this).attr('id'));
+				clickId = $(this).attr('id');
+				
+				pager._showUpConfirm($(this).attr('id'));
+				//pager._prodToInSale($(this).attr('id'));
 			});
-			seajs.use('app/jsp/product/insalelist', function (InsalelistPager) {
-				pager = new InsalelistPager({element: document.body});
+			seajs.use('app/jsp/product/insalelist', function (AddlistPager) {
+				pager = new AddlistPager({element: document.body});
 				pager.render();
 			});
 		})();
 	</script>
 	
-	<script type="text/javascript">
+<!-- 	<script type="text/javascript">
 		function inStore()
 		{
 		 if (!confirm("确认要手动下架？")) { 
 	            window.event.returnValue = false; 
 	        } 
 		}
-	
-		/* <form action="del.html" target="_blank" method="get">
-			function inStore()
-			{
-			 if (!confirm("确认要手动下架？")) { 
-		            window.event.returnValue = false; 
-		        } 
-			}
-		</form> */
-	</script>
+	</script> -->
 	
 </html>
