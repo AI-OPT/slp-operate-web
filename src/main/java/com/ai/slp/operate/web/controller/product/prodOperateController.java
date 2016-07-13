@@ -54,10 +54,22 @@ public class prodOperateController {
      * 商品手动下架
      */
     @RequestMapping("/prodInStore")
-    public String productDown(String prodId){
-		return null;
-        
-        /*return "product/insalelist";*/
-        //return "prodquery/insale";
+    @ResponseBody
+    public ResponseData<String> prodToInStore(@RequestParam String productId,HttpSession session){
+    	ResponseData<String> responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "下架成功");
+		IProductManagerSV productManagerSV = DubboConsumerFactory.getService(IProductManagerSV.class);
+		ProductInfoQuery productInfoQuery = new ProductInfoQuery();
+		productInfoQuery.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+		productInfoQuery.setOperId(AdminUtil.getAdminId(session));
+		productInfoQuery.setProductId(productId);
+		BaseResponse baseResponse = productManagerSV.changeToInStore(productInfoQuery);
+		LOG.debug("上架返回信息:"+JSonUtil.toJSon(baseResponse));
+		ResponseHeader header = baseResponse.getResponseHeader();
+		//下架出错
+        if (header!=null && !header.isSuccess()){
+            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "下架失败:"+header.getResultMessage());
+        }
+		
+    	return responseData;
     }
 }
