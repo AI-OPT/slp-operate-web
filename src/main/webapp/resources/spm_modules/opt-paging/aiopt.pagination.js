@@ -96,7 +96,7 @@ define("opt-paging/aiopt.pagination", [], function(require, exports, module){
  	            	_this.hiddenLoadingMessage();
  	            },
  	            error:function(){
- 	        	   _thishiddenLoadingMessage();
+ 	        	   _this.hiddenLoadingMessage();
  	            }
         	});
         	
