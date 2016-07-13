@@ -233,8 +233,10 @@ public class ProdQueryController {
 	private ResponseData<PageInfoResponse<ProductEditUp>> queryinsaleProduct(HttpServletRequest request,ProductEditQueryReq productEditQueryReq) {
 		ResponseData<PageInfoResponse<ProductEditUp>> responseData = null;
 		try {
-			productEditQueryReq.setTenantId("SLP");
-			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));
+			//查询条件
+			queryBuilder(request, productEditQueryReq);
+			/*productEditQueryReq.setTenantId("SLP");
+			productEditQueryReq.setProductCatId(request.getParameter("productCatId"));*/
 			// 设置商品状态为新增和未编辑
 			List<String> stateList = new ArrayList<>();
 			stateList.add("5");
