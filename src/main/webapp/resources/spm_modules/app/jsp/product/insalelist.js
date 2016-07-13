@@ -17,7 +17,7 @@ define('app/jsp/product/insalelist', function (require, exports, module) {
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     //定义页面组件类
-    var AddlistPager = Widget.extend({
+    var InsalelistPager = Widget.extend({
     	
     	Implements:SendMessageUtil,
     	//属性，使用时由类的构造函数传入
@@ -28,13 +28,15 @@ define('app/jsp/product/insalelist', function (require, exports, module) {
     	},
     	//事件代理
     	events: {
-    		//查询未编辑商品
+    		//查询在售商品
             "click #selectProductInSale":"_selectProductInSale",
+            "click #selectProductInStore":"_selectProductInStore",
         },
     	//重写父类
     	setup: function () {
-    		AddlistPager.superclass.setup.call(this);
+    		InsalelistPager.superclass.setup.call(this);
     		this._selectProductInSale();
+    		this._selectProductInStore();
     	},
     	// 改变商品类目
     	_selectChange:function(osel){
@@ -87,14 +89,13 @@ define('app/jsp/product/insalelist', function (require, exports, module) {
     		var productId = $("#productId").val().trim();
     		var productName = $("#productName").val().trim();
     		$("#pagination-ul").runnerPagination({
-	 		/*	url: _base+"/prodquery/getProductList",*/
 	 			url: _base+"/prodquery/getInsaleList",
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"searchProductData",
 	 			messageId:"showMessageDiv",
 	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
-	           	pageSize: AddlistPager.DEFAULT_PAGE_SIZE,
+	           	pageSize: InsalelistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
@@ -107,6 +108,40 @@ define('app/jsp/product/insalelist', function (require, exports, module) {
     		});
     	},
     	
+    	//手动下架
+    	_prodToInSale: function(prodId){
+    		ajaxController.ajax({
+				type: "post",
+				processing: false,
+				message: "上架中，请等待...",
+				url: _base+"/prodOperate/prodInStore",
+				data:{"productId":prodId},
+				success: function(data){
+					alert(data);
+					if("1"===data.statusCode){
+						var d = Dialog({
+							content:"手动下架成功.",
+							icon:'success',
+							okValue: '确 定',
+							ok:function(){
+								this.close();
+							}
+						});
+						d.show();
+	            	}else{
+	            		var d = Dialog({
+							content:"手动下架失败:"+data.statusInfo,
+							icon:'fail',
+							okValue: '确 定',
+							ok:function(){
+								this.close();
+							}
+						});
+						d.show();
+	            	}
+				}
+			});
+    	},
     	//滚动到顶部
     	_returnTop:function(){
     		var container = $('.wrapper-right');
@@ -115,6 +150,6 @@ define('app/jsp/product/insalelist', function (require, exports, module) {
     	
     });
     
-    module.exports = AddlistPager
+    module.exports = InsalelistPager
 });
 

@@ -10,6 +10,21 @@
     <link href="${_slpres }/styles/global.css" rel="stylesheet" type="text/css">
     <link href="${_slpres }/styles/frame.css" rel="stylesheet" type="text/css">
     <link href="${_slpres }/styles/modular.css" rel="stylesheet" type="text/css">
+    
+    <!-- <script type="text/javascript">
+		function editState()
+		{
+		var se=confirm("是否确认下架?");
+		if (se==true)
+		  {
+		  alert("你按下的是【确认】");
+		  }
+		else
+		  {
+		  alert("你按下的是【取消】");
+		  }
+		}
+	</script> -->
 </head>
 
 <body>
@@ -134,25 +149,14 @@
                                 <td>
                                     <div>
                                         <p><a href="${_base}/prodedit/{{:prodId}}" class="blue-border">编辑商品</a></p>
-                                        <%-- <p><a href="#" class="blue">查看商品</a></p> --%>
                                     </div>
                                     <div>
-                                        <p><a href="${_base}/prodedit/editState" onclick="return editState()" class="blue-border">商品下架</a></p>
-										
+                                     <!--  <p><a href="${_base}/prodquery/inStore" onclick="inStore()" class="blue-border">商品下架</a></p>  --!> 
+                                        <p><a id="{{:prodId}}" href="#" onclick="inStore()" class="blue-border">商品下架</a></p>
                                     </div>
-
                                 </td>
                             </tr>
 							</script>
-							<SCRIPT type="text/javascript">
-							function del(){
-							if(confirm("真的要删除该条记录吗?")){
-							return true;
-							}else{
-							return false;
-							}
-							}
-							</SCRIPT>
                     </div>
                     <!--分页-->
 					 <div>
@@ -171,6 +175,8 @@
     </div>
 </div>
 </body>
+
+
 	<script type="text/javascript">
 	    window.onload = function () {
 	        var timer;
@@ -196,16 +202,51 @@
 	    }
 	</script>
 	<script src="${_slpres }/scripts/frame.js" type="text/javascript"></script>
+<!-- 	<script type="text/javascript">
+		var pager;
+		var count = '${count}';
+		var prodInfoList = '${prodInfoList}';
+		var productEditInfo = '${productEditInfo}';
+		(function () {
+			seajs.use('app/jsp/product/insalelist', function (InsalelistPager) {
+				pager = new InsalelistPager({element: document.body});
+				pager.render();
+			});
+		})();
+	</script> -->
 	<script type="text/javascript">
 		var pager;
 		var count = '${count}';
 		var prodInfoList = '${prodInfoList}';
 		var productEditInfo = '${productEditInfo}';
 		(function () {
-			seajs.use('app/jsp/product/insalelist', function (AddlistPager) {
-				pager = new AddlistPager({element: document.body});
+			$('#selectStayUpProdData').delegate('.blue-border','click',function(){
+				console.log('prodId:'+$(this).attr('id'));
+				pager._prodToInSale($(this).attr('id'));
+			});
+			seajs.use('app/jsp/product/insalelist', function (InsalelistPager) {
+				pager = new InsalelistPager({element: document.body});
 				pager.render();
 			});
 		})();
 	</script>
+	
+	<script type="text/javascript">
+		function inStore()
+		{
+		 if (!confirm("确认要手动下架？")) { 
+	            window.event.returnValue = false; 
+	        } 
+		}
+	
+		/* <form action="del.html" target="_blank" method="get">
+			function inStore()
+			{
+			 if (!confirm("确认要手动下架？")) { 
+		            window.event.returnValue = false; 
+		        } 
+			}
+		</form> */
+	</script>
+	
 </html>

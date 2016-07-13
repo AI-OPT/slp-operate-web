@@ -50,4 +50,14 @@ public class prodOperateController {
 		return responseData;
 	}
 	
+	 /**
+     * 商品手动下架
+     */
+    @RequestMapping("/prodInStore")
+    public String productDown(String prodId){
+		return null;
+        
+        /*return "product/insalelist";*/
+        //return "prodquery/insale";
+    }
 }
