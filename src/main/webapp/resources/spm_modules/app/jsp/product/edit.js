@@ -174,7 +174,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 					$('#entAudiDivMore').append("<p>"+audiEntObjs[key]+"、</p>");
 				ind ++;
 			}
-			$('#entAudiDiv').prepend("<p class=\"width-xlag\">已选中"+audiId.length+"个<a href=\"#\" class=\"modify\" audi=\""+ProdEditPager.AUDI_ENT_TYPE+"\" >修改</a></p>");
+			$('#entAudiDiv').prepend("<p class=\"width-xlag\">已选中"+audiId.length+"个<a href=\"javascript:void(0);\" class=\"modify\" audi=\""+ProdEditPager.AUDI_ENT_TYPE+"\" >修改</a></p>");
 			$('#audiEntIds').val(JSON.stringify(audiId));
 			if(audiId.length>20){
 				$('#entAudiDiv').append("<p><a href=\"javascript:void(0)\" class=\"zk\">显示更多<i class=\"icon-angle-down\"></i></a></p>");
@@ -195,7 +195,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 					$('#agentAudiDivMore').append("<p>"+audiAgentObjs[key]+"、</p>");
 				ind ++;
 			}
-			$('#agentAudiDiv').prepend("<p class=\"width-xlag\">已选中"+audiId.length+"个<a href=\"#\" class=\"modify\" audi=\""+ProdEditPager.AUDI_AGENT_TYPE+"\">修改</a></p>");
+			$('#agentAudiDiv').prepend("<p class=\"width-xlag\">已选中"+audiId.length+"个<a href=\"javascript:void(0);\" class=\"modify\" audi=\""+ProdEditPager.AUDI_AGENT_TYPE+"\">修改</a></p>");
 			$('#audiAgentIds').val(JSON.stringify(audiId));
 			if(audiId.length>20){
 				$('#agentAudiDiv').append("<p><a href=\"javascript:\" class=\"zk\">显示更多<i class=\"icon-angle-down\"></i></a></p>");
@@ -244,8 +244,8 @@ define('app/jsp/product/edit', function (require, exports, module) {
 				console.log($('#detailConVal').val());
 				ajaxController.ajax({
 					type: "post",
-					processing: false,
-					// message: "删除中，请等待...",
+					processing: true,
+					message: "保存中，请等待...",
 					url: _base+"/prodedit/save",
 					data:$('#prodForm').serializeArray(),
 					success: function(data){

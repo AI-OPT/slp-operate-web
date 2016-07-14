@@ -98,7 +98,7 @@
 		<div class="eject-large" >		
 			<div id="audiSelectTitle" class="eject-large-title">
 				<p>选择<span id="audiType"></span>受众用户</p>
-				<p class="img"><A href="#"></A></p>
+				<p class="img"><A href="javascript:void(0);"></A></p>
 			</div>
 			<div class="eject-large-list">
 				<div id="audiSelectFinish" class="account-title eject-martop"><p>已选中<b id="audiNum">10</b>个<a href="#" class="wnc">完成选择</a></p></div>
@@ -247,8 +247,8 @@
 							<c:when test="${attr.valueWay == '1'}">
 								<select class="select select-medium" attrId="noKeyAttr${attr.attrId}">
 									<c:forEach var="valInfo" items="${noKeyAttrValMap.get(attr.attrId)}">
-										<option value="${valInfo.attrValId}"
-												<c:if test="${valInfo.productAttrValId == valInfo.attrValId}">selected</c:if>>${valInfo.attrVal}</option>
+										<option value="${valInfo.attrValId}" id="${valInfo.productAttrValId}"
+												<c:if test="${valInfo.productAttrValId == null}">selected</c:if>>${valInfo.attrVal}</option>
 									</c:forEach>
 								</select>
 							</c:when>
@@ -257,7 +257,7 @@
 								<div class="width-xlag">
 									<c:forEach var="valInfo" items="${noKeyAttrValMap.get(attr.attrId)}">
 										<p><input type="checkbox" class="checkbox-small" attrId="noKeyAttr${attr.attrId}" value="${valInfo.attrValId}"
-												  <c:if test="${valInfo.productAttrValId == valInfo.attrValId}">checked</c:if> >${valInfo.attrVal}</p>
+												  <c:if test="${valInfo.productAttrValId == null}">checked</c:if> >${valInfo.attrVal}</p>
 									</c:forEach>
 								</div>
 							</c:when>
@@ -385,7 +385,7 @@
 							<div id="check3"></div>
 							<div id="check4" style="display:none;">
 								<div class="cit-width cit-width-list2">
-									<p class="width-xlag"><span id="areaNum">已选中省份${areaNum}个</span><a href="#" class="city">修改</a></p>
+									<p class="width-xlag"><span id="areaNum">已选中省份${areaNum}个</span><a href="javascript:void(0);" class="city">修改</a></p>
 									<span id="areaName"></span>
 								</div>
 							</div>
