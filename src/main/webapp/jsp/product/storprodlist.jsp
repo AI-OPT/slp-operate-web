@@ -226,7 +226,7 @@
 	        <div class="table table-border table-bordered table-bg table-hover mt-10 commodity-tplist-table">
 	          <table width="100%" border="0">
 	              <tr class="bj">
-	                <td width="10%">>商品ID</td>                                                                                                      
+	                <td width="10%">商品ID</td>                                                                                                      
 	                <td width="10%">所属类目</td>
 	                <td>类型</td>
 	                <td>预览图</td>
@@ -322,13 +322,13 @@
 	        <div class="table table-border table-bordered table-bg table-hover mt-10 commodity-tplist-table">
 	          <table width="100%" border="0">
 	          	<tr class="bj">
-	                <td width="10%">>商品ID</td>                                                                                                      
+	                <td width="10%">商品ID</td>                                                                                                      
 	                <td width="10%">所属类目</td>
 	                <td>类型</td>
 	                <td>预览图</td>
 	                <td width="30%">商品名称</td>
 	                <td>状态</td>
-	                <td>暂停时间</td>    
+	                <td>下架时间</td>    
 	                <td>操作</td>  
 	              </tr>
 	              <tbody id="selectStorStopProdData"></tbody>
