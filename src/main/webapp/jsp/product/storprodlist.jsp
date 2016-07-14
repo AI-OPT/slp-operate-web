@@ -226,7 +226,7 @@
 	        <div class="table table-border table-bordered table-bg table-hover mt-10 commodity-tplist-table">
 	          <table width="100%" border="0">
 	              <tr class="bj">
-	                <td width="10%">>商品ID</td>                                                                                                      
+	                <td width="10%">商品ID</td>                                                                                                      
 	                <td width="10%">所属类目</td>
 	                <td>类型</td>
 	                <td>预览图</td>
@@ -322,7 +322,7 @@
 	        <div class="table table-border table-bordered table-bg table-hover mt-10 commodity-tplist-table">
 	          <table width="100%" border="0">
 	          	<tr class="bj">
-	                <td width="10%">>商品ID</td>                                                                                                      
+	                <td width="10%">商品ID</td>                                                                                                      
 	                <td width="10%">所属类目</td>
 	                <td>类型</td>
 	                <td>预览图</td>
