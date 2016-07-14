@@ -342,5 +342,4 @@ public class ProdQueryController {
 		}
 		return responseData;
 	}
-	
 }
