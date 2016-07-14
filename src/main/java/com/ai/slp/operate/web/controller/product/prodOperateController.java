@@ -63,7 +63,7 @@ public class prodOperateController {
 		productInfoQuery.setOperId(AdminUtil.getAdminId(session));
 		productInfoQuery.setProductId(productId);
 		BaseResponse baseResponse = productManagerSV.changeToInStore(productInfoQuery);
-		LOG.debug("上架返回信息:"+JSonUtil.toJSon(baseResponse));
+		LOG.debug("下架返回信息:"+JSonUtil.toJSon(baseResponse));
 		ResponseHeader header = baseResponse.getResponseHeader();
 		//下架出错
         if (header!=null && !header.isSuccess()){

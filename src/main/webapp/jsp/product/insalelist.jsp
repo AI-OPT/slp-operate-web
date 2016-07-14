@@ -225,8 +225,8 @@
 				pager._showUpConfirm($(this).attr('id'));
 				//pager._prodToInSale($(this).attr('id'));
 			});
-			seajs.use('app/jsp/product/insalelist', function (AddlistPager) {
-				pager = new AddlistPager({element: document.body});
+			seajs.use('app/jsp/product/insalelist', function (InsalelistPager) {
+				pager = new InsalelistPager({element: document.body});
 				pager.render();
 			});
 		})();
