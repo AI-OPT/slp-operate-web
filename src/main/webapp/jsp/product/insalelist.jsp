@@ -116,11 +116,6 @@
                                 <p><input id="productName" type="text" class="int-text int-medium"></p>
                                 <p><input id="selectProductInSale" type="button" value="查询" class="biu-btn btn-blue btn-mini"></p>
                             </li>
-                            <!-- <li  class="width-xlag">
-			                    <p class="word">商品名称</p>
-			                    <p><input  id="productName" type="text" class="int-text int-medium"></p>
-			                    <p><input id="searchStayUpProd" type="button" value="查询" class="biu-btn btn-blue btn-mini"></p>
-			                </li> -->
 						</ul>
                     </div>
                     <!--结果表格-->
