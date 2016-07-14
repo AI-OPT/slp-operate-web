@@ -328,7 +328,7 @@
 	                <td>预览图</td>
 	                <td width="30%">商品名称</td>
 	                <td>状态</td>
-	                <td>暂停时间</td>    
+	                <td>下架时间</td>    
 	                <td>操作</td>  
 	              </tr>
 	              <tbody id="selectStorStopProdData"></tbody>
