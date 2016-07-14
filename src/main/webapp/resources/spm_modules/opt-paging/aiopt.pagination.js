@@ -111,18 +111,29 @@ define("opt-paging/aiopt.pagination", [], function(require, exports, module){
          * 显示加载信息
          */
         showLoadingMessage(){
-        	this.$element.addClass("not-query pt-20 pb-20");
-        	this.$element.removeClass("pagination");
-        	this.$element.get(0).innerHTML = "<li class='dialog-icon-loading'></li>";
+        	var messageId = this.options.messageId;
+        	if(messageId){
+        		document.getElementById(messageId).innerHTML = "<li class='dialog-icon-loading'></li>";
+        		document.getElementById(messageId).className = "not-query pt-20 pb-20";
+        	}
+//        	this.$element.addClass("not-query pt-20 pb-20");
+//        	this.$element.removeClass("pagination");
+//        	this.$element.get(0).innerHTML = "<li class='dialog-icon-loading'></li>";
         },
         
         /**
          * 隐藏加载信息
          */
         hiddenLoadingMessage(){
-        	this.$element.addClass("pagination");
-        	this.$element.removeClass("not-query pt-20 pb-20");
-        	this.$element.get(0).innerHTML = "";
+        	var messageId = this.options.messageId;
+        	if(messageId){
+        		document.getElementById(messageId).innerHTML = "";
+        		document.getElementById(messageId).className = "";
+        	}
+        	
+//        	this.$element.addClass("pagination");
+//        	this.$element.removeClass("not-query pt-20 pb-20");
+//        	this.$element.get(0).innerHTML = "";
         },
         /**
          * 显示无返回信息
@@ -130,12 +141,21 @@ define("opt-paging/aiopt.pagination", [], function(require, exports, module){
         showNotResultMessage(){
         	this.$element.removeClass("pagination");
         	var imageType = this.options.resultImageType;
-        	if(imageType == "1"){
-        		this.$element.addClass("query-product-msgimage not-query");
-            	this.$element.get(0).innerHTML = "<li class='dialog-icon-notquery-1'></li><li>抱歉没有找到相关商品，更换搜索词试一试吧！</li>";
-        	}else{
-        		this.$element.addClass("not-query pt-20 pb-20");
-            	this.$element.get(0).innerHTML = "<li class='dialog-icon-notquery'></li><li>抱歉没有查询到相关数据</li>";
+        	var messageId = this.options.messageId;
+        	if(messageId){
+	        	if(imageType == "1"){
+	        		document.getElementById(messageId).innerHTML = "<li class='dialog-icon-notquery-1'></li><li>抱歉没有找到相关商品，更换搜索词试一试吧！</li>";
+	            	document.getElementById(messageId).className = "query-product-msgimage not-query";
+	
+	//        		this.$element.addClass("query-product-msgimage not-query");
+	//            	this.$element.get(0).innerHTML = "<li class='dialog-icon-notquery-1'></li><li>抱歉没有找到相关商品，更换搜索词试一试吧！</li>";
+	        	}else{
+	        		document.getElementById(messageId).innerHTML = "<li class='dialog-icon-notquery'></li><li>抱歉没有查询到相关数据</li>";
+	            	document.getElementById(messageId).className = "not-query pt-20 pb-20";
+	        		
+	//        		this.$element.addClass("not-query pt-20 pb-20");
+	//            	this.$element.get(0).innerHTML = "<li class='dialog-icon-notquery'></li><li>抱歉没有查询到相关数据</li>";
+	        	}
         	}
         },
         
@@ -145,14 +165,19 @@ define("opt-paging/aiopt.pagination", [], function(require, exports, module){
         hiddenNotResultMessage(){
         	this.$element.addClass("pagination");
         	var imageType = this.options.resultImageType;
-        	if(imageType == "1"){
-        		this.$element.removeClass("query-product-msgimage not-query");
-            	this.$element.get(0).innerHTML = "";
-
-        	}else{
-        		this.$element.removeClass("not-query pt-20 pb-20");
-            	this.$element.get(0).innerHTML = "";
+        	var messageId = this.options.messageId;
+        	if(messageId){
+	        	document.getElementById(this.options.messageId).innerHTML = "";
+	        	document.getElementById(this.options.messageId).className = "";
         	}
+        	
+//        	if(imageType == "1"){
+//        		this.$element.reremoveClass("query-product-msgimage not-query");
+//            	this.$element.get(0).innerHTML = "";
+//        	}else{
+//        		this.$element.removeClass("not-query pt-20 pb-20");
+//            	this.$element.get(0).innerHTML = "";
+//        	}
         },
         
         setupTwbsPagination: function(totalPages){
