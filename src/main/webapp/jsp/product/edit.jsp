@@ -248,7 +248,7 @@
 								<select class="select select-medium" attrId="noKeyAttr${attr.attrId}">
 									<c:forEach var="valInfo" items="${noKeyAttrValMap.get(attr.attrId)}">
 										<option value="${valInfo.attrValId}" id="${valInfo.productAttrValId}"
-												<c:if test="${valInfo.productAttrValId == null}">selected</c:if>>${valInfo.attrVal}</option>
+												<c:if test="${valInfo.productAttrValId != null}">selected</c:if>>${valInfo.attrVal}</option>
 									</c:forEach>
 								</select>
 							</c:when>
@@ -257,7 +257,7 @@
 								<div class="width-xlag">
 									<c:forEach var="valInfo" items="${noKeyAttrValMap.get(attr.attrId)}">
 										<p><input type="checkbox" class="checkbox-small" attrId="noKeyAttr${attr.attrId}" value="${valInfo.attrValId}"
-												  <c:if test="${valInfo.productAttrValId == null}">checked</c:if> >${valInfo.attrVal}</p>
+												  <c:if test="${valInfo.productAttrValId != null}">checked</c:if> >${valInfo.attrVal}</p>
 									</c:forEach>
 								</div>
 							</c:when>
