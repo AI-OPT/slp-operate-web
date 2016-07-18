@@ -1,7 +1,7 @@
 package com.ai.slp.operate.web.controller.home;
 
 import com.ai.opt.base.exception.BusinessException;
-import com.ai.opt.base.vo.PageInfo;
+import com.ai.opt.base.vo.PageInfoResponse;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.components.idps.IDPSClientFactory;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
@@ -13,8 +13,7 @@ import com.ai.slp.operate.web.constants.SysCommonConstants;
 import com.ai.slp.operate.web.vo.ImgFileInfoVo;
 import com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV;
 import com.ai.slp.user.api.keyinfo.param.QueryGroupInfoRequest;
-import com.ai.slp.user.api.keyinfo.param.QueryGroupInfoResponse;
-import com.ai.slp.user.api.keyinfo.param.SearchGroupUserInfoResponse;
+import com.ai.slp.user.api.keyinfo.param.UcGroupKeyInfoVo;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,8 +94,8 @@ public class HomeController {
 
 	@RequestMapping("/queryuser")
 	@ResponseBody
-	public ResponseData<PageInfo<SearchGroupUserInfoResponse>> queryUserList(Integer pageSize, Integer pageNo, String userType, String userName){
-		ResponseData<PageInfo<SearchGroupUserInfoResponse>> responseData;
+	public ResponseData<PageInfoResponse<UcGroupKeyInfoVo>> queryUserList(Integer pageSize, Integer pageNo, String userType, String userName){
+		ResponseData<PageInfoResponse<UcGroupKeyInfoVo>> responseData;
 		QueryGroupInfoRequest infoRequest = new QueryGroupInfoRequest();
 		infoRequest.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
 		infoRequest.setPageNo(pageNo);
@@ -104,13 +103,13 @@ public class HomeController {
 		infoRequest.setCustName(userName);
 		infoRequest.setUserType(userType);
 		IUcKeyInfoSV ucKeyInfoSV = DubboConsumerFactory.getService(IUcKeyInfoSV.class);
-		QueryGroupInfoResponse infoResponse = ucKeyInfoSV.queryGroupInfo(infoRequest);
+		PageInfoResponse<UcGroupKeyInfoVo> infoResponse = ucKeyInfoSV.queryGroupInfo(infoRequest);
 		ResponseHeader header = infoResponse.getResponseHeader();
 		if (header!=null && header.isSuccess()){
-			responseData = new ResponseData<PageInfo<SearchGroupUserInfoResponse>>(ResponseData.AJAX_STATUS_SUCCESS,
-					"查询成功",infoResponse.getPageInfo());
+			responseData = new ResponseData<PageInfoResponse<UcGroupKeyInfoVo>>(ResponseData.AJAX_STATUS_SUCCESS,
+					"查询成功",infoResponse);
 		}else {
-			responseData = new ResponseData<PageInfo<SearchGroupUserInfoResponse>>(ResponseData.AJAX_STATUS_FAILURE,
+			responseData = new ResponseData<PageInfoResponse<UcGroupKeyInfoVo>>(ResponseData.AJAX_STATUS_FAILURE,
 					"查询失败:"+header.getResultMessage());
 		}
 		return responseData;
