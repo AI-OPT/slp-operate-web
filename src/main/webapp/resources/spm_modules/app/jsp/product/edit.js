@@ -335,6 +335,8 @@ define('app/jsp/product/edit', function (require, exports, module) {
 				url: _base + "/home/queryuser",
 				method: "POST",
 				dataType: "json",
+				renderId:"userList",
+				messageId:"showMessageDiv",
 				processing: true,
 				data: {"userName":selectName,"userType":selectUserType},
 				pageSize: ProdEditPager.DEFAULT_PAGE_SIZE,

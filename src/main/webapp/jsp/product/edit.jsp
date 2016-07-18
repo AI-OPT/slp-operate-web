@@ -111,8 +111,8 @@
 		    </div>
 		    <div class="user-list-title-list">
 		     	<ul id="userList">请输入公司名称进行搜索</ul>
+		     <div id="showMessageDiv"></div>
 		    </div> 	
-		     
 			</div>	
 		 <!--分页-->
 	    <div class="paging-large">
