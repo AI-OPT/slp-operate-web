@@ -184,7 +184,6 @@
 <div class="footer">版权所有 © SLP版权归运营家所有</div>
 </body>
 </html>
-<script src="${_slpres }/scripts/jquery-1.11.1.min.js"></script>
 <script src="${_slpres }/scripts/frame.js"  type="text/javascript" ></script>
 <script src="${_slpres }/scripts/metismenu.js"></script>
  <script type="text/javascript"> 
@@ -209,4 +208,14 @@ window.onload = function(){
 		timer = setInterval(Scroll,40);
 	}
 }
+</script>
+<script type="text/javascript">
+		var pager;
+		var count = '${count}';
+		(function () {
+			seajs.use('app/jsp/storage/prodstorage', function (ProdStoragePager) {
+				pager = new ProdStoragePager({element: document.body});
+				pager.render();
+			});
+		})();
 </script>
