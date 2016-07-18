@@ -20,5 +20,13 @@
                 </li>
             </ul>
         </li>
+        <li>
+            <A href="#">库存管理<span><img src="${_slpres}/images/left-sj.png"></span></A>
+            <ul>
+                <li>
+                    <a href="${_base}/storage/prodstorage">生成虚拟库存</a>
+                </li>
+            </ul>
+        </li>
     </ul>
 </div>
