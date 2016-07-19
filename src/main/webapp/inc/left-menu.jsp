@@ -20,22 +20,16 @@
 		        </li>
 		    </ul>
         </li>
-        
-    </ul>
-
-    <ul id="menu4">
-    	<li>
+        <li>
             <a href="${_base}/normprodquery/list">标准品管理</a>
-        </li> 
-    </ul>
-    <ul id="menu5">
-    	<li>
-    	<A href="#">库存管理<span><img src="${_slpres}/images/left-sj.png"></span></A>
+        </li>
+        <li>
+            <A href="#">库存管理<span><img src="${_slpres}/images/left-sj.png"></span></A>
             <ul>
                 <li>
                     <a href="${_base}/storage/prodstorage">生成虚拟库存</a>
                 </li>
             </ul>
-    	</li>
+        </li>
     </ul>
 </div>
