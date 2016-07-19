@@ -55,12 +55,12 @@
                 <li class="width-xlag">
                     <p class="word">标准品名称</p>
                     <p><input type="text" class="int-text int-medium"></p>
-                    <p><input type="button" value="查询" class="biu-btn btn-blue btn-mini"</p>
+                    <p><input type="button" value="查询" class="biu-btn btn-blue btn-mini"/></p>
                     <p class="sos"><a href="#">高级搜索<i class="icon-caret-down"></i></a></p>
                 </li>
             </ul>
             <!--点击展开-->
-            <div class="open" style="display:none;">
+            <div id="selectDiv" class="open" >
             <ul>
                 <li>
                     <p class="word">标准品ID</p>
@@ -84,9 +84,11 @@
             <ul>
                 <li>
                     <p class="word">操作时间</p>
-                    <p><input type="text" class="int-text int-medium"><a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
+                    <p><input type="text" class="int-text int-medium" id="operStartTime">
+                        <a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
                     <p>~</p>
-                    <p><input type="text" class="int-text int-medium"><a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
+                    <p><input type="text" class="int-text int-medium" id="operEndTime">
+                        <a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
                 </li>
             </ul>
             </div>  
@@ -213,6 +215,13 @@ window.onload = function(){
 		var pager;
 		var count = '${count}';
 		(function () {
+            <%-- 展示日历 --%>
+            $('#selectDiv').delegate('.icon-calendar','click',function(){
+                var calInput = $(this).parent().prev();
+                var timeId = calInput.attr('id');
+                console.log("click calendar "+timeId);
+                WdatePicker({el:timeId,readOnly:true});
+            });
 			seajs.use('app/jsp/storage/prodstorage', function (ProdStoragePager) {
 				pager = new ProdStoragePager({element: document.body});
 				pager.render();
