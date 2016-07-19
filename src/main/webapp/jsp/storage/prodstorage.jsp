@@ -177,7 +177,6 @@
 <div class="footer">版权所有 © SLP版权归运营家所有</div>
 </body>
 </html>
-<script src="${_slpres }/scripts/frame.js"  type="text/javascript" ></script>
 <script src="${_slpres }/scripts/metismenu.js"></script>
  <script type="text/javascript"> 
 window.onload = function(){	

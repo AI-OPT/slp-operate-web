@@ -7,7 +7,7 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
 	    AjaxController = require('opt-ajax/1.0.0/index');
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
-	require("my97DatePicker/WdatePicker");
+	require("My97DatePicker/WdatePicker");
     require("bootstrap-paginator/bootstrap-paginator.min");
     require("app/util/jsviews-ext");
     
@@ -35,7 +35,7 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
     	//重写父类
     	setup: function () {
     		ProdStoragePager.superclass.setup.call(this);
-    		this._selectStandProd();
+//    		this._selectStandProd();
     	},
     	// 改变商品类目
     	_selectChange:function(osel){
@@ -84,11 +84,11 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
     		//获取下拉菜单的总个数-2即为ID后的数值
     		var length = document.getElementsByTagName("select").length-2;
     		var productCatId = $("#productCat"+length+" option:selected").val();
-    		var stanProdType = $("#productType").val().trim();
-    		var stanProdId = $("#productId").val().trim();
-    		var stanProdName = $("#productName").val().trim();
-    		var operTimeBegin = $("#operTimeBegin").val().trim();
-    		var operTimeEnd = $("#operTimeEnd").val().trim();
+    		var stanProdType = $("#stanProdType").val().trim();
+    		var stanProdId = $("#stanProdId").val().trim();
+    		var stanProdName = $("#stanProdName").val().trim();
+    		var operStartTime = $("#operStartTime").val().trim();
+    		var operEndTime = $("#operEndTime").val().trim();
     		
     		$("#pagination-ul").runnerPagination({
 	 			url: _base+"/prodquery/getProductList",
@@ -97,7 +97,7 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
 	 			renderId:"searchStanProdData",
 	 			messageId:"showMessageDiv",
 	            data: {"productCatId":productCatId,"stanProdType":stanProdType,"stanProdId":stanProdId,
-	            	"stanProdName":stanProdName,"operTimeBegin":operTimeBegin,"operTimeBegin":operTimeBegin},
+	            	"stanProdName":stanProdName,"operStartTime":operStartTime,"operEndTime":operEndTime},
 	           	pageSize: AddlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            render: function (data) {
