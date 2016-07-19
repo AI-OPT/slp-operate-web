@@ -1,4 +1,4 @@
-define('app/jsp/product/addlist', function (require, exports, module) {
+define('app/jsp/storage/prodstorage', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
 	    Widget = require('arale-widget/1.2.0/widget'),
@@ -29,12 +29,11 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     	//事件代理
     	events: {
     		//查询未编辑商品
-            "click #selectProductEdit":"_selectProductEdit",
+            "click #selectStandProd":"_selectStandProd",
         },
     	//重写父类
     	setup: function () {
-    		AddlistPager.superclass.setup.call(this);
-    		this._selectProductEdit();
+    		ProdStoragePager.superclass.setup.call(this);
     	},
     	// 改变商品类目
     	_selectChange:function(osel){
@@ -43,7 +42,7 @@ define('app/jsp/product/addlist', function (require, exports, module) {
     		//获取当前ID的最后数字
     		var index = Number(clickId.substring(10))+1;
     		//获取下拉菜单的总个数
-    		var prodCat = document.getElementById("data1ProdCat");
+    		var prodCat = document.getElementById("productCat");
     		var length = prodCat.getElementsByTagName("select").length;
     		if(index==length){
     			return;
@@ -77,29 +76,33 @@ define('app/jsp/product/addlist', function (require, exports, module) {
 				}
 			});
     	},
-    	//查询未编辑商品
-    	_selectProductEdit:function(){
+    	//查询标准品
+    	_selectStandProd:function(){
     		var _this = this;
     		//获取下拉菜单的总个数-2即为ID后的数值
     		var length = document.getElementsByTagName("select").length-2;
     		var productCatId = $("#productCat"+length+" option:selected").val();
-    		var productType = $("#productType").val().trim();
-    		var productId = $("#productId").val().trim();
-    		var productName = $("#productName").val().trim();
+    		var stanProdType = $("#productType").val().trim();
+    		var stanProdId = $("#productId").val().trim();
+    		var stanProdName = $("#productName").val().trim();
+    		var operTimeBegin = $("#operTimeBegin").val().trim();
+    		var operTimeEnd = $("#operTimeEnd").val().trim();
+    		
     		$("#pagination-ul").runnerPagination({
 	 			url: _base+"/prodquery/getProductList",
 	 			method: "POST",
 	 			dataType: "json",
-	 			renderId:"searchProductData",
+	 			renderId:"searchStanProdData",
 	 			messageId:"showMessageDiv",
-	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
+	            data: {"productCatId":productCatId,"stanProdType":stanProdType,"stanProdId":stanProdId,
+	            	"stanProdName":stanProdName,"operTimeBegin":operTimeBegin,"operTimeBegin":operTimeBegin},
 	           	pageSize: AddlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
-	            		var template = $.templates("#searchProductTemple");
+	            		var template = $.templates("#searchStanProdTemple");
 	            	    var htmlOutput = template.render(data);
-	            	    $("#searchProductData").html(htmlOutput);
+	            	    $("#searchStanProdData").html(htmlOutput);
 	            	}
 	            	_this._returnTop();
 	            }

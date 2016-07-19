@@ -28,7 +28,7 @@ public class StorageController {
 		 */
 		@RequestMapping("/prodstorage")
 		public String editQuery(Model uiModel) {
-//			loadCat(uiModel);
+			loadCat(uiModel);
 			return "storage/prodstorage";
 		}
 

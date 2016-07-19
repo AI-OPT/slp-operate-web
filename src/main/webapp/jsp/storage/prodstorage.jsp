@@ -41,22 +41,35 @@
     <div class="form-wrapper"><!--白底内侧-->
     
        <div class="form-label">
-        <div class="nav-form nav-form-padding">
-	            <ul>
-	                <li class="width-xlag">
-	                    <p>所属类目：</p>
-	                    <p><select class="select select-small"></select></p>
-	                    <p><select class="select select-small"></select></p>
-	                    <p><select class="select select-small"></select></p>
-	                </li> 
-	            </ul>  
-      	  </div> 
+	            <ul id="productCat">
+                    <li class="width-xlag">
+                        <p class="word">商品类目</p>
+                        <c:forEach var="map" items="${catInfoMap}" varStatus="status">
+                         <p id="productCat${status.index}">
+                             <select class="select select-small" onChange="pager._selectChange(this);">
+                             <c:forEach var="info" items="${map.value}">
+                                 <option value="${info.productCatId}">${info.productCatName}</option>
+                             </c:forEach>
+                             </select>
+                         </p>
+                        </c:forEach>
+                        <script id="prodCatTemple" type="text/template">
+                            <p id="productCat{{:level}}">
+								<select class="select select-small" onChange="pager._selectChange(this);">
+									{{for prodCatList}}
+                                   		<option value="{{:productCatId}}">{{:productCatName}}</option>
+									{{/for}}
+                               	</select>
+							</p>
+						</script>
+                    </li>
+                </ul>
        	 <ul>
                 <li class="width-xlag">
                     <p class="word">标准品名称</p>
-                    <p><input type="text" class="int-text int-medium"></p>
-                    <p><input type="button" value="查询" class="biu-btn btn-blue btn-mini"</p>
-                    <p class="sos"><a href="#">高级搜索<i class="icon-caret-down"></i></a></p>
+                    <p><input id="stanProdName" type="text" class="int-text int-medium"></p>
+                    <p><input id="selectStandProd" type="button" value="查询" class="biu-btn btn-blue btn-mini"</p>
+                    <p class="sos"><a href="javascript:void(0);">高级搜索<i class="icon-caret-down"></i></a></p>
                 </li>
             </ul>
             <!--点击展开-->
@@ -64,29 +77,19 @@
             <ul>
                 <li>
                     <p class="word">标准品ID</p>
-                    <p><input type="text" class="int-text int-medium"></p>
+                    <p><input id="stanProdId" type="text" class="int-text int-medium"></p>
                 </li>
-                <li>
-                    <p class="word">标准品状态</p>
-                    <p><select class="select select-medium"></select></p>
-                </li>  
-            </ul> 
-            <ul>
-                <li>
+                 <li>
                     <p class="word">标准品类型</p>
-                    <p><select class="select select-medium"></select></p>
+                    <p><select id="stanProdType" class="select select-medium"></select></p>
                 </li>
-                <li>
-                    <p class="word">操作人</p>
-                    <p><select class="select select-medium"></select></p>
-                </li>  
             </ul> 
             <ul>
                 <li>
                     <p class="word">操作时间</p>
-                    <p><input type="text" class="int-text int-medium"><a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
+                    <p><input id="operTimeBegin" type="text" class="int-text int-medium"><a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
                     <p>~</p>
-                    <p><input type="text" class="int-text int-medium"><a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
+                    <p><input id="operTimeEnd" type="text" class="int-text int-medium"><a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
                 </li>
             </ul>
             </div>  
@@ -107,7 +110,7 @@
          <!--结果表格-->
         <div class="table table-border table-bordered table-bg table-hover mt-10">
 			<table width="100%" border="0">
-              <tbody><tr class="bj">  
+              <tr class="bj">  
                 <td>序号</td>                                                                                                      
                 <td>标准品ID</td>
                 <td>标准品名称</td>
@@ -127,53 +130,41 @@
                 <td>hesuan</td>
                 <td><a href="#" class="blue">编辑</a></td>
               </tr>
-             <tr>
-                <td>1</td>
-                <td>3434111</td>
-                <td>Apple iPhone 6s plus</td>
-                <td>手机</td>
-                <td>实物</td>
-                <td>2015-1-23  10:02:34</td>
-                <td>hesuan</td>
-                <td><a href="#" class="blue">编辑</a></td>
-             </tr>
-              <tr>
-                <td>1</td>
-                <td>3434111</td>
-                <td>Apple iPhone 6s plus</td>
-                <td>手机</td>
-                <td>实物</td>
-                <td>2015-1-23  10:02:34</td>
-                <td>hesuan</td>
-                <td><a href="#" class="blue">编辑</a></td>
-              </tr>
-              
-			</tbody></table>
+            <tbody id="searchStanProdData"></tbody>
+            </table>
+            <div id="showMessageDiv"></div>
+                   <script id="searchStanProdTemple" type="text/template">
+                            <tr>
+                                <td>{{:prodId}}</td>
+                                <td>{{:productCatName}}</td>
+                                <td>{{:productTypeName}}</td>
+								{{if picUrl==null || picUrl==""}}
+                            	    <td><img src="${_slpres}/images/sp-03-a.png"></td>
+								{{else}}
+									<td><img src="{{:picUrl}}"></td>
+								{{/if}}
+                                <td>{{:prodName}}</td>
+                                <%-- <td>{{:totalNum}}</td>--%>
+                                <td>{{:stateName}}</td>
+                                <td>{{:~timesToFmatter(createTime)}}</td>
+                                <td>
+                                    <div>
+                                        <p><a href="${_base}/prodedit/{{:prodId}}" class="blue-border">编辑商品</a></p>
+                                        <%-- <p><a href="#" class="blue">查看商品</a></p> --%>
+                                    </div>
+                                </td>
+                            </tr>
+					</script>
           </div> 
+          <!--分页-->
+			 <div class="paging-large">
+				 <nav style="text-align: right">
+					<ul id="pagination-ul">
+					</ul>
+				</nav>
+		  	</div>
+		 <!--分页-->
         <!--结果表格结束-->
-        <!--分页-->
-        <div class="paging-large">
-        <ul>
-            <li class="prev-up"><a href="#">&lt;上一页</a> </li>
-            <li class="active"> <a href="#">1 </a> </li>
-            <li> <a href="#">2 </a> </li>
-            <li> <span>…</span> </li>
-            <li> <a href="#">38</a> </li>
-            <li> <a href="#">39</a> </li>
-            <li> <a href="#">40</a> </li>
-            <li> <a href="#">41</a> </li>
-            <li> <a href="#">42</a> </li>
-            <li> <span>…</span> </li>
-            <li class="next-down"><a href="#">下一页&gt;</a> </li>
-            <li>共100页</li>
-   		     <li>
-                <span>到</span>
-                <span><input type="text" class="int-verysmall"></span>
-                <span>页</span>
-                <span class="btn-span"><a class="but-determine">确定</a></span>
-            </li> 
-         </ul>
-	 </div>
          </div> 
     </div>
    <!--查询结果结束-->
@@ -184,7 +175,6 @@
 <div class="footer">版权所有 © SLP版权归运营家所有</div>
 </body>
 </html>
-<script src="${_slpres }/scripts/frame.js"  type="text/javascript" ></script>
 <script src="${_slpres }/scripts/metismenu.js"></script>
  <script type="text/javascript"> 
 window.onload = function(){	
