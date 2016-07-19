@@ -72,7 +72,7 @@
 				<p class="img"><A href="#"></A></p>
 			</div>
 			<div class="eject-large-list">
-			<div class="account-title eject-martop"><p>已选中<b><span id="dialogAreaNum">10</span></b>个<a id="finishTarget" href="#" class="wnc">完成选择</a></p></div>
+			<div class="account-title eject-martop"><p>已选中<b><span id="dialogAreaNum">10</span></b>个<a id="finishTarget" href="javascript:void(0);" class="wnc">完成选择</a></p></div>
 		    <div id="provAreaDiv" class="user-list-title-list">
 				<c:set value="0" var="areaNum"></c:set>
 		     	<ul>
@@ -101,7 +101,7 @@
 				<p class="img"><A href="javascript:void(0);"></A></p>
 			</div>
 			<div class="eject-large-list">
-				<div id="audiSelectFinish" class="account-title eject-martop"><p>已选中<b id="audiNum">10</b>个<a href="#" class="wnc">完成选择</a></p></div>
+				<div id="audiSelectFinish" class="account-title eject-martop"><p>已选中<b id="audiNum">10</b>个<a href="javascript:void(0);" class="wnc">完成选择</a></p></div>
 				<div id="audiSelectedDiv" class="eject-large-contacts">
 				</div>
 		    <div class="search-firm">
@@ -111,8 +111,8 @@
 		    </div>
 		    <div class="user-list-title-list">
 		     	<ul id="userList">请输入公司名称进行搜索</ul>
+		     <div id="showMessageDiv"></div>
 		    </div> 	
-		     
 			</div>	
 		 <!--分页-->
 	    <div class="paging-large">

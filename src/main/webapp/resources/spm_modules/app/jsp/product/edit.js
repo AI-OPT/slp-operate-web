@@ -140,7 +140,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			//删除原来受众信息
 			$('#audiSelectedDiv').html("");
 			for (var key in audiMap) {
-				$('#audiSelectedDiv').append("<p>"+audiMap[key]+"<a href=\"#\"><i class=\"icon-remove-sign\" userId='"+key+"'></i></a></p>");
+				$('#audiSelectedDiv').append("<p>"+audiMap[key]+"<a href=\"javascript:void(0);\"><i class=\"icon-remove-sign\" userId='"+key+"'></i></a></p>");
 			}
 		},
 		_showAudi:function(){
@@ -177,7 +177,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			$('#entAudiDiv').prepend("<p class=\"width-xlag\">已选中"+audiId.length+"个<a href=\"javascript:void(0);\" class=\"modify\" audi=\""+ProdEditPager.AUDI_ENT_TYPE+"\" >修改</a></p>");
 			$('#audiEntIds').val(JSON.stringify(audiId));
 			if(audiId.length>20){
-				$('#entAudiDiv').append("<p><a href=\"javascript:void(0)\" class=\"zk\">显示更多<i class=\"icon-angle-down\"></i></a></p>");
+				$('#entAudiDiv').append("<p><a href=\"javascript:void(0);\" class=\"zk\">显示更多<i class=\"icon-angle-down\"></i></a></p>");
 			}
 		},
 		//对代理商受众进行处理
@@ -198,7 +198,7 @@ define('app/jsp/product/edit', function (require, exports, module) {
 			$('#agentAudiDiv').prepend("<p class=\"width-xlag\">已选中"+audiId.length+"个<a href=\"javascript:void(0);\" class=\"modify\" audi=\""+ProdEditPager.AUDI_AGENT_TYPE+"\">修改</a></p>");
 			$('#audiAgentIds').val(JSON.stringify(audiId));
 			if(audiId.length>20){
-				$('#agentAudiDiv').append("<p><a href=\"javascript:\" class=\"zk\">显示更多<i class=\"icon-angle-down\"></i></a></p>");
+				$('#agentAudiDiv').append("<p><a href=\"javascript:void(0);\" class=\"zk\">显示更多<i class=\"icon-angle-down\"></i></a></p>");
 			}
 		},
 		//完成目标地域选择
@@ -335,6 +335,8 @@ define('app/jsp/product/edit', function (require, exports, module) {
 				url: _base + "/home/queryuser",
 				method: "POST",
 				dataType: "json",
+				renderId:"userList",
+				messageId:"showMessageDiv",
 				processing: true,
 				data: {"userName":selectName,"userType":selectUserType},
 				pageSize: ProdEditPager.DEFAULT_PAGE_SIZE,

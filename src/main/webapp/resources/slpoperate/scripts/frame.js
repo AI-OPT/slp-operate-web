@@ -192,6 +192,8 @@ jQuery(document).ready(function($) {
 	})
 })
 
+
+
 //小弹出框450 生成虚拟库弹出
 jQuery(document).ready(function($) {
 	$('#small-eject2').click(function(){
@@ -277,7 +279,77 @@ jQuery(document).ready(function($) {
 	$('.eject-large2').slideUp(150);
 	})
 })
+//弹出框带图标 删除弹出	
+jQuery(document).ready(function($) {
+	$('.eject-icon').click(function(){
+	$('.eject-mask').fadeIn(100);
+	$('#small1').slideDown(200);
+	})
+	$('.eject-samll-title .img').click(function(){
+	$('.eject-mask').fadeOut(100);
+	$('#small1').slideUp(150);
+	})
+	$('.eject-samll-confirm .close-btn').click(function(){
+	$('.eject-mask').fadeOut(100);
+	$('#small1').slideUp(150);
+	})
+})
 
+//提示
+jQuery(document).ready(function($) {
+	$('.trash-close').click(function(){
+	$('.eject-mask').fadeIn(100);
+	$('#small2').slideDown(200);
+	})
+	$('.eject-samll-title .img').click(function(){
+	$('.eject-mask').fadeOut(100);
+	$('#small2').slideUp(150);
+	})
+	$('.eject-samll-confirm .close-btn').click(function(){
+	$('.eject-mask').fadeOut(100);
+	$('#small2').slideUp(150);
+	})
+})
+
+//提示
+jQuery(document).ready(function($) {
+	$('.add').click(function(){
+	$('.eject-mask').fadeIn(100);
+	$('#small3').slideDown(200);
+	})
+	$('.eject-samll-title .img').click(function(){
+	$('.eject-mask').fadeOut(100);
+	$('#small3').slideUp(150);
+	})
+	$('.eject-samll-confirm .close-btn').click(function(){
+	$('.eject-mask').fadeOut(100);
+	$('#small3').slideUp(150);
+	})
+})
+
+//搜索 结果弹出框
+jQuery(document).ready(function($) {
+	$('.eject-query').click(function(){
+	$('.eject-mask').fadeIn(100);
+	$('#large2').slideDown(200);
+	})
+	$('.eject-large-title .img').click(function(){
+	$('.eject-mask').fadeOut(100);
+	$('#large2').slideUp(150);
+	})
+})
+
+//查询信息 结果弹出框
+jQuery(document).ready(function($) {
+	$('.eject-paging').click(function(){
+	$('.eject-mask').fadeIn(100);
+	$('#large1').slideDown(200);
+	})
+	$('.eject-large-title .img').click(function(){
+	$('.eject-mask').fadeOut(100);
+	$('#large1').slideUp(150);
+	})
+})	
 
 //商品编辑展开更多 点击展开
 $(function () {

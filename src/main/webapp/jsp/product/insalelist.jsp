@@ -153,7 +153,6 @@
                                     <div>
                                         <p><a href="${_base}/prodedit/{{:prodId}}" class="blue">编辑商品</a></p>
 										<p><a id="{{:prodId}}" href="#" class="blue-border">下架</a></p> 
-                                    <%--   <p><a id="{{:prodId}}" href="#" onclick="inStore()" class="blue-border">商品下架</a></p>  --%>
                                     </div>
                                 </td>
                             </tr>

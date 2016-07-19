@@ -93,7 +93,7 @@ define('app/jsp/product/insalelist', function (require, exports, module) {
     		//获取当前ID的最后数字
     		var index = Number(clickId.substring(10))+1;
     		//获取下拉菜单的总个数
-    		var prodCat = document.getElementById("data1ProdCat");
+    		var prodCat = document.getElementById("date1ProdCat");
     		var length = prodCat.getElementsByTagName("select").length;
     		if(index==length){
     			return;
