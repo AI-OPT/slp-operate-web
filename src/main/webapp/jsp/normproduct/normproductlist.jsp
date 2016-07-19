@@ -5,6 +5,8 @@
 <meta charset="UTF-8">
 <title>运营管理</title>
 <%@ include file="/inc/inc.jsp"%>
+
+
 <link href="${_slpres }/styles/bootstrap.css" rel="stylesheet"
 	type="text/css">
 <link href="${_slpres }/styles/font-awesome.css" rel="stylesheet"
@@ -15,6 +17,11 @@
 	type="text/css">
 <link href="${_slpres }/styles/modular.css" rel="stylesheet"
 	type="text/css">
+
+<!-- UED -->
+<script src="/slp-op/resources/slpoperate/scripts/frame.js" type="text/javascript"></script>
+<script src="/slp-op/resources/slpoperate/scripts/metismenu.js"></script>
+	
 </head>
 
 <body align="center">
@@ -75,44 +82,21 @@
 				<div class="nav-tplist-wrapper">
 					<!--白底内侧-->
 					<!--结果标题-->
-				<%-- <div id="date1">
+					<div id="date1">
 						<div class="form-label">
-							<ul id="date1ProdCat">
+							<ul id="data1ProdCat">
 								<li class="width-xlag">
-									<p class="word">商品类目</p>
-
-									<p id="productCat0">
-										<select class="select select-small"
-											onChange="pager._selectChange(this);">
-
-											<option value="10000000000000">生活缴费</option>
-
-											<option value="2">流量2</option>
-
-										</select>
-									</p>
-
-									<p id="productCat1">
-										<select class="select select-small"
-											onChange="pager._selectChange(this);">
-
-											<option value="10000010000000">通讯充值</option>
-
-										</select>
-									</p>
-
-									<p id="productCat2">
-										<select class="select select-small"
-											onChange="pager._selectChange(this);">
-
-											<option value="10000010010000">话费充值</option>
-
-											<option value="10000010020000">流量充值</option>
-
-											<option value="1">测试类目</option>
-
-										</select>
-									</p> <script id="prodCatTemple" type="text/template">
+									<p class="word">商品类目</p> <c:forEach var="map"
+										items="${catInfoMap}" varStatus="status">
+										<p id="productCat${status.index}">
+											<select class="select select-small"
+												onChange="pager._selectChange(this);">
+												<c:forEach var="info" items="${map.value}">
+													<option value="${info.productCatId}">${info.productCatName}</option>
+												</c:forEach>
+											</select>
+										</p>
+									</c:forEach> <script id="prodCatTemple" type="text/template">
                                 	 <p id="productCat{{:level}}">
 										<select class="select select-small" onChange="pager._selectChange(this);">
 											{{for prodCatList}}
@@ -122,35 +106,9 @@
 									</p>
 								</script>
 								</li>
-							</ul>--%>	
-							
-				<div id="date1">
-                    <div class="form-label">
-                        <ul id="data1ProdCat">
-                            <li class="width-xlag">
-                                <p class="word">商品类目</p>
-                                <c:forEach var="map" items="${catInfoMap}" varStatus="status">
-	                                <p id="productCat${status.index}">
-	                                    <select class="select select-small" onChange="pager._selectChange(this);">
-	                                    <c:forEach var="info" items="${map.value}">
-	                                        <option value="${info.productCatId}">${info.productCatName}</option>
-	                                    </c:forEach>
-	                                    </select>
-	                                </p>
-                                </c:forEach>
-                                <script id="prodCatTemple" type="text/template">
-                                	 <p id="productCat{{:level}}">
-										<select class="select select-small" onChange="pager._selectChange(this);">
-											{{for prodCatList}}
-                                   			 	<option value="{{:productCatId}}">{{:productCatName}}</option>
-											{{/for}}
-                               			</select>
-									</p>
-								</script>
-                            </li>
-                        </ul>
-							
-							
+							</ul>
+
+
 						</div>
 						<!--查询区域-->
 						<div class="form-wrapper">
@@ -160,15 +118,22 @@
 								<ul>
 									<li class="width-xlag">
 										<p class="word">标准品名称</p>
-		                                <p><input id="productName" type="text" class="int-text int-medium"></p>
-										<!-- <p>
+										<p>
+											<input id="productName" type="text"
+												class="int-text int-medium">
+										</p> <!-- <p>
 											
 											<input type="button" value="查询"class="biu-btn btn-blue btn-mini">
 										</p> -->
-										<p><input id="selectNormProductList" type="button" value="查询" class="biu-btn btn-blue btn-mini"></p>
-										<p class="sos">
-											<a href="#">高级搜索<i class="icon-caret-down"></i></a>
+										<p>
+											<input id="selectNormProductList" type="button" value="查询"
+												class="biu-btn btn-blue btn-mini">
 										</p>
+										<!-- <p class="sos">
+											<a href="#">高级搜索<i class="icon-caret-down"></i></a>
+										</p> -->
+										<p class="sos"><a href="javascript:void(0);">高级搜索<i class="icon-caret-down"></i></a></p>
+										
 									</li>
 								</ul>
 								<!--点击展开-->
@@ -181,13 +146,16 @@
 											</p>
 										</li> -->
 										<li>
-			                                <p class="word">标准品ID</p>
-			                                <p><input id="productId" type="text" class="int-text int-medium"></p>
-			                            </li>
+											<p class="word">标准品ID</p>
+											<p>
+												<input id="productId" type="text"
+													class="int-text int-medium">
+											</p>
+										</li>
 										<li>
 											<p class="word">标准品状态</p>
 											<p>
-												<select class="select select-medium"></select>
+												<select id="state" class="select select-medium"></select>
 											</p>
 										</li>
 									</ul>
@@ -199,26 +167,26 @@
 											</p>
 										</li> -->
 										<li>
-			                                <p class="word">标准品类型</p>
-			                                <p>
-				                                <select id="productType" class="select select-medium">
-				                                	<option value="">全部</option>
-				                                	<option value="1">实物</option>
-				                                	<option value="2">虚拟</option>
-				                                </select>
-			                                </p>
-			                            </li>
+											<p class="word">标准品类型</p>
+											<p>
+												<select id="productType" class="select select-medium">
+													<option value="">全部</option>
+													<option value="1">实物</option>
+													<option value="2">虚拟</option>
+												</select>
+											</p>
+										</li>
 									</ul>
 									<ul>
 										<li>
 											<p class="word">操作时间</p>
 											<p>
-												<input type="text" class="int-text int-medium"><a
+												<input id="operTime" type="text" class="int-text int-medium"><a
 													href="#" class="ccc"><i class="icon-calendar"></i></a>
 											</p>
 											<p>~</p>
 											<p>
-												<input type="text" class="int-text int-medium"><a
+												<input id="operTime" type="text" class="int-text int-medium"><a
 													href="#" class="ccc"><i class="icon-calendar"></i></a>
 											</p>
 										</li>
@@ -287,24 +255,8 @@
 								</div>
 								<div class="nav-form"></div>
 
-								<!--结果表格-->
-								<!-- <div class="table table-border table-bordered table-bg table-hover mt-10 commodity-tplist-table">
-                    	<table width="100%" border="0">
-                    		 <tr class="bj">
-				                <td>序号</td>                                                                                                      
-				                <td width="10%">属性ID</td>                                                                                                      
-				                <td width="10%">属性名称</td>
-				                <td>属性值输入方式</td>
-				                <td>属性值数量</td>
-				                <td width="15%">是否允许用户自定义属性值</td>
-				                <td width="15%">操作时间</td>
-				                <td>操作人</td>                                                                                
-				                <td width="20%">操作</td>
-				             </tr> -->
 
-								<!-- <div class="nav-tplist-table"> -->
-								<div class="table table-border table-bordered table-bg table-hover mt-10 commodity-tplist-table">
-								
+								<div class="nav-tplist-table">
 									<table width="100%" border="0">
 										<tr class="bj">
 											<td></td>
@@ -325,54 +277,24 @@
 									<script id="searchNormProductTemple" type="text/template">
                             <tr>
 
-                                <td>{{:productId}}</td>
+                                <td></td>
+                                <td></td>
                                 <td>{{:productId}}</td>
 
                                 <td>{{:productName}}</td>
-                                <td>{{:productCatName}}</td>
+								<td>{{:productCatId}}</td>
+                             <%--  <td>{{:productCatId}}</td>--%> 
                                 <td>{{:productType}}</td>
 
                                 <td>{{:state}}</td>
 								
-                                <td>{{:operTime}}</td>
+								<td>{{:~timesToFmatter(operTime)}}</td>
 
                                 <td>{{:operId}}</td>
 
-                                <td>
-                                    <div>
-                                        <p><a href="${_base}/prodedit/{{:prodId}}" class="blue">编辑商品</a></p>
-										<p><a id="{{:prodId}}" href="#" class="blue-border">下架</a></p> 
-                                    	<p><a id="{{:prodId}}" href="#" onclick="inStore()" class="blue-border">商品下架</a></p> 
-                                    </div>
-                                </td>
+                                <td><a href="#" class="blue">查看详情</a><a href="#" class="red">编辑</a><a href="＃" class="blue">废弃</a></td> 
                             </tr>
 							</script>
-									<%-- <div id="showMessageDiv"></div>
-                            <script id="searchProductTemple" type="text/template">
-                            <tr>
-                                <td>{{:prodId}}</td>
-                                <td>{{:productCatName}}</td>
-                                <td>{{:productTypeName}}</td>
-								{{if picUrl==null || picUrl==""}}
-                            	    <td><img src="${_slpres}/images/sp-03-a.png"></td>
-								{{else}}
-									<td><img src="{{:picUrl}}"></td>
-								{{/if}}
-                                <td>{{:prodName}}</td>
-                                <!--<td>{{:totalNum}}</td>--!>
-                                <td>{{:stateName}}</td>
-                                <td>{{:~timesToFmatter(createTime)}}</td>
-                                <td>
-                                    <div>
-                                        <p><a href="${_base}/prodedit/{{:prodId}}" class="blue">编辑商品</a></p>
-										<p><a id="{{:prodId}}" href="#" class="blue-border">下架</a></p> 
-                                      <p><a id="{{:prodId}}" href="#" onclick="inStore()" class="blue-border">商品下架</a></p> 
-                                    </div>
-                                </td>
-                            </tr>
-							</script> --%>
-
-
 								</div>
 								<!--分页-->
 								<div>
@@ -432,9 +354,7 @@
 				function() {
 					console.log('prodId:' + $(this).attr('id'));
 					clickId = $(this).attr('id');
-
 					pager._showUpConfirm($(this).attr('id'));
-					//pager._prodToInSale($(this).attr('id'));
 				});
 		seajs.use('app/jsp/normproduct/normproductlist', function(
 				InsalelistPager) {

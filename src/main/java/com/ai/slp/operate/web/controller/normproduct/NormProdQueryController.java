@@ -74,10 +74,7 @@ public class NormProdQueryController {
 	@RequestMapping("/getNormProductList")
 	@ResponseBody
 	private ResponseData<PageInfoResponse<NormProdResponse>> queryNormProduct(HttpServletRequest request,NormProdRequest productRequest){
-		
-		
 		ResponseData<PageInfoResponse<NormProdResponse>> responseData = null;
-		
 		try {
 			//查询条件
 			queryBuilder(request, productRequest);
@@ -205,11 +202,13 @@ public class NormProdQueryController {
 	 */
 	private void queryBuilder(HttpServletRequest request,NormProdRequest productRequest) {
 		productRequest.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
-		productRequest.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+		productRequest.setProductCatId(request.getParameter("productCatId"));
 		if(!request.getParameter("productType").isEmpty())
 			productRequest.setProductType(request.getParameter("productType"));
+		
 		if(!request.getParameter("productId").isEmpty())
 			productRequest.setStandedProdId(request.getParameter("productId"));
+		
 		if(!request.getParameter("productName").isEmpty())
 			productRequest.setStandedProductName(request.getParameter("productName"));
 	}
