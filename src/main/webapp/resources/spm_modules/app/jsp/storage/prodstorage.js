@@ -7,6 +7,7 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
 	    AjaxController = require('opt-ajax/1.0.0/index');
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
+	require("my97DatePicker/WdatePicker");
     require("bootstrap-paginator/bootstrap-paginator.min");
     require("app/util/jsviews-ext");
     
@@ -34,6 +35,7 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
     	//重写父类
     	setup: function () {
     		ProdStoragePager.superclass.setup.call(this);
+    		this._selectStandProd();
     	},
     	// 改变商品类目
     	_selectChange:function(osel){
