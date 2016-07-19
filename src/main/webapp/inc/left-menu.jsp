@@ -14,11 +14,18 @@
                     <a href="${_base}/prodquery/storprod">仓库中商品</a>
                 </li>
             </ul>
-            <ul>
-                <li>
-                    <a href="${_base}/prodquery/insale">销售中商品</a>
-                </li>
-            </ul>
+             <ul>
+		        <li>
+				     <a href="${_base}/prodquery/insale">销售中商品</a>
+		        </li>
+		    </ul>
         </li>
+        
+    </ul>
+
+    <ul>
+    	<li>
+            <a href="${_base}/normprodquery/list">标准品管理</a>
+        </li> 
     </ul>
 </div>
