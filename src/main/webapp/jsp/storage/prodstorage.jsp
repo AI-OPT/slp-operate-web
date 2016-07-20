@@ -81,7 +81,13 @@
                 </li>
                  <li>
                     <p class="word">标准品类型</p>
-                    <p><select id="stanProdType" class="select select-medium"></select></p>
+                    <p>
+	                    <select id="stanProdType" class="select select-medium">
+		                    <option value="">全部</option>
+		                   	<option value="1">实物</option>
+		                   	<option value="2">虚拟</option>
+	                   	</select>
+                   	</p>
                 </li>
             </ul> 
             <ul>
@@ -122,40 +128,27 @@
                 <td>操作人</td>
                 <td>操作</td>
               </tr>
-              <tr>
-                <td>1</td>
-                <td>3434111</td>
-                <td>Apple iPhone 6s plus</td>
-                <td>手机</td>
-                <td>实物</td>
-                <td>2015-1-23  10:02:34</td>
-                <td>hesuan</td>
-                <td><a href="#" class="blue">编辑</a></td>
-              </tr>
             <tbody id="searchStanProdData"></tbody>
             </table>
             <div id="showMessageDiv"></div>
                    <script id="searchStanProdTemple" type="text/template">
-                            <tr>
-                                <td>{{:prodId}}</td>
-                                <td>{{:productCatName}}</td>
-                                <td>{{:productTypeName}}</td>
-								{{if picUrl==null || picUrl==""}}
-                            	    <td><img src="${_slpres}/images/sp-03-a.png"></td>
-								{{else}}
-									<td><img src="{{:picUrl}}"></td>
-								{{/if}}
-                                <td>{{:prodName}}</td>
-                                <%-- <td>{{:totalNum}}</td>--%>
+			<tr>
+                <td>1</td>
+                <td>{{:productId}}</td>
+                <td>{{:productName}}</td>
+                <td>{{:catName}}</td>
+                <td>{{:productTypeName}}</td>
+                <td>{{:~timesToFmatter(operTime)}}</td>
+                <%-- <td>hesuan</td> --%>
+                <td><a href="#" class="blue">编辑</a></td>
+              </tr>
+                                <%-- <td>{{:totalNum}}</td>
                                 <td>{{:stateName}}</td>
                                 <td>{{:~timesToFmatter(createTime)}}</td>
                                 <td>
                                     <div>
                                         <p><a href="${_base}/prodedit/{{:prodId}}" class="blue-border">编辑商品</a></p>
-                                        <%-- <p><a href="#" class="blue">查看商品</a></p> --%>
-                                    </div>
-                                </td>
-                            </tr>
+                                        <p><a href="#" class="blue">查看商品</a></p> --%>
 					</script>
           </div> 
           <!--分页-->

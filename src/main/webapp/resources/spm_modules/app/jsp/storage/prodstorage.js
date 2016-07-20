@@ -25,11 +25,11 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
     	attrs: {
     	},
     	Statics: {
-    		DEFAULT_PAGE_SIZE: 30
+    		DEFAULT_PAGE_SIZE: 20
     	},
     	//事件代理
     	events: {
-    		//查询未编辑商品
+    		//查询标准品
             "click #selectStandProd":"_selectStandProd",
         },
     	//重写父类
@@ -87,18 +87,17 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
     		var stanProdType = $("#stanProdType").val().trim();
     		var stanProdId = $("#stanProdId").val().trim();
     		var stanProdName = $("#stanProdName").val().trim();
-    		var operStartTime = $("#operStartTime").val().trim();
-    		var operEndTime = $("#operEndTime").val().trim();
-    		
+    		var operStartTime = $("#operStartTime").val();
+    		var operEndTime = $("#operEndTime").val();
     		$("#pagination-ul").runnerPagination({
-	 			url: _base+"/prodquery/getProductList",
+	 			url: _base+"/storage/normProdList",
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"searchStanProdData",
 	 			messageId:"showMessageDiv",
 	            data: {"productCatId":productCatId,"stanProdType":stanProdType,"stanProdId":stanProdId,
 	            	"stanProdName":stanProdName,"operStartTime":operStartTime,"operEndTime":operEndTime},
-	           	pageSize: AddlistPager.DEFAULT_PAGE_SIZE,
+	           	pageSize: ProdStoragePager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
@@ -106,7 +105,7 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
 	            	    var htmlOutput = template.render(data);
 	            	    $("#searchStanProdData").html(htmlOutput);
 	            	}
-	            	_this._returnTop();
+//	            	_this._returnTop();
 	            }
     		});
     	},
