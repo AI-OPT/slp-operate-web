@@ -1,9 +1,11 @@
 package com.ai.slp.operate.web.controller.storage;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,22 +22,89 @@ import com.ai.opt.base.vo.PageInfoResponse;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
+import com.ai.slp.common.api.cache.param.SysParam;
 import com.ai.slp.common.api.cache.param.SysParamSingleCond;
 import com.ai.slp.operate.web.constants.ComCacheConstants;
 import com.ai.slp.operate.web.constants.ProductCatConstants;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
 import com.ai.slp.operate.web.controller.product.ProdQueryController;
 import com.ai.slp.product.api.normproduct.interfaces.INormProductSV;
+import com.ai.slp.product.api.normproduct.param.AttrMap;
+import com.ai.slp.product.api.normproduct.param.AttrQuery;
+import com.ai.slp.product.api.normproduct.param.AttrValInfo;
+import com.ai.slp.product.api.normproduct.param.NormProdInfoResponse;
 import com.ai.slp.product.api.normproduct.param.NormProdRequest;
 import com.ai.slp.product.api.normproduct.param.NormProdResponse;
+import com.ai.slp.product.api.normproduct.param.NormProdUniqueReq;
+import com.ai.slp.product.api.normproduct.param.ProdCatAttrInfo;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProdCatInfo;
+import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatQuery;
+import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
 
 @Controller
 @RequestMapping("/storage")
 public class StorageController {
 		private static final Logger LOG = LoggerFactory.getLogger(ProdQueryController.class);
+		
+		 /**
+	     * 显示商品编辑页面
+	     * @param prodId
+	     * @return
+	     */
+	    @RequestMapping("/{id}")
+	    public String storageEdit(@PathVariable("id")String standedProdId,Model uiModel){ 
+	    	//查询标准品信息
+	    	NormProdUniqueReq normProdUniqueReq = new NormProdUniqueReq();
+	    	normProdUniqueReq.setProductId(standedProdId);
+	    	normProdUniqueReq.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+	    	INormProductSV normProductSV = DubboConsumerFactory.getService(INormProductSV.class);
+	    	NormProdInfoResponse normProdInfoResponse = normProductSV.queryProducById(normProdUniqueReq);
+	    	uiModel.addAttribute("normProdInfo",normProdInfoResponse);
+	    	//查询类目链
+	        ProductCatUniqueReq catUniqueReq = new ProductCatUniqueReq();
+	        catUniqueReq.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+	        catUniqueReq.setProductCatId(normProdInfoResponse.getProductCatId());
+	        IProductCatSV productCatSV = DubboConsumerFactory.getService(IProductCatSV.class);
+	        List<ProductCatInfo> catLinkList =productCatSV.queryLinkOfCatById(catUniqueReq);
+	        uiModel.addAttribute("catLinkList",catLinkList);
+	        //商品类型
+	        SysParamSingleCond paramSingleCond = new SysParamSingleCond();
+	        paramSingleCond.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+	        paramSingleCond.setTypeCode(ComCacheConstants.TypeProduct.CODE);
+	        paramSingleCond.setParamCode(ComCacheConstants.TypeProduct.PROD_PRODUCT_TYPE);
+	        paramSingleCond.setColumnValue(normProdInfoResponse.getProductType());
+	        ICacheSV cacheSV = DubboConsumerFactory.getService(ICacheSV.class);
+	        SysParam sysParam = cacheSV.getSysParamSingle(paramSingleCond);
+	        uiModel.addAttribute("prodType",sysParam.getColumnDesc());
+	        //标准品关键属性
+	        AttrQuery attrQuery = new AttrQuery();
+	        attrQuery.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+	        attrQuery.setProductId(normProdInfoResponse.getProductId());
+	        attrQuery.setAttrType(ProductCatConstants.ProductCatAttr.AttrType.ATTR_TYPE_KEY);
+	        AttrMap attrMap = normProductSV.queryAttrByNormProduct(attrQuery);
+	        uiModel.addAttribute("attrAndVal",getAttrAndVals(attrMap));
+	        //查询库存组和库存信息
+//	        StorageGroupQuery storageGroupQuery = new StorageGroupQuery();
+//	        IStorageSV IStorageSV = DubboConsumerFactory.getService(IStorageSV.class);
+	    	return "storage/storageEdit";
+	    }
+
+	    private Map<ProdCatAttrInfo,List<AttrValInfo>> getAttrAndVals(AttrMap attrMap){
+	        Map<ProdCatAttrInfo,List<AttrValInfo>> attrAndValMap = new HashMap<>();
+	        Set<Map.Entry<Long,List<Long>>> entrySet = attrMap.attrAndVal.entrySet();
+	        for (Map.Entry<Long,List<Long>> mapEntry:entrySet){
+	            ProdCatAttrInfo attrInfo = attrMap.getAttrDefMap().get(mapEntry.getKey());
+	            List<AttrValInfo> valInfoList = new ArrayList<AttrValInfo>();
+	            List<Long> valIds = mapEntry.getValue();
+	            for (Long valId:valIds){
+	                valInfoList.add(attrMap.getAttrValDefMap().get(valId));
+	            }
+	            attrAndValMap.put(attrInfo, valInfoList);
+	        }
+	        return attrAndValMap;
+	    }
 
 		/**
 		 * 进入页面调用-加载类目

@@ -25,7 +25,6 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     	attrs: {
     	},
     	Statics: {
-    		DEFAULT_PAGE_SIZE: 20
     	},
     	//事件代理
     	events: {
