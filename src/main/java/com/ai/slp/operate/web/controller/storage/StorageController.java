@@ -42,6 +42,8 @@ import com.ai.slp.product.api.productcat.param.ProdCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatQuery;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
+import com.ai.slp.product.api.storage.interfaces.IStorageSV;
+import com.ai.slp.product.api.storage.param.StorageGroupQuery;
 
 @Controller
 @RequestMapping("/storage")
@@ -86,8 +88,8 @@ public class StorageController {
 	        AttrMap attrMap = normProductSV.queryAttrByNormProduct(attrQuery);
 	        uiModel.addAttribute("attrAndVal",getAttrAndVals(attrMap));
 	        //查询库存组和库存信息
-//	        StorageGroupQuery storageGroupQuery = new StorageGroupQuery();
-//	        IStorageSV IStorageSV = DubboConsumerFactory.getService(IStorageSV.class);
+	        StorageGroupQuery storageGroupQuery = new StorageGroupQuery();
+	        IStorageSV storageSV = DubboConsumerFactory.getService(IStorageSV.class);
 	    	return "storage/storageEdit";
 	    }
 
