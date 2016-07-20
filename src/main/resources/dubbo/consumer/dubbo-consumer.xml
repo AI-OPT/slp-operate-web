@@ -41,10 +41,7 @@
 	<!-- 组织机构用户 -->
 	<dubbo:reference id="iUcKeyInfoSV" interface="com.ai.slp.user.api.keyinfo.interfaces.IUcKeyInfoSV"
 					 registry="slpRegistry"/>
-	<!-- 标准品服务 -->
-	<dubbo:reference id="iNormProductSV" interface="com.ai.slp.product.api.normproduct.interfaces.INormProductSV"
-					 registry="slpRegistry"/>
-	<!-- 标准品服务 -->
+	<!-- 库存服务 -->
 	<dubbo:reference id="iStorageSV" interface="com.ai.slp.product.api.storage.interfaces.IStorageSV"
 					 registry="slpRegistry"/>
 
