@@ -1,4 +1,4 @@
-define('app/jsp/storage/prodstorage', function (require, exports, module) {
+define('app/jsp/normproduct/normproductlist', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
 	    Widget = require('arale-widget/1.2.0/widget'),
@@ -7,7 +7,6 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
 	    AjaxController = require('opt-ajax/1.0.0/index');
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
-	require("my97DatePicker/WdatePicker");
     require("bootstrap-paginator/bootstrap-paginator.min");
     require("app/util/jsviews-ext");
     
@@ -17,26 +16,33 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
     
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
+    var clickId = "";
     //定义页面组件类
-    var ProdStoragePager = Widget.extend({
+    var InsalelistPager = Widget.extend({
     	
     	Implements:SendMessageUtil,
     	//属性，使用时由类的构造函数传入
     	attrs: {
+    		clickId:""
     	},
     	Statics: {
-    		DEFAULT_PAGE_SIZE: 20
+    		DEFAULT_PAGE_SIZE: 30
     	},
     	//事件代理
     	events: {
-    		//查询标准品
-            "click #selectStandProd":"_selectStandProd",
-        },
+    		//查询在售商品
+            "click #selectNormProductList":"_selectNormProductList",
+        //   "click #upConfirm":"_prodToInStore"
+        //	"click #selectProductInSale":"_selectProductInSale",
+        //	"click #upConfirm":"_prodToInStore"
+
+            },
     	//重写父类
     	setup: function () {
-    		ProdStoragePager.superclass.setup.call(this);
-//    		this._selectStandProd();
+    		InsalelistPager.superclass.setup.call(this);
+    		this._selectNormProductList();
     	},
+    	
     	// 改变商品类目
     	_selectChange:function(osel){
     		var prodCatId = osel.options[osel.selectedIndex].value;
@@ -44,7 +50,7 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
     		//获取当前ID的最后数字
     		var index = Number(clickId.substring(10))+1;
     		//获取下拉菜单的总个数
-    		var prodCat = document.getElementById("productCat");
+    		var prodCat = document.getElementById("data1ProdCat");
     		var length = prodCat.getElementsByTagName("select").length;
     		if(index==length){
     			return;
@@ -57,7 +63,7 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
 				type: "post",
 				processing: false,
 				// message: "加载中，请等待...",
-				url: _base+"/prodquery/getCat",
+				url: _base+"/normprodquery/getCat",
 				data:{"prodCatId":prodCatId},
 				success: function(data){
 					if(data != null && data != 'undefined' && data.length>0){
@@ -78,34 +84,42 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
 				}
 			});
     	},
-    	//查询标准品
-    	_selectStandProd:function(){
+    	
+    	
+    	//查询标准品列表
+    	_selectNormProductList:function(){
     		var _this = this;
-    		//获取下拉菜单的总个数-2即为ID后的数值
+    		var div = document.getElementById("data1ProdCat");
     		var length = document.getElementsByTagName("select").length-2;
+    		
     		var productCatId = $("#productCat"+length+" option:selected").val();
-    		var stanProdType = $("#stanProdType").val().trim();
-    		var stanProdId = $("#stanProdId").val().trim();
-    		var stanProdName = $("#stanProdName").val().trim();
-    		var operStartTime = $("#operStartTime").val();
-    		var operEndTime = $("#operEndTime").val();
+    		
+    		var productType = $("#productType").val().trim();
+    		
+    		var productId = $("#productId").val().trim();
+    		
+    		var productName = $("#productName").val().trim();
+    		
     		$("#pagination-ul").runnerPagination({
-	 			url: _base+"/storage/normProdList",
+    			
+	 			url: _base+"/normprodquery/getNormProductList",
+	 			
 	 			method: "POST",
 	 			dataType: "json",
-	 			renderId:"searchStanProdData",
+	 			renderId:"searchNormProductData",
 	 			messageId:"showMessageDiv",
-	            data: {"productCatId":productCatId,"stanProdType":stanProdType,"stanProdId":stanProdId,
-	            	"stanProdName":stanProdName,"operStartTime":operStartTime,"operEndTime":operEndTime},
-	           	pageSize: ProdStoragePager.DEFAULT_PAGE_SIZE,
+	 			
+	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
+	            
+	           	pageSize: InsalelistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
-	            		var template = $.templates("#searchStanProdTemple");
+	            		var template = $.templates("#searchNormProductTemple");
 	            	    var htmlOutput = template.render(data);
-	            	    $("#searchStanProdData").html(htmlOutput);
+	            	    $("#searchNormProductData").html(htmlOutput);
 	            	}
-//	            	_this._returnTop();
+	            	_this._returnTop();
 	            }
     		});
     	},
@@ -117,6 +131,6 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
     	
     });
     
-    module.exports = ProdStoragePager
+    module.exports = InsalelistPager
 });
 

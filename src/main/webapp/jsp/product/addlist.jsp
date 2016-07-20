@@ -119,7 +119,7 @@
                         	<div id="showMessageDiv"></div>
                             <script id="searchProductTemple" type="text/template">
                             <tr>
-                                <td>{{:prodId}}</td>
+                               	<td>{{:prodId}}</td>
                                 <td>{{:productCatName}}</td>
                                 <td>{{:productTypeName}}</td>
 								{{if picUrl==null || picUrl==""}}
