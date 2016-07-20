@@ -100,6 +100,9 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
     		
     		var productName = $("#productName").val().trim();
     		
+    		
+    	
+    		
     		$("#pagination-ul").runnerPagination({
     			
 	 			url: _base+"/normprodquery/getNormProductList",

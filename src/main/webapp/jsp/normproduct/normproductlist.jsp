@@ -282,7 +282,7 @@
                                 <td>{{:productId}}</td>
 
                                 <td>{{:productName}}</td>
-								<td>{{:productCatId}}</td>
+								<td>{{:productCatName}}</td>
                              <%--  <td>{{:productCatId}}</td>--%> 
                                 <td>{{:productType}}</td>
 
