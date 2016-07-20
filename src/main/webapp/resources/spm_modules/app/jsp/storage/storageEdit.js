@@ -1,4 +1,4 @@
-define('app/jsp/storage/prodstorage', function (require, exports, module) {
+define('app/jsp/storage/storageEdit', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
 	    Widget = require('arale-widget/1.2.0/widget'),
@@ -18,7 +18,7 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     //定义页面组件类
-    var ProdStoragePager = Widget.extend({
+    var StorageEditPager = Widget.extend({
     	
     	Implements:SendMessageUtil,
     	//属性，使用时由类的构造函数传入
@@ -97,7 +97,7 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
 	 			messageId:"showMessageDiv",
 	            data: {"productCatId":productCatId,"productType":productType,"standedProdId":standedProdId,
 	            	"standedProductName":standedProductName,"startTime":operStartTime,"endTime":operEndTime},
-	           	pageSize: ProdStoragePager.DEFAULT_PAGE_SIZE,
+	           	pageSize: StorageEditPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
@@ -117,6 +117,6 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
     	
     });
     
-    module.exports = ProdStoragePager
+    module.exports = StorageEditPager
 });
 

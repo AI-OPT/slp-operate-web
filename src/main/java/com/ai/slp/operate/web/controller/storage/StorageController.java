@@ -107,15 +107,15 @@ public class StorageController {
 		private void queryBuilder(HttpServletRequest request, NormProdRequest productRequest) {
 			productRequest.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
 			productRequest.setProductCatId(request.getParameter("productCatId"));
-			if(!request.getParameter("stanProdName").isEmpty())
-				productRequest.setProductType(request.getParameter("stanProdName"));
-			if(!request.getParameter("stanProdId").isEmpty())
-				productRequest.setStandedProdId(request.getParameter("stanProdId"));
-			if(!request.getParameter("stanProdType").isEmpty())
-				productRequest.setProductType(request.getParameter("stanProdType"));
-			if(!request.getParameter("operStartTime").isEmpty())
-				productRequest.setOperStartTime(Timestamp.valueOf(request.getParameter("operStartTime")));
-			if(!request.getParameter("operEndTime").isEmpty())
-				productRequest.setOperStartTime(Timestamp.valueOf(request.getParameter("operEndTime")));
+			if(!request.getParameter("standedProductName").isEmpty())
+				productRequest.setProductType(request.getParameter("standedProductName"));
+			if(!request.getParameter("standedProdId").isEmpty())
+				productRequest.setStandedProdId(request.getParameter("standedProdId"));
+			if(!request.getParameter("productType").isEmpty())
+				productRequest.setProductType(request.getParameter("productType"));
+			if(!request.getParameter("startTime").isEmpty())
+				productRequest.setOperStartTime(Timestamp.valueOf(request.getParameter("startTime")));
+			if(!request.getParameter("endTime").isEmpty())
+				productRequest.setOperStartTime(Timestamp.valueOf(request.getParameter("endTime")));
 		}
 }
