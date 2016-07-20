@@ -91,17 +91,10 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
     		var _this = this;
     		var div = document.getElementById("data1ProdCat");
     		var length = document.getElementsByTagName("select").length-2;
-    		
-    		var productCatId = $("#productCat"+length+" option:selected").val();
-    		
+    		var productCatId = $("#productCatId"+length+" option:selected").val();
     		var productType = $("#productType").val().trim();
-    		
-    		var productId = $("#productId").val().trim();
-    		
-    		var productName = $("#productName").val().trim();
-    		
-    		
-    	
+    		var productId = $("#standedProdId").val().trim();
+    		var productName = $("#standedProductName").val().trim();
     		
     		$("#pagination-ul").runnerPagination({
     			

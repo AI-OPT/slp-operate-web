@@ -111,8 +111,6 @@ public class NormProdQueryController {
 		uiModel.addAttribute("count", productCatMap.size() - 1);
 		uiModel.addAttribute("catInfoMap", productCatMap);
 	}
-
-
 	
 
 	/**
@@ -165,15 +163,9 @@ public class NormProdQueryController {
 	 */
 	private PageInfoResponse<NormProdResponse> queryProductByState(NormProdRequest productRequest) {
 		INormProductSV normProductSV = DubboConsumerFactory.getService(INormProductSV.class);
-		
 		PageInfoResponse<NormProdResponse> result = normProductSV.queryNormProduct(productRequest);
-		
-		
 		ICacheSV cacheSV = DubboConsumerFactory.getService("iCacheSV");
-		
-		
 		SysParamSingleCond sysParamSingleCond = null;
-		
 		for (NormProdResponse normProdResponse : result.getResult()) {
 			// 获取类型和状态
 			if (StringUtils.isNotBlank(normProdResponse.getProductType())) {
@@ -195,7 +187,6 @@ public class NormProdQueryController {
 		}
 		return result;
 	}
-	
 	
 	/**
 	 * 查询条件检查设置
