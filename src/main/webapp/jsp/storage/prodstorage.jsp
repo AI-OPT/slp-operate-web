@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>生成虚拟库存</title>
+	<title>运营管理</title>
 	<%@ include file="/inc/inc.jsp" %>
 	<link href="${_slpres }/styles/bootstrap.css"rel="stylesheet" type="text/css">
 	<link href="${_slpres }/styles/font-awesome.css" rel="stylesheet" type="text/css">

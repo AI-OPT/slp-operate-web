@@ -7,11 +7,14 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
 	    AjaxController = require('opt-ajax/1.0.0/index');
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
+    require("My97DatePicker/WdatePicker");
     require("bootstrap-paginator/bootstrap-paginator.min");
     require("app/util/jsviews-ext");
     
     require("opt-paging/aiopt.pagination");
     require("twbs-pagination/jquery.twbsPagination.min");
+   
+    
     var SendMessageUtil = require("app/util/sendMessage");
     
     //实例化AJAX控制处理对象
@@ -91,7 +94,9 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
     		var _this = this;
     		var div = document.getElementById("data1ProdCat");
     		var length = document.getElementsByTagName("select").length-2;
-    		var productCatId = $("#productCatId"+length+" option:selected").val();
+    		
+    		var productCatId = $("#productCat"+length+" option:selected").val();
+    		
     		var productType = $("#productType").val().trim();
     		var productId = $("#standedProdId").val().trim();
     		var productName = $("#standedProductName").val().trim();
