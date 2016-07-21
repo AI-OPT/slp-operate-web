@@ -212,17 +212,17 @@
         <div class="form-label nav-form-border">
            	<ul>
                 <li class="width-xlag">
-                    <p class="word">商品名称:</p>
+                    <p class="word">标准品名称:</p>
                     <p>${normProdInfo.productName}</p>
                 </li>
                 <li class="width-xlag">
-                    <p class="word">商品类型:</p>
+                    <p class="word">标准品类型:</p>
                     <p>${prodType}</p>
                 </li>  
             </ul>  
         </div>
        
-        <div class="nav-form-title">商品关键属性</div>
+        <div class="nav-form-title">标准品关键属性</div>
         <div class="form-label nav-form-border">
 	        <c:forEach var="aav" items="${attrAndVal}">
 				<ul>

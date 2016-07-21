@@ -34,7 +34,7 @@ public final class ComCacheConstants {
         /**
          * 库存库存组CODE
          */
-        public static final String PARAM_CODE = "STORAGE";
+        public static final String PARAM_CODE = "STATE";
         /**
     	 * 库存组TYPE
     	 */
