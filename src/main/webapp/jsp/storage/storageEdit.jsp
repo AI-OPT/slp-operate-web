@@ -19,20 +19,20 @@
 <div class="eject-samll" id="eject-samll">
 	<div class="eject-samll-title">
 		<p>添加库存分组</p>
-		<p class="img"><A href="#"></A></p>
+		<p class="img"><A href="javascript:void(0);"></A></p>
 	</div>
 	<div class="medium-list-form">
 			<ul>
 				<li>
 					<p>库存组名称</p>	
-					<p><input type="text" class="int-text int-medium"></p>	
+					<p><input id="storageGroupName" type="text" class="int-text int-medium"></p>	
 				</li>
 				
 			</ul>
 	</div>	
 	<div class="eject-samll-confirm mt-0">
 		<ul>
-			<li><input type="button"  class="slp-btn eject-small-btn" value="确认"><input type="button"  class="slp-btn eject-small-btn close-btn" value="取消"></li>		
+			<li><input id="addStorGroup" type="button"  class="slp-btn eject-small-btn" value="确认"><input type="button"  class="slp-btn eject-small-btn close-btn" value="取消"></li>		
 		</ul>
 	</div>
 </div>	
@@ -44,7 +44,7 @@
 <div class="eject-samll" id="eject-samll-1">
 	<div class="eject-samll-title">
 		<p>编辑名称</p>
-		<p class="img"><A href="#"></A></p>
+		<p class="img"><A href="javascript:void(0);"></A></p>
 	</div>
 	<div class="medium-list-form">
 			<ul>
@@ -68,7 +68,7 @@
 <div class="eject-samll" id="eject-samll-2">
 	<div class="eject-samll-title">
 		<p>增加库存</p>
-		<p class="img"><A href="#"></A></p>
+		<p class="img"><A href="javascript:void(0);"></A></p>
 	</div>
 	<div class="eject-form">
            		<ul>
@@ -105,7 +105,7 @@
 <div class="eject-samll" id="eject-samll-3">
 	<div class="eject-samll-title">
 		<p>废弃组</p>
-		<p class="img"><A href="#"></A></p>
+		<p class="img"><A href="javascript:void(0);"></A></p>
 	</div>
 	<div class="eject-medium-complete">
 					<p><img src="${_slpres }/images/eject-icon-prompt.png"></p>
@@ -195,7 +195,7 @@
         <ul>
            <li>
 	           <p class="none">您现在的位置：</p>
-	           <p><a href="#">库存管理</a> > </p>  
+	           <p><a href="javascript:void(0);">库存管理</a> > </p>  
 	           <p>虚拟库存列表 > </p>  
 	           <p>查看详情</p>
            </li>
@@ -251,90 +251,94 @@
         </ul>
     </div>
     <div class="title-right">
-         <p class="plus" id＝"samll-eject"><a href="#"><i class="icon-plus"></i></a></p>
-         <p class="plus-word" id="small-eject1"><a href="#">添加库存组</a></p>
+         <p class="plus" id＝"samll-eject"><a href="javascript:void(0);"><i class="icon-plus"></i></a></p>
+         <p class="plus-word" id="small-eject1"><a href="javascript:void(0);">添加库存组</a></p>
     </div>
+    
     <div class="table table-border table-bordered table-bg table-hover mt-10">
           <table width="100%" border="0">
-              <tbody>
+          <c:forEach var="attr" items="${storGroupList}">
+              <tbody  id="${attr.storageGroupId }">
               	<tr>
                 		<td colspan="9">
 	                		<div class="setup-sku mg-0">
 				         	<ul>
 				         		<li>
-				         			<p>库存组名称:个人库存北京地区</p>
+				         			<p>库存组名称:${attr.storageGroupName }</p>
 				         			<p id="small-eject2"><input type="button"class="biu-btn btn-blue stock-btn" value="编辑名称 "></p>
 				         			<p>总库存量:0</p>
 				         			<p><input type="button"class="biu-btn btn-blue stock-btn" value="增加优先级 "></p>
 				         			<p><input type="button"class="biu-btn btn-blue stock-btn" value="启动 "></p>
 				         			<p id="small-eject4"><input type="button"class="biu-btn btn-blue stock-btn" value="废弃 "></p>
-				         			<p>状态:停用</p>
+				         			<p>状态:${attr.state }</p>
 				         		</li>
 				         	</ul>
 	         			</div>
                 		</td>
               	</tr> 
+              <c:forEach var="priority" items="${attr.storageList}">
+              	<input type="hidden" value="${priority.key}"> 
               	<tr>
                 		<td colspan="9">
-                			<div class="setup-sku mg-0">
+                			<div id="selectDiv" class="setup-sku mg-0">
 				         	<ul>
 				         		<li>
-				         			<p>库存组名称:个人库存北京地区</p>
-				         			<p><a href="#"><img src="${_slpres }/images/down.png" /></a></p>
-				         			<p><a href="#"><img src="${_slpres }/images/up.png" /></a></p>
+				         			<p>库存组名称:${attr.storageGroupName }</p>
+				         			<p><a href="javascript:void(0);"><img src="${_slpres }/images/down.png" /></a></p>
+				         			<p><a href="javascript:void(0);"><img src="${_slpres }/images/up.png" /></a></p>
 				         			<p><input type="button"class="biu-btn btn-blue stock-btn" id="small-eject3" value="增加库存"></p>
-				         			<p>状态:停用</p>
+				         			<p>状态:${attr.state }</p>
 				         			<p>
 				         				<span><input type="checkbox" class="checkbox-medium" /></span>
 				         				<span>促销活动</span>
 				         			</p>
-				         			<p class="eject-int"><input type="input" class="int-text int-mini"><a href="#"><i class="icon-calendar"></i></a></p>
+				         			<p class="eject-int"><input type="input" class="int-text int-mini"><a href="javascript:void(0);"><i class="icon-calendar"></i></a></p>
 				         			<p class="eject-int">~</p>
-				         			<p class="eject-int"><input type="input" class="int-text int-mini"><a href="#"><i class="icon-calendar"></i></a></p>
+				         			<p class="eject-int"><input type="input" class="int-text int-mini"><a href="javascript:void(0);"><i class="icon-calendar"></i></a></p>
 				         			<p class="word">(如果没有结束时间可不填)</p>
 				         		</li>
 				         	</ul>
 	         			</div>
                 		</td>
               	</tr> 
-              	<tr class="bj">  
-	                <td>序号</td>                                                                                                      
-	                <td>库存ID</td>
-	                <td>库存名称</td>
-	                <td><span>*</span>虚拟库存量</td>
-	                <td>生效时间</td>
-	                <td>失效时间</td>
-	                <td><span>*</span>最低预警库存量</td>
-	                <td>状态</td>
-	                <td>操作</td> 
-              </tr> 
-              <tr>
-	                <td>1</td>
-	                <td>345454545</td>
-	                <td>个人库存北京地区</td>
-	                <td>100000</td>
-	                <td></td>
-	                <td></td>
-	                <td>100</td>
-	                <td>停用</td>
-	                <td><a href="#"  class="blue">编辑</a><a href="#"  class="blue">启用</a><a href="#"  class="blue">废弃</a><a href="#"  class="blue">管理预警接收人</a></td>
-              </tr> 
-              <tr>
-	                <td>3</td>
-	                <td>345454545</td>
-	                <td>个人库存北京地区</td>
-	                <td>100000</td>
-	                <td></td>
-	                <td></td>
-	                <td>100</td>
-	                <td>废弃</td>
-	                <td><a href="#"  class="blue">查看</a></td>
-              </tr> 
+	              	<tr class="bj">  
+		                <td>序号</td>                                                                                                      
+		                <td>库存ID</td>
+		                <td>库存名称</td>
+		                <td><span>*</span>虚拟库存量</td>
+		                <td>生效时间</td>
+		                <td>失效时间</td>
+		                <td><span>*</span>最低预警库存量</td>
+		                <td>状态</td>
+		                <td>操作</td> 
+	              </tr> 
+	             <c:forEach var="stor" items="${priority.value}" varStatus="status">
+	              <tr>
+		                <td>${status.index+1 }</td>
+		                <td>${stor.storageId }</td>
+		                <td>${stor.storageName }</td>
+		                <td>${stor.totalNum }</td>
+		                <td>${stor.activeTime }</td>
+		                <td>${stor.inactiveTime }</td>
+		                <td>${stor.warnNum }</td>
+		                <td>${stor.state }</td>
+		                <c:choose>
+							<c:when test="${stor.state=='3'|| stor.state=='31'}">
+							  <td><a href="javascript:void(0);"  class="blue">查看</a></td>
+							</c:when>
+							<c:otherwise>
+							  <td><a href="javascript:void(0);"  class="blue">编辑</a><a href="javascript:void(0);"  class="blue">启用</a><a href="javascript:void(0);"  class="blue">废弃</a><a href="javascript:void(0);"  class="blue">管理预警接收人</a></td>
+							</c:otherwise>
+						</c:choose>
+	              </tr> 
+             	</c:forEach>
+             </c:forEach>
           </tbody>
+          </c:forEach>
           </table>
           </div>
    		<div class="pst-bttton">
-	        <input type="button" class="biu-btn btn-blue btn-large mr-10" value="返  回">
+	        <input id="goBack" type="button" class="biu-btn btn-blue btn-large mr-10" value="返  回">
         </div>
      
     </div>
@@ -376,9 +380,10 @@ window.onload = function(){
 <script type="text/javascript">
 		var pager;
 		var count = '${count}';
+		var standedProdId = "${standedProdId}";
 		(function () {
 			<%-- 展示日历 --%>
-            $('#selectDiv').delegate('.setup-sku mg-0','click',function(){
+            $('#selectDiv').delegate('.icon-calendar','click',function(){
                 var calInput = $(this).parent().prev();
                 var timeId = calInput.attr('id');
                 console.log("click calendar "+timeId);
