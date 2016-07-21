@@ -267,10 +267,10 @@
 				         			<p>库存组名称:${attr.storageGroupName }</p>
 				         			<p id="small-eject2"><input type="button"class="biu-btn btn-blue stock-btn" value="编辑名称 "></p>
 				         			<p>总库存量:0</p>
-				         			<p><input type="button"class="biu-btn btn-blue stock-btn" value="增加优先级 "></p>
+				         			<p><input id="${attr.storageGroupId }addPriorityNumber" type="button" class="biu-btn btn-blue stock-btn" value="增加优先级 " onclick="pager._addPriorityNumber('${attr.storageGroupId }');"></p>
 				         			<p><input type="button"class="biu-btn btn-blue stock-btn" value="启动 "></p>
 				         			<p id="small-eject4"><input type="button"class="biu-btn btn-blue stock-btn" value="废弃 "></p>
-				         			<p>状态:${attr.state }</p>
+				         			<p>状态:${attr.stateName }</p>
 				         		</li>
 				         	</ul>
 	         			</div>
@@ -287,7 +287,7 @@
 				         			<p><a href="javascript:void(0);"><img src="${_slpres }/images/down.png" /></a></p>
 				         			<p><a href="javascript:void(0);"><img src="${_slpres }/images/up.png" /></a></p>
 				         			<p><input type="button"class="biu-btn btn-blue stock-btn" id="small-eject3" value="增加库存"></p>
-				         			<p>状态:${attr.state }</p>
+				         			<p>状态:${attr.stateName }</p>
 				         			<p>
 				         				<span><input type="checkbox" class="checkbox-medium" /></span>
 				         				<span>促销活动</span>
@@ -321,7 +321,7 @@
 		                <td>${stor.activeTime }</td>
 		                <td>${stor.inactiveTime }</td>
 		                <td>${stor.warnNum }</td>
-		                <td>${stor.state }</td>
+		                <td>${stor.stateName }</td>
 		                <c:choose>
 							<c:when test="${stor.state=='3'|| stor.state=='31'}">
 							  <td><a href="javascript:void(0);"  class="blue">查看</a></td>

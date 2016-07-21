@@ -37,6 +37,10 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     		StorageEditPager.superclass.setup.call(this);
 //    		this._selectStandProd();
     	},
+    	//增加优先级
+    	_addPriorityNumber:function(storGroupId){
+    		alert(storGroupId);
+    	},
     	//添加库存组
     	_addStorGroup:function(){
     		var _this = this;

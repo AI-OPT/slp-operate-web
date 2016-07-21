@@ -50,6 +50,7 @@ import com.ai.slp.product.api.storage.interfaces.IStorageSV;
 import com.ai.slp.product.api.storage.param.STOStorageGroup;
 import com.ai.slp.product.api.storage.param.StorageGroupQuery;
 import com.ai.slp.product.api.storage.param.StorageGroupRes;
+import com.ai.slp.product.api.storage.param.StorageRes;
 
 @Controller
 @RequestMapping("/storage")
@@ -101,6 +102,24 @@ public class StorageController {
 	        storageGroupQuery.setProductId(normProdInfoResponse.getProductId());
 	        IStorageSV storageSV = DubboConsumerFactory.getService(IStorageSV.class);
 	        List<StorageGroupRes> storageGroupResList = storageSV.queryGroupInfoByNormProdId(storageGroupQuery);
+	        for(StorageGroupRes storageGroupRes :storageGroupResList){
+	        	// 获取库存组状态名
+				String state = storageGroupRes.getState();
+				paramSingleCond = new SysParamSingleCond(SysCommonConstants.COMMON_TENANT_ID,
+						ComCacheConstants.StateStorage.STORAGEGROUP_TYPR_CODE, ComCacheConstants.StateStorage.PARAM_CODE, state);
+				String stateName = cacheSV.getSysParamSingle(paramSingleCond).getColumnDesc();
+				storageGroupRes.setStateName(stateName);
+				// 获取库存状态名
+				for(Short key : storageGroupRes.getStorageList().keySet()){
+					for(StorageRes storageRes :storageGroupRes.getStorageList().get(key)){
+						String storState = storageRes.getState();
+						paramSingleCond = new SysParamSingleCond(SysCommonConstants.COMMON_TENANT_ID,
+								ComCacheConstants.StateStorage.STORAGE_TYPR_CODE, ComCacheConstants.StateStorage.PARAM_CODE, storState);
+						String storStateName = cacheSV.getSysParamSingle(paramSingleCond).getColumnDesc();
+						storageRes.setStateName(storStateName);
+					}
+				}
+	        }
 	        uiModel.addAttribute("storGroupList",storageGroupResList);
 	    	return "storage/storageEdit";
 	    }
