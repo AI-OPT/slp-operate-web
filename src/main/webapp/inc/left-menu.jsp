@@ -20,8 +20,16 @@
 		        </li>
 		    </ul>
         </li>
-        <li>
+       <%--  <li>
             <a href="${_base}/normprodquery/list">标准品管理</a>
+        </li> --%>
+        <li>
+            <A href="#">标准品管理<span><img src="${_slpres}/images/left-sj.png"></span></A>
+            <ul>
+                <li>
+                    <a href="${_base}/normprodquery/list">标准品列表</a>
+                </li>
+            </ul>
         </li>
         <li>
             <A href="#">库存管理<span><img src="${_slpres}/images/left-sj.png"></span></A>

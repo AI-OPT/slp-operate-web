@@ -86,17 +86,18 @@
 						<div class="form-label">
 							<ul id="data1ProdCat">
 								<li class="width-xlag">
-									<p class="word">商品类目</p> <c:forEach var="map"
-										items="${catInfoMap}" varStatus="status">
+									<p class="word">商品类目</p> 
+										<c:forEach var="map" items="${catInfoMap}" varStatus="status">
 										<p id="productCat${status.index}">
 											<select class="select select-small"
 												onChange="pager._selectChange(this);">
 												<c:forEach var="info" items="${map.value}">
-													<option value="${info.productCatId}">${info.productCatName}</option>
+												<option value="${info.productCatId}">${info.productCatName}</option>   	
 												</c:forEach>
 											</select>
 										</p>
-									</c:forEach> <script id="prodCatTemple" type="text/template">
+									</c:forEach> 
+									<script id="prodCatTemple" type="text/template">
                                 	 <p id="productCat{{:level}}">
 										<select class="select select-small" onChange="pager._selectChange(this);">
 											{{for prodCatList}}
@@ -119,19 +120,13 @@
 									<li class="width-xlag">
 										<p class="word">标准品名称</p>
 										<p>
-											<input id="productName" type="text"
+											<input id="standedProductName" type="text"
 												class="int-text int-medium">
-										</p> <!-- <p>
-											
-											<input type="button" value="查询"class="biu-btn btn-blue btn-mini">
-										</p> -->
+										</p> 
 										<p>
 											<input id="selectNormProductList" type="button" value="查询"
 												class="biu-btn btn-blue btn-mini">
 										</p>
-										<!-- <p class="sos">
-											<a href="#">高级搜索<i class="icon-caret-down"></i></a>
-										</p> -->
 										<p class="sos"><a href="javascript:void(0);">高级搜索<i class="icon-caret-down"></i></a></p>
 										
 									</li>
@@ -139,16 +134,10 @@
 								<!--点击展开-->
 								<div class="open" style="display: none;">
 									<ul>
-										<!-- <li>
-											<p class="word">标准品ID</p>
-											<p>
-												<input type="text" class="int-text int-medium">
-											</p>
-										</li> -->
 										<li>
 											<p class="word">标准品ID</p>
 											<p>
-												<input id="productId" type="text"
+												<input id="standedProdId" type="text"
 													class="int-text int-medium">
 											</p>
 										</li>
@@ -160,12 +149,6 @@
 										</li>
 									</ul>
 									<ul>
-										<!-- <li>
-											<p class="word">标准品类型</p>
-											<p>
-												<select class="select select-medium"></select>
-											</p>
-										</li> -->
 										<li>
 											<p class="word">标准品类型</p>
 											<p>
@@ -181,12 +164,12 @@
 										<li>
 											<p class="word">操作时间</p>
 											<p>
-												<input id="operTime" type="text" class="int-text int-medium"><a
+												<input id="operStartTime" type="text" class="int-text int-medium"><a
 													href="#" class="ccc"><i class="icon-calendar"></i></a>
 											</p>
 											<p>~</p>
 											<p>
-												<input id="operTime" type="text" class="int-text int-medium"><a
+												<input id="operEndTime" type="text" class="int-text int-medium"><a
 													href="#" class="ccc"><i class="icon-calendar"></i></a>
 											</p>
 										</li>
@@ -255,7 +238,6 @@
 								</div>
 								<div class="nav-form"></div>
 
-
 								<div class="nav-tplist-table">
 									<table width="100%" border="0">
 										<tr class="bj">
@@ -275,15 +257,17 @@
 
 									<div id="showMessageDiv"></div>
 									<script id="searchNormProductTemple" type="text/template">
-                            <tr>
+                           <tr>
 
                                 <td></td>
-                                <td></td>
+                                <td>
+										
+									
+								</td>
                                 <td>{{:productId}}</td>
 
                                 <td>{{:productName}}</td>
-								<td>{{:productCatId}}</td>
-                             <%--  <td>{{:productCatId}}</td>--%> 
+								<td>{{:catName}}</td>
                                 <td>{{:productType}}</td>
 
                                 <td>{{:state}}</td>
@@ -293,7 +277,8 @@
                                 <td>{{:operId}}</td>
 
                                 <td><a href="#" class="blue">查看详情</a><a href="#" class="red">编辑</a><a href="＃" class="blue">废弃</a></td> 
-                            </tr>
+                            </tr> 
+							
 							</script>
 								</div>
 								<!--分页-->
