@@ -23,5 +23,22 @@ public final class ComCacheConstants {
          */
         public static final String BASIC_ORG_ID = "BASIC_ORG_ID";
     }
+    /**
+     * 库存和库存组状态
+     */
+    public final class StateStorage{
+    	/**
+    	 * 库存TYPE
+    	 */
+        public static final String STORAGE_TYPR_CODE = "STORAGE";
+        /**
+         * 库存库存组CODE
+         */
+        public static final String PARAM_CODE = "STATE";
+        /**
+    	 * 库存组TYPE
+    	 */
+        public static final String STORAGEGROUP_TYPR_CODE = "STORAGEGROUP";
+    }
 
 }

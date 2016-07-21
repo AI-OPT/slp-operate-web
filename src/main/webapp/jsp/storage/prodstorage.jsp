@@ -47,9 +47,9 @@
                         <c:forEach var="map" items="${catInfoMap}" varStatus="status">
                          <p id="productCat${status.index}">
                              <select class="select select-small" onChange="pager._selectChange(this);">
-                             <c:forEach var="info" items="${map.value}">
-                                 <option value="${info.productCatId}">${info.productCatName}</option>
-                             </c:forEach>
+	                             <c:forEach var="info" items="${map.value}">
+	                                 <option value="${info.productCatId}">${info.productCatName}</option>
+	                             </c:forEach>
                              </select>
                          </p>
                         </c:forEach>

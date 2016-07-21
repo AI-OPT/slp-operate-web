@@ -29,15 +29,71 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     	//事件代理
     	events: {
     		//查询标准品
-            "click #selectStandProd":"_selectStandProd",
+            "click #addStorGroup":"_addStorGroup",
+            "click #goBack":"_goBack",
         },
     	//重写父类
     	setup: function () {
-    		ProdStoragePager.superclass.setup.call(this);
+    		StorageEditPager.superclass.setup.call(this);
 //    		this._selectStandProd();
     	},
+    	//增加优先级
+    	_addPriorityNumber:function(storGroupId){
+    		alert(storGroupId);
+    	},
+    	//添加库存组
+    	_addStorGroup:function(){
+    		var _this = this;
+    		var storageGroupName = $("#storageGroupName").val();
+    		var length = this._getLen(storageGroupName);
+    		if(length == 0 || lentht>30){
+    			_this._showMsg("请输入库存组名称或库存组名称过长");
+    			return;
+    		}
+    		$(".eject-big").hide();
+    		$(".eject-samll").hide();
+    		$(".eject-mask").hide();
+    		ajaxController.ajax({
+				type: "post",
+				processing: true,
+				message: "添加中，请等待...",
+				url: _base+"/storage/addStorGroup",
+				data:{"standedProdId":standedProdId,"storageGroupName":storageGroupName},
+				success: function(data){
+					if("1"===data.statusCode){
+						window.history.go(0);
+					}else{
+						_this._showMsg("添加库存组失败:"+data.statusInfo);
+	            	}
+				}
+			});
+    	},
+    	//判断字符串的长度-中文2哥,英文1个
+    	_getLen:function(str) {  
+    	    if (str == null) return 0;  
+    	    if (typeof str != "string"){  
+    	        str += "";  
+    	    }  
+    	    return str.replace(/[^\x00-\xff]/g,"01").length;  
+    	},
+
+    	//返回之前的页面
+    	_goBack:function(){
+    		window.history.go(-1);
+    	},
+    	//显示库存组的库存信息
+		_showCheckAudi:function(audiMap){
+			var audNum = Object.keys(audiMap).length;
+			$('#audiNum').text(audNum);
+			//删除原来受众信息
+			$('#audiSelectedDiv').html("");
+			for (var key in audiMap) {
+				$('#audiSelectedDiv').append("<p>"+audiMap[key]+"<a href=\"javascript:void(0);\"><i class=\"icon-remove-sign\" userId='"+key+"'></i></a></p>");
+			}
+		},
     	// 改变商品类目
     	_selectChange:function(osel){
+    		var _this = this;
     		var prodCatId = osel.options[osel.selectedIndex].value;
     		var clickId = $(osel).parent().attr('id');
     		//获取当前ID的最后数字
@@ -64,15 +120,7 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 	            	    var htmlOutput = template.render(data);
 	            	    $("#"+clickId).after(htmlOutput);
 	            	}else{
-	            		var d = Dialog({
-							content:"获取类目信息出错:"+data.statusInfo,
-							icon:'fail',
-							okValue: '确 定',
-							ok:function(){
-								this.close();
-							}
-						});
-						d.show();
+	            		_this._showMsg("获取类目信息出错:"+data.statusInfo);
 	            	}
 				}
 			});
@@ -113,6 +161,18 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     		var container = $('.wrapper-right');
     		container.scrollTop(0);//滚动到div 顶部
     	},
+    	_showMsg:function(msg){
+			var msg = Dialog({
+				title: '提示',
+				icon:'prompt',
+				content:msg,
+				okValue: '确 定',
+				ok:function(){
+					this.close();
+				}
+			});
+			msg.showModal();
+		}
     	
     });
     
