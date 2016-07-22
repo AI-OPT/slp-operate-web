@@ -81,9 +81,7 @@ public class NormProdQueryController {
 			
 			// 设置状态
 			productRequest.setState("1");
-			
 			PageInfoResponse<NormProdResponse> result = queryProductByState(productRequest);
-			
 			responseData = new ResponseData<PageInfoResponse<NormProdResponse>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
 					result);
 		} catch (Exception e) {
@@ -189,17 +187,15 @@ public class NormProdQueryController {
 	}
 	
 	/**
-	 * 查询条件检查设置
+	 * 查询条件检查设置  
 	 */
 	private void queryBuilder(HttpServletRequest request,NormProdRequest productRequest) {
 		productRequest.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
 		productRequest.setProductCatId(request.getParameter("productCatId"));
 		if(!request.getParameter("productType").isEmpty())
 			productRequest.setProductType(request.getParameter("productType"));
-		
 		if(!request.getParameter("productId").isEmpty())
 			productRequest.setStandedProdId(request.getParameter("productId"));
-		
 		if(!request.getParameter("productName").isEmpty())
 			productRequest.setStandedProductName(request.getParameter("productName"));
 	}

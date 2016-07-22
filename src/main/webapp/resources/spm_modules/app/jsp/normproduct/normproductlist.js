@@ -7,18 +7,20 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
 	    AjaxController = require('opt-ajax/1.0.0/index');
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
+    require("My97DatePicker/WdatePicker");
     require("bootstrap-paginator/bootstrap-paginator.min");
     require("app/util/jsviews-ext");
-    
     require("opt-paging/aiopt.pagination");
     require("twbs-pagination/jquery.twbsPagination.min");
+   
+    
     var SendMessageUtil = require("app/util/sendMessage");
     
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
     var clickId = "";
     //定义页面组件类
-    var InsalelistPager = Widget.extend({
+    var normproductlistPager = Widget.extend({
     	
     	Implements:SendMessageUtil,
     	//属性，使用时由类的构造函数传入
@@ -39,7 +41,7 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
             },
     	//重写父类
     	setup: function () {
-    		InsalelistPager.superclass.setup.call(this);
+    		normproductlistPager.superclass.setup.call(this);
     		this._selectNormProductList();
     	},
     	
@@ -91,7 +93,9 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
     		var _this = this;
     		var div = document.getElementById("data1ProdCat");
     		var length = document.getElementsByTagName("select").length-2;
-    		var productCatId = $("#productCatId"+length+" option:selected").val();
+    		
+    		var productCatId = $("#productCat"+length+" option:selected").val();
+    		
     		var productType = $("#productType").val().trim();
     		var productId = $("#standedProdId").val().trim();
     		var productName = $("#standedProductName").val().trim();
@@ -107,7 +111,7 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
 	 			
 	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
 	            
-	           	pageSize: InsalelistPager.DEFAULT_PAGE_SIZE,
+	           	pageSize: normproductlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
@@ -127,6 +131,6 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
     	
     });
     
-    module.exports = InsalelistPager
+    module.exports = normproductlistPager
 });
 
