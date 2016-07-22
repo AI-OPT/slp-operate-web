@@ -144,7 +144,7 @@
                        <%--        <td>{{:operId}}</td> 
                                 <td><a href="#" class="blue">查看详情</a><a href="#" class="red">编辑</a><a href="＃" class="blue">废弃</a></td>
                                 --%> 
-                                <td><a href="${_base}/storage/{{:prodId}}" class="blue-border">编辑商品</a></td>
+                                <td><a href="${_base}/storage/{{:productId}}" class="blue-border">编辑</a></td>
  						
                             </tr>
 			</script>
@@ -224,6 +224,7 @@ window.onload = function(){
                 var timeId = calInput.attr('id');
                 console.log("click calendar "+timeId);
                 WdatePicker({el:timeId,readOnly:true});
+                
             });
 			seajs.use('app/jsp/storage/prodstorage', function (ProdStoragePager) {
 				pager = new ProdStoragePager({element: document.body});
