@@ -126,8 +126,8 @@
 				<td width="10%">类型</td>
 				<td>标准品状态</td>
 				<td>操作时间</td>
-			<!-- 	<td>操作人</td> 
-				<td>操作</td> -->
+			<!-- 	<td>操作人</td> -->
+				<td>操作</td> 
               </tr>
             <tbody id="searchNormProductData"></tbody>
             </table>
@@ -141,9 +141,11 @@
                                 <td>{{:productType}}</td>
                                 <td>{{:state}}</td>
 								<td>{{:~timesToFmatter(operTime)}}</td>
-                       <%--        <td>{{:operId}}</td>
+                       <%--        <td>{{:operId}}</td> 
                                 <td><a href="#" class="blue">查看详情</a><a href="#" class="red">编辑</a><a href="＃" class="blue">废弃</a></td>
- 						--%> 
+                                --%> 
+                                <td><a href="${_base}/storage/{{:productId}}" class="blue-border">编辑</a></td>
+ 						
                             </tr>
 			</script>
           </div> 
@@ -222,6 +224,7 @@ window.onload = function(){
                 var timeId = calInput.attr('id');
                 console.log("click calendar "+timeId);
                 WdatePicker({el:timeId,readOnly:true});
+                
             });
 			seajs.use('app/jsp/storage/prodstorage', function (ProdStoragePager) {
 				pager = new ProdStoragePager({element: document.body});
