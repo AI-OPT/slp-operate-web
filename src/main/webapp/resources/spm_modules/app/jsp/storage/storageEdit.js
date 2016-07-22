@@ -41,6 +41,14 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     	_addPriorityNumber:function(storGroupId){
     		alert(storGroupId);
     	},
+    	//增加优先级
+    	_addPriorityNumber:function(groupId){
+    		alert(groupId);
+    		//查库存组下有没有优先级
+    		//没有则优先级为1
+    		//有则优先级为当前库存组下的最大优先级+1
+    		//把优先级作为隐藏属性放在当前库存组的最后
+    	},
     	//添加库存组
     	_addStorGroup:function(){
     		var _this = this;

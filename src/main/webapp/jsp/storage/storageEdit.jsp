@@ -255,10 +255,10 @@
 	                		<div class="setup-sku mg-0">
 				         	<ul>
 				         		<li>
-				         			<p>库存组名称:${attr.storageGroupName }</p>
+				         			<p>库存组名称: ${attr.storageGroupName }</p>
 				         			<p id="small-eject2"><input type="button"class="biu-btn btn-blue stock-btn" value="编辑名称 "></p>
 				         			<p>总库存量:0</p>
-				         			<p><input id="${attr.storageGroupId }addPriorityNumber" name="addPriorityNumber" type="button" class="biu-btn btn-blue stock-btn" value="增加优先级 "></p>
+				         			<p><input id="${attr.storageGroupId }priority" name="addPriorityNumber" type="button" class="biu-btn btn-blue stock-btn" value="增加优先级 "></p>
 				         			<p><input type="button"class="biu-btn btn-blue stock-btn" value="启动 "></p>
 				         			<p id="small-eject4"><input type="button"class="biu-btn btn-blue stock-btn" value="废弃 "></p>
 				         			<p>状态:${attr.stateName }</p>
@@ -274,11 +274,10 @@
                 			<div id="selectDiv" class="setup-sku mg-0">
 				         	<ul>
 				         		<li>
-				         			<p>库存组名称:${attr.storageGroupName }</p>
+				         			<p>优先级 ${priority.key}</p>
 				         			<p><a href="javascript:void(0);"><img src="${_slpres }/images/down.png" /></a></p>
 				         			<p><a href="javascript:void(0);"><img src="${_slpres }/images/up.png" /></a></p>
 				         			<p><input type="button"class="biu-btn btn-blue stock-btn" id="small-eject3" value="增加库存"></p>
-				         			<p>状态:${attr.stateName }</p>
 				         			<p>
 				         				<span><input type="checkbox" class="checkbox-medium" /></span>
 				         				<span>促销活动</span>
@@ -286,7 +285,7 @@
 				         			<p class="eject-int"><input type="input" class="int-text int-mini"><a href="javascript:void(0);"><i class="icon-calendar"></i></a></p>
 				         			<p class="eject-int">~</p>
 				         			<p class="eject-int"><input type="input" class="int-text int-mini"><a href="javascript:void(0);"><i class="icon-calendar"></i></a></p>
-				         			<p class="word">(如果没有结束时间可不填)</p>
+				         			<p class="word">(没有结束时间可不填)</p>
 				         		</li>
 				         	</ul>
 	         			</div>
@@ -401,11 +400,11 @@ window.onload = function(){
                 console.log("click calendar "+timeId);
                 WdatePicker({el:timeId,readOnly:true});
             });
-            $('#storAndStorGroup').delegate('.icon-calendar','click',function(){
-                var calInput = $(this).parent().prev();
-                var timeId = calInput.attr('id');
-                console.log("click calendar "+timeId);
-                WdatePicker({el:timeId,readOnly:true});
+            $('#storAndStorGroup').delegate('[name="addPriorityNumber"]','click',function(){
+            	var id = $(this).attr('id');
+            	var groupId = id.substring(0,id.length-8);
+                console.log("click groupId: "+groupId);
+                pager._addPriorityNumber(groupId);
             });
 			seajs.use('app/jsp/storage/storageEdit', function (StorageEditPager) {
 				pager = new StorageEditPager({element: document.body});
