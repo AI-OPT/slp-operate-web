@@ -152,12 +152,12 @@
 			</script>
           </div> 
           <!--分页-->
-			 <div class="paging-large">
+		  	<div>
 				 <nav style="text-align: right">
-					<ul id="pagination-ul">
-					</ul>
-				</nav>
-		  	</div>
+				<ul id="pagination-ul">
+				</ul>
+			</nav>
+		  </div>
 		 <!--分页-->
         <!--结果表格结束-->
          </div> 
@@ -172,15 +172,6 @@
 </html>
 <script src="${_slpres }/scripts/metismenu.js"></script>
  <script type="text/javascript"> 
- $(function(){
-     //$('table tr:not(:first)').remove();
-     var len = $('table tr').length;
-     for(var i = 1;i<len;i++){
-         $('table tr:eq('+i+') td:first').text(i);
-     }
-         
-});
- 
  
 window.onload = function(){	
 	var timer;

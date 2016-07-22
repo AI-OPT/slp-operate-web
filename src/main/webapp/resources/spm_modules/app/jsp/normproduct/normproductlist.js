@@ -10,7 +10,6 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
     require("My97DatePicker/WdatePicker");
     require("bootstrap-paginator/bootstrap-paginator.min");
     require("app/util/jsviews-ext");
-    
     require("opt-paging/aiopt.pagination");
     require("twbs-pagination/jquery.twbsPagination.min");
    
