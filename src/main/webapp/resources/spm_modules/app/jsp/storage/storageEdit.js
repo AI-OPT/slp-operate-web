@@ -46,7 +46,7 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     		var _this = this;
     		var storageGroupName = $("#storageGroupName").val();
     		var length = this._getLen(storageGroupName);
-    		if(length == 0 || lentht>30){
+    		if(length == 0 || length>30){
     			_this._showMsg("请输入库存组名称或库存组名称过长");
     			return;
     		}
