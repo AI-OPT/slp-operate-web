@@ -20,7 +20,7 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
     var ajaxController = new AjaxController();
     var clickId = "";
     //定义页面组件类
-    var InsalelistPager = Widget.extend({
+    var normproductlistPager = Widget.extend({
     	
     	Implements:SendMessageUtil,
     	//属性，使用时由类的构造函数传入
@@ -41,7 +41,7 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
             },
     	//重写父类
     	setup: function () {
-    		InsalelistPager.superclass.setup.call(this);
+    		normproductlistPager.superclass.setup.call(this);
     		this._selectNormProductList();
     	},
     	
@@ -111,7 +111,7 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
 	 			
 	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
 	            
-	           	pageSize: InsalelistPager.DEFAULT_PAGE_SIZE,
+	           	pageSize: normproductlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
@@ -131,6 +131,6 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
     	
     });
     
-    module.exports = InsalelistPager
+    module.exports = normproductlistPager
 });
 

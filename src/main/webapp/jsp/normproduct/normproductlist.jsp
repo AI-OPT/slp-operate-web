@@ -209,8 +209,8 @@ window.onload = function(){
                 WdatePicker({el:timeId,readOnly:true});
             });
             seajs.use('app/jsp/normproduct/normproductlist', function(
-    				InsalelistPager) {
-    			pager = new InsalelistPager({
+    				normproductlistPager) {
+    			pager = new normproductlistPager({
     				element : document.body
     			});
     			pager.render();
