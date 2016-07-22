@@ -226,20 +226,11 @@
         <div class="form-label nav-form-border">
 	        <c:forEach var="aav" items="${attrAndVal}">
 				<ul>
-					<li>
-						<p class="word">${aav.key.attrName}</p>
-						<c:choose>
-							<%--多选--%>
-							<c:when test="${aav.key.attrType == '2'}">
-								<div class="cit-width">
-									<c:forEach var="attrVal" items="${aav.value}">
-										<p>${attrVal.attrVal}</p></c:forEach>
-								</div>
-							</c:when>
-							<c:otherwise>
-								<p>${aav.value.get(0).attrVal}</p>
-							</c:otherwise>
-						</c:choose>
+					<li class="width-xlag">
+						<p class="word">${aav.key.attrName}:</p>
+							<c:forEach var="attrVal" items="${aav.value}">
+								<p>${attrVal.attrVal}</p>
+							</c:forEach>
 					</li>
 				</ul>
 			</c:forEach>
@@ -256,7 +247,7 @@
     </div>
     
     <div class="table table-border table-bordered table-bg table-hover mt-10">
-          <table width="100%" border="0">
+          <table id="storAndStorGroup" width="100%" border="0">
           <c:forEach var="attr" items="${storGroupList}">
               <tbody  id="${attr.storageGroupId }">
               	<tr>
@@ -267,7 +258,7 @@
 				         			<p>库存组名称:${attr.storageGroupName }</p>
 				         			<p id="small-eject2"><input type="button"class="biu-btn btn-blue stock-btn" value="编辑名称 "></p>
 				         			<p>总库存量:0</p>
-				         			<p><input id="${attr.storageGroupId }addPriorityNumber" type="button" class="biu-btn btn-blue stock-btn" value="增加优先级 " onclick="pager._addPriorityNumber('${attr.storageGroupId }');"></p>
+				         			<p><input id="${attr.storageGroupId }addPriorityNumber" name="addPriorityNumber" type="button" class="biu-btn btn-blue stock-btn" value="增加优先级 "></p>
 				         			<p><input type="button"class="biu-btn btn-blue stock-btn" value="启动 "></p>
 				         			<p id="small-eject4"><input type="button"class="biu-btn btn-blue stock-btn" value="废弃 "></p>
 				         			<p>状态:${attr.stateName }</p>
@@ -337,6 +328,27 @@
           </c:forEach>
           </table>
           </div>
+         	 <script id="cartProdTemple" type="text/template">
+ 				<tbody  id="${attr.storageGroupId }">
+         		 <tr>
+                		<td colspan="9">
+	                		<div class="setup-sku mg-0">
+				         	<ul>
+				         		<li>
+				         			<p>库存组名称:${attr.storageGroupName }</p>
+				         			<p id="small-eject2"><input type="button"class="biu-btn btn-blue stock-btn" value="编辑名称 "></p>
+				         			<p>总库存量:0</p>
+				         			<p><input id="${attr.storageGroupId }addPriorityNumber" name="addPriorityNumber" type="button" class="biu-btn btn-blue stock-btn" value="增加优先级 "></p>
+				         			<p><input type="button"class="biu-btn btn-blue stock-btn" value="启动 "></p>
+				         			<p id="small-eject4"><input type="button"class="biu-btn btn-blue stock-btn" value="废弃 "></p>
+				         			<p>状态:${attr.stateName }</p>
+				         		</li>
+				         	</ul>
+	         			</div>
+                		</td>
+              	</tr> 
+			  </tbody>
+			</script>
    		<div class="pst-bttton">
 	        <input id="goBack" type="button" class="biu-btn btn-blue btn-large mr-10" value="返  回">
         </div>
@@ -384,6 +396,12 @@ window.onload = function(){
 		(function () {
 			<%-- 展示日历 --%>
             $('#selectDiv').delegate('.icon-calendar','click',function(){
+                var calInput = $(this).parent().prev();
+                var timeId = calInput.attr('id');
+                console.log("click calendar "+timeId);
+                WdatePicker({el:timeId,readOnly:true});
+            });
+            $('#storAndStorGroup').delegate('.icon-calendar','click',function(){
                 var calInput = $(this).parent().prev();
                 var timeId = calInput.attr('id');
                 console.log("click calendar "+timeId);
