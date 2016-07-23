@@ -93,7 +93,7 @@
       	  </div>
 	<div class="eject-samll-confirm mt-0">
 		<ul>
-			<li><input type="button"  class="slp-btn eject-small-btn mt-10" value="确认"><input type="button"  class="slp-btn eject-small-btn close-btn mt-10" value="取消"></li>		
+			<li><input id="addStorage" type="button"  class="slp-btn eject-small-btn mt-10" value="确认"><input type="button"  class="slp-btn eject-small-btn close-btn mt-10" value="取消"></li>		
 		</ul>
 	</div>
 </div>	
@@ -245,30 +245,32 @@
          <p class="plus" id＝"samll-eject"><a href="javascript:void(0);"><i class="icon-plus"></i></a></p>
          <p class="plus-word" id="small-eject1"><a href="javascript:void(0);">添加库存组</a></p>
     </div>
-    
+    <!-- 储存点击按钮的相关信息 -->
+    <input id="saveCache" type="hidden" storGroupId="" priorityNum="" number=""> 
     <div class="table table-border table-bordered table-bg table-hover mt-10">
-          <table id="storAndStorGroup" width="100%" border="0">
-          <c:forEach var="attr" items="${storGroupList}">
-              <tbody  id="${attr.storageGroupId }">
+    		<!-- value值储存当前标准品下的库存组数量 -->
+          <table id="storAndStorGroup" width="100%" border="0" value="${storGroupList.size()}">
+          <c:forEach var="storGroupList" items="${storGroupList}" varStatus="storGroupNum">
+          		<!-- value值储存当前库存组的最大优先级 -->
+              <tbody  id="${storGroupList.storageGroupId }${storGroupNum.index+1 }" value="${storGroupList.storageList.size()}">
               	<tr>
                 		<td colspan="9">
 	                		<div class="setup-sku mg-0">
 				         	<ul>
 				         		<li>
-				         			<p>库存组名称: ${attr.storageGroupName }</p>
+				         			<p>库存组名称: ${storGroupList.storageGroupName }</p>
 				         			<p id="small-eject2"><input type="button"class="biu-btn btn-blue stock-btn" value="编辑名称 "></p>
-				         			<p>总库存量:0</p>
-				         			<p><input id="${attr.storageGroupId }priority" name="addPriorityNumber" type="button" class="biu-btn btn-blue stock-btn" value="增加优先级 "></p>
+				         			<p>总库存量:${storGroupList.storageTotal }</p>
+				         			<p><input id="${storGroupList.storageGroupId }priority" name="addPriorityNumber" type="button" class="biu-btn btn-blue stock-btn" value="增加优先级 "></p>
 				         			<p><input type="button"class="biu-btn btn-blue stock-btn" value="启动 "></p>
 				         			<p id="small-eject4"><input type="button"class="biu-btn btn-blue stock-btn" value="废弃 "></p>
-				         			<p>状态:${attr.stateName }</p>
+				         			<p>状态:${storGroupList.stateName }</p>
 				         		</li>
 				         	</ul>
 	         			</div>
                 		</td>
               	</tr> 
-              <c:forEach var="priority" items="${attr.storageList}">
-              	<input type="hidden" value="${priority.key}"> 
+              <c:forEach var="priority" items="${storGroupList.storageList}">
               	<tr>
                 		<td colspan="9">
                 			<div id="selectDiv" class="setup-sku mg-0">
@@ -277,14 +279,14 @@
 				         			<p>优先级 ${priority.key}</p>
 				         			<p><a href="javascript:void(0);"><img src="${_slpres }/images/down.png" /></a></p>
 				         			<p><a href="javascript:void(0);"><img src="${_slpres }/images/up.png" /></a></p>
-				         			<p><input type="button"class="biu-btn btn-blue stock-btn" id="small-eject3" value="增加库存"></p>
+				         			<p><input type="button" class="biu-btn btn-blue stock-btn" id="small-eject3" value="增加库存" storGroupId="${storGroupList.storageGroupId }" priorityNum="${priority.key}" number="${priority.size()}"></p>
 				         			<p>
 				         				<span><input type="checkbox" class="checkbox-medium" /></span>
 				         				<span>促销活动</span>
 				         			</p>
-				         			<p class="eject-int"><input type="input" class="int-text int-mini"><a href="javascript:void(0);"><i class="icon-calendar"></i></a></p>
+				         			<p class="eject-int"><input id="${storGroupList.storageGroupId }${priority.key}activeTime" type="input" class="int-text int-mini"><a href="javascript:void(0);"><i class="icon-calendar"></i></a></p>
 				         			<p class="eject-int">~</p>
-				         			<p class="eject-int"><input type="input" class="int-text int-mini"><a href="javascript:void(0);"><i class="icon-calendar"></i></a></p>
+				         			<p class="eject-int"><input id="${storGroupList.storageGroupId }${priority.key}inactiveTime" type="input" class="int-text int-mini"><a href="javascript:void(0);"><i class="icon-calendar"></i></a></p>
 				         			<p class="word">(没有结束时间可不填)</p>
 				         		</li>
 				         	</ul>
@@ -302,18 +304,18 @@
 		                <td>状态</td>
 		                <td>操作</td> 
 	              </tr> 
-	             <c:forEach var="stor" items="${priority.value}" varStatus="status">
-	              <tr>
+	             <c:forEach var="storage" items="${priority.value}" varStatus="status">
+	              <tr id="${storGroupList.storageGroupId }${priority.key}${status.index+1 }" >
 		                <td>${status.index+1 }</td>
-		                <td>${stor.storageId }</td>
-		                <td>${stor.storageName }</td>
-		                <td>${stor.totalNum }</td>
-		                <td>${stor.activeTime }</td>
-		                <td>${stor.inactiveTime }</td>
-		                <td>${stor.warnNum }</td>
-		                <td>${stor.stateName }</td>
+		                <td>${storage.storageId }</td>
+		                <td>${storage.storageName }</td>
+		                <td>${storage.totalNum }</td>
+		                <td>${storage.activeTime }</td>
+		                <td>${storage.inactiveTime }</td>
+		                <td>${storage.warnNum }</td>
+		                <td>${storage.stateName }</td>
 		                <c:choose>
-							<c:when test="${stor.state=='3'|| stor.state=='31'}">
+							<c:when test="${storage.state=='3'|| storage.state=='31'}">
 							  <td><a href="javascript:void(0);"  class="blue">查看</a></td>
 							</c:when>
 							<c:otherwise>
@@ -399,6 +401,14 @@ window.onload = function(){
                 var timeId = calInput.attr('id');
                 console.log("click calendar "+timeId);
                 WdatePicker({el:timeId,readOnly:true});
+            });
+            $('#selectDiv').delegate('#small-eject3','click',function(){
+                var storGroupId = $(this).attr('storGroupId');
+            	var priorityNum = $(this).attr('priorityNum');
+                console.log("storGroupId"+storGroupId,"priorityNum"+priorityNum,);
+                //把当前点击对象数据储存到隐藏域
+                $('#saveCache').attr("storGroupId",storGroupId);
+                $('#saveCache').attr("priorityNum",priorityNum);
             });
             $('#storAndStorGroup').delegate('[name="addPriorityNumber"]','click',function(){
             	var id = $(this).attr('id');

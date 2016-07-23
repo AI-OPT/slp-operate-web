@@ -31,6 +31,7 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     		//查询标准品
             "click #addStorGroup":"_addStorGroup",
             "click #goBack":"_goBack",
+            "click #addStorage":"_addStorage",
         },
     	//重写父类
     	setup: function () {
@@ -41,13 +42,18 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     	_addPriorityNumber:function(storGroupId){
     		alert(storGroupId);
     	},
+    	//添加库存
+    	_addStorage:function(){
+    		var storGroupId = $(this).attr('storGroupId');
+        	var priorityNum = $(this).attr('priorityNum');
+    		var 
+    	},
     	//增加优先级
     	_addPriorityNumber:function(groupId){
     		alert(groupId);
-    		//查库存组下有没有优先级
-    		//没有则优先级为1
-    		//有则优先级为当前库存组下的最大优先级+1
-    		//把优先级作为隐藏属性放在当前库存组的最后
+    		//查库存组下有没有优先级-通过库存组value值取
+    		//优先级为当前库存组下的最大优先级+1,并更新库存组value值
+    		//把新增优先级放到库存组的最后
     	},
     	//添加库存组
     	_addStorGroup:function(){
