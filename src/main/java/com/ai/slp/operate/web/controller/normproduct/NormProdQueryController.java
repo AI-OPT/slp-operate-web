@@ -1,5 +1,6 @@
 package com.ai.slp.operate.web.controller.normproduct;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +82,31 @@ public class NormProdQueryController {
 			
 			// 设置状态
 			productRequest.setState("1");
+			PageInfoResponse<NormProdResponse> result = queryProductByState(productRequest);
+			responseData = new ResponseData<PageInfoResponse<NormProdResponse>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
+					result);
+		} catch (Exception e) {
+			responseData = new ResponseData<PageInfoResponse<NormProdResponse>>(ResponseData.AJAX_STATUS_FAILURE,
+					"获取信息异常");
+			LOG.error("获取信息出错：", e);
+		}
+		return responseData;
+	}
+	/**
+	 * 点击查询按钮调用方法-查询标准库存
+	 * @return
+	 */
+	@RequestMapping("/getNormProductList2")
+	@ResponseBody
+	private ResponseData<PageInfoResponse<NormProdResponse>> queryNormProductList(HttpServletRequest request,NormProdRequest productRequest){
+		ResponseData<PageInfoResponse<NormProdResponse>> responseData = null;
+		try {
+			//查询条件
+			queryBuilder(request, productRequest);
+			
+			// 设置状态
+			productRequest.setState("1");
+			productRequest.setState("2");
 			PageInfoResponse<NormProdResponse> result = queryProductByState(productRequest);
 			responseData = new ResponseData<PageInfoResponse<NormProdResponse>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
 					result);
@@ -198,6 +224,13 @@ public class NormProdQueryController {
 			productRequest.setStandedProdId(request.getParameter("productId"));
 		if(!request.getParameter("productName").isEmpty())
 			productRequest.setStandedProductName(request.getParameter("productName"));
+		
+		if(!request.getParameter("operStartTimeStr").isEmpty())
+			productRequest.setOperStartTime(Timestamp.valueOf(request.getParameter("operStartTimeStr")+"00:00:00"));
+		if(!request.getParameter("operEndTimeStr").isEmpty())
+			productRequest.setOperStartTime(Timestamp.valueOf(request.getParameter("operEndTimeStr")+"23:59:59"));
+	
+		
 	}
 	
 }

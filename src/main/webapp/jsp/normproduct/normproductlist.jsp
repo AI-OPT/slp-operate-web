@@ -93,16 +93,12 @@
                 </li>
             </ul> 
             <ul>
-            	<li>
-	                    <p class="word">操作时间</p>
-	                
-	                    <p><input type="text" class="int-text int-medium" id="operStartTime">
-	                        <a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
-	                    <p>~</p>
-	                    <p>
-	                    <input type="text" class="int-text int-medium" id="operEndTime">
-	                        <a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
-                </li>    
+                <li class="width-xlag">
+                    <p class="word">操作时间</p>
+                    <p><input type="text" class="int-text int-medium" id="operStartTime"><a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
+                    <p>~</p>
+                    <p><input type="text" class="int-text int-medium" id="operEndTime"><a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
+                </li>
             </ul>
             </div>  
             <!--点击展开结束-->

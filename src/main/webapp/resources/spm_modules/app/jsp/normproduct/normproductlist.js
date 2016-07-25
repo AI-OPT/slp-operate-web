@@ -93,12 +93,13 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
     		var _this = this;
     		var div = document.getElementById("data1ProdCat");
     		var length = document.getElementsByTagName("select").length-2;
-    		
     		var productCatId = $("#productCat"+length+" option:selected").val();
-    		
     		var productType = $("#productType").val().trim();
     		var productId = $("#standedProdId").val().trim();
     		var productName = $("#standedProductName").val().trim();
+    		
+    		var operStartTime = $("#operStartTime").val().trim();
+    		var operEndTime = $("#operEndTime").val().trim();
     		
     		$("#pagination-ul").runnerPagination({
     			
@@ -109,8 +110,12 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
 	 			renderId:"searchNormProductData",
 	 			messageId:"showMessageDiv",
 	 			
-	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
-	            
+	           /* data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
+	            */
+	 			data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName,
+		 			"operStartTimeStr":operStartTime,"operEndTimeStr":operEndTime
+		 			},
+	 			
 	           	pageSize: normproductlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            render: function (data) {
