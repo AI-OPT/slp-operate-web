@@ -1,6 +1,5 @@
 package com.ai.slp.operate.web.controller.storage;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.opt.base.vo.BaseResponse;
-import com.ai.opt.base.vo.PageInfoResponse;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.util.BeanUtils;
 import com.ai.opt.sdk.web.model.ResponseData;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
@@ -31,22 +29,20 @@ import com.ai.slp.operate.web.constants.ComCacheConstants;
 import com.ai.slp.operate.web.constants.ProductCatConstants;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
 import com.ai.slp.operate.web.controller.product.ProdQueryController;
+import com.ai.slp.operate.web.model.storage.StorageInfo;
 import com.ai.slp.operate.web.util.AdminUtil;
 import com.ai.slp.product.api.normproduct.interfaces.INormProductSV;
 import com.ai.slp.product.api.normproduct.param.AttrMap;
 import com.ai.slp.product.api.normproduct.param.AttrQuery;
 import com.ai.slp.product.api.normproduct.param.AttrValInfo;
 import com.ai.slp.product.api.normproduct.param.NormProdInfoResponse;
-import com.ai.slp.product.api.normproduct.param.NormProdRequest;
-import com.ai.slp.product.api.normproduct.param.NormProdResponse;
 import com.ai.slp.product.api.normproduct.param.NormProdUniqueReq;
 import com.ai.slp.product.api.normproduct.param.ProdCatAttrInfo;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
-import com.ai.slp.product.api.productcat.param.ProdCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
-import com.ai.slp.product.api.productcat.param.ProductCatQuery;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
 import com.ai.slp.product.api.storage.interfaces.IStorageSV;
+import com.ai.slp.product.api.storage.param.STOStorage;
 import com.ai.slp.product.api.storage.param.STOStorageGroup;
 import com.ai.slp.product.api.storage.param.StorageGroupQuery;
 import com.ai.slp.product.api.storage.param.StorageGroupRes;
@@ -80,6 +76,7 @@ public class StorageController {
 	        IProductCatSV productCatSV = DubboConsumerFactory.getService(IProductCatSV.class);
 	        List<ProductCatInfo> catLinkList =productCatSV.queryLinkOfCatById(catUniqueReq);
 	        uiModel.addAttribute("catLinkList",catLinkList);
+	        uiModel.addAttribute("productCatId",normProdInfoResponse.getProductCatId());
 	        //商品类型
 	        SysParamSingleCond paramSingleCond = new SysParamSingleCond();
 	        paramSingleCond.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
@@ -131,7 +128,7 @@ public class StorageController {
 	     */
 	    @RequestMapping("/addStorGroup")
 	    @ResponseBody
-	    public ResponseData<String> addStorGroup(HttpServletRequest request, HttpSession session){
+	    public ResponseData<StorageGroupRes> addStorGroup(HttpServletRequest request, HttpSession session){
 	    	ResponseData<String> responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "添加成功");
 	    	IStorageSV storageSV = DubboConsumerFactory.getService(IStorageSV.class);
 	    	STOStorageGroup storageGroup = new STOStorageGroup();
@@ -143,9 +140,60 @@ public class StorageController {
 	    	BaseResponse baseResponse = storageSV.createStorageGroup(storageGroup);
 	    	ResponseHeader header = baseResponse.getResponseHeader();
 	    	if (header!=null && !header.isSuccess()){
-	            responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "更新失败:"+header.getResultMessage());
+	    		return new ResponseData<StorageGroupRes>(ResponseData.AJAX_STATUS_FAILURE, "更新失败:"+header.getResultMessage());
 	        }
-	    	return responseData;
+	    	//通过ID查询库存组信息
+	    	StorageGroupQuery storageGroupQuery = new StorageGroupQuery();
+	    	storageGroupQuery.setGroupId(header.getResultMessage());
+	    	storageGroupQuery.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+	    	StorageGroupRes storageGroupRes = storageSV.queryGroupInfoByGroupId(storageGroupQuery);
+	    	ICacheSV cacheSV = DubboConsumerFactory.getService(ICacheSV.class);
+	    	//设置状态名
+	    	String storGroupState = storageGroupRes.getState();
+	    	SysParamSingleCond paramSingleCond = new SysParamSingleCond(SysCommonConstants.COMMON_TENANT_ID,
+	    			ComCacheConstants.StateStorage.STORAGEGROUP_TYPR_CODE, ComCacheConstants.StateStorage.PARAM_CODE,storGroupState);
+			String storGroupStateName = cacheSV.getSysParamSingle(paramSingleCond).getColumnDesc();
+			storageGroupRes.setStateName(storGroupStateName);
+	    	return new ResponseData<StorageGroupRes>(ResponseData.AJAX_STATUS_FAILURE, "更新失败:"+header.getResultMessage(),storageGroupRes);
+	    }
+	    
+	    /**
+	     * 添加库存
+	     * @param request
+	     * @param session
+	     * @return
+	     */
+	    @RequestMapping("/addStorage")
+	    @ResponseBody
+	    public ResponseData<StorageInfo> addStorage(HttpServletRequest request, HttpSession session){
+	    	IStorageSV storageSV = DubboConsumerFactory.getService(IStorageSV.class);
+	    	STOStorage storage = new STOStorage();
+	    	storage.setOperId(AdminUtil.getAdminId(session));
+	    	storage.setProductCatId(request.getParameter("productCatId"));
+	    	storage.setStorageName(request.getParameter("storageName"));
+	    	storage.setStorageGroupId(request.getParameter("storGroupId"));
+	    	storage.setPriorityNumber(Short.parseShort(request.getParameter("priorityNumber")));
+	    	storage.setTotalNum(Long.parseLong(request.getParameter("totalNum")));
+	    	storage.setWarnNum(Long.parseLong(request.getParameter("warnNum")));
+	    	storage.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+	    	BaseResponse baseResponse = storageSV.saveStorage(storage);
+	    	ResponseHeader header = baseResponse.getResponseHeader();
+	    	String storageId = header.getResultMessage();
+	    	if (header!=null && !header.isSuccess()){
+	    		return new ResponseData<StorageInfo>(ResponseData.AJAX_STATUS_FAILURE, "更新失败:"+header.getResultMessage());
+	        }
+	    	int number = Integer.parseInt(request.getParameter("number"));
+	    	StorageRes storageRes = storageSV.queryStorageById(storageId);
+	    	StorageInfo storageInfo = new StorageInfo();
+	    	BeanUtils.copyProperties(storageInfo, storageRes);
+	    	storageInfo.setNumber(number);
+	    	ICacheSV cacheSV = DubboConsumerFactory.getService(ICacheSV.class);
+	    	String storState = storageInfo.getState();
+	    	SysParamSingleCond paramSingleCond = new SysParamSingleCond(SysCommonConstants.COMMON_TENANT_ID,
+					ComCacheConstants.StateStorage.STORAGE_TYPR_CODE, ComCacheConstants.StateStorage.PARAM_CODE, storState);
+			String storStateName = cacheSV.getSysParamSingle(paramSingleCond).getColumnDesc();
+			storageInfo.setStateName(storStateName);
+	    	return new ResponseData<StorageInfo>(ResponseData.AJAX_STATUS_SUCCESS, "更新成功:"+header.getResultMessage(),storageInfo);
 	    }
 
 	    private Map<ProdCatAttrInfo,List<AttrValInfo>> getAttrAndVals(AttrMap attrMap){

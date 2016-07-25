@@ -74,15 +74,15 @@
            		<ul>
 	                <li class="width-xlag">
 	                    <p class="word"><span>*</span>库存名称:</p>
-	                    <p><input type="text" class="int-text int-medium"></p>
+	                    <p><input id="storageName" type="text" class="int-text int-medium"></p>
 	                </li> 
 	                 <li class="width-xlag">
 	                    <p class="word"><span>*</span>虚拟库存量:</p>
-	                    <p><input type="text" class="int-text int-medium"></p>
+	                    <p><input id="totalNum" type="text" class="int-text int-medium"></p>
 	                </li> 
 	                <li class="width-xlag">
 	                    <p class="word"><span>*</span>最低预警库存值:</p>
-	                    <p><input type="text" class="int-text int-medium"></p>
+	                    <p><input id="warnNum" type="text" class="int-text int-medium"></p>
 	                </li> 
 	                <li class="width-xlag">
 	                    <p class="word">有效期:</p>
@@ -279,7 +279,7 @@
 				         			<p>优先级 ${priority.key}</p>
 				         			<p><a href="javascript:void(0);"><img src="${_slpres }/images/down.png" /></a></p>
 				         			<p><a href="javascript:void(0);"><img src="${_slpres }/images/up.png" /></a></p>
-				         			<p><input type="button" class="biu-btn btn-blue stock-btn" id="small-eject3" value="增加库存" storGroupId="${storGroupList.storageGroupId }" priorityNum="${priority.key}" number="${priority.size()}"></p>
+				         			<p><input id="addStorageShow" type="button" class="biu-btn btn-blue stock-btn" id="small-eject3" value="增加库存" storGroupId="${storGroupList.storageGroupId }" priorityNum="${priority.key}" number="${priority.size()}"></p>
 				         			<p>
 				         				<span><input type="checkbox" class="checkbox-medium" /></span>
 				         				<span>促销活动</span>
@@ -327,22 +327,40 @@
              </c:forEach>
           </tbody>
           </c:forEach>
+          <input id="storGroupMarked" type="hidden" >
           </table>
           </div>
-         	 <script id="cartProdTemple" type="text/template">
- 				<tbody  id="${attr.storageGroupId }">
+          <script id="storageTemple" type="text/template">
+         		 <tr id="{{:storageGroupId }}{{:priorityNumber }}{{:number }}" >
+		                <td>{{:number }}</td>
+		                <td>{{:storageId }}</td>
+		                <td>{{:storageName }}</td>
+		                <td>{{:totalNum }}</td>
+		                <td>{{:activeTime }}</td>
+		                <td>{{:inactiveTime }}</td>
+		                <td>{{:warnNum }}</td>
+		                <td>{{:stateName }}</td>
+		                {{if state == '3' || state=='31'}}
+							  <td><a href="javascript:void(0);"  class="blue">查看</a></td>
+						{{else}}
+							  <td><a href="javascript:void(0);"  class="blue">编辑</a><a href="javascript:void(0);"  class="blue">启用</a><a href="javascript:void(0);"  class="blue">废弃</a><a href="javascript:void(0);"  class="blue">管理预警接收人</a></td>
+						{{/if}}
+	              </tr> 
+          </script>
+         	 <script id="storGroupTemple" type="text/template">
+ 				<tbody  id="{{:storageGroupId }}">
          		 <tr>
                 		<td colspan="9">
 	                		<div class="setup-sku mg-0">
 				         	<ul>
 				         		<li>
-				         			<p>库存组名称:${attr.storageGroupName }</p>
+				         			<p>库存组名称:{{:storageGroupName }}</p>
 				         			<p id="small-eject2"><input type="button"class="biu-btn btn-blue stock-btn" value="编辑名称 "></p>
-				         			<p>总库存量:0</p>
+				         			<p>总库存量:{{:storageTotal }}</p>
 				         			<p><input id="${attr.storageGroupId }addPriorityNumber" name="addPriorityNumber" type="button" class="biu-btn btn-blue stock-btn" value="增加优先级 "></p>
 				         			<p><input type="button"class="biu-btn btn-blue stock-btn" value="启动 "></p>
 				         			<p id="small-eject4"><input type="button"class="biu-btn btn-blue stock-btn" value="废弃 "></p>
-				         			<p>状态:${attr.stateName }</p>
+				         			<p>状态:{{:stateName }}</p>
 				         		</li>
 				         	</ul>
 	         			</div>
@@ -394,6 +412,7 @@ window.onload = function(){
 		var pager;
 		var count = '${count}';
 		var standedProdId = "${standedProdId}";
+		var productCatId = "${productCatId}";
 		(function () {
 			<%-- 展示日历 --%>
             $('#selectDiv').delegate('.icon-calendar','click',function(){

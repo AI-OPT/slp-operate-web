@@ -32,6 +32,7 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
             "click #addStorGroup":"_addStorGroup",
             "click #goBack":"_goBack",
             "click #addStorage":"_addStorage",
+            "click #addStorageShow":"_addStorageShow",
         },
     	//重写父类
     	setup: function () {
@@ -42,11 +43,38 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     	_addPriorityNumber:function(storGroupId){
     		alert(storGroupId);
     	},
+    	//打开添加库存弹窗时储存隐藏数据
+    	_addStorageShow:function(){
+    		$("#saveCache").attr('storGroupId',$(this).attr('storGroupId'));
+    		$("#saveCache").attr('priorityNum',$(this).attr('priorityNum'));
+    		$("#saveCache").attr('number',$(this).attr('number'));
+    	},
     	//添加库存
     	_addStorage:function(){
-    		var storGroupId = $(this).attr('storGroupId');
-        	var priorityNum = $(this).attr('priorityNum');
-    		var 
+    		var storGroupId = $("#saveCache").attr('storGroupId');
+        	var priorityNumber = $("#saveCache").attr('priorityNum');
+        	//number用于判断当前库存组下库存数量
+        	var number = $("#saveCache").attr('number');
+    		var storageName = $("#storageName");
+    		var totalNum = $("#totalNum");
+    		var warnNum = $("#warnNum");
+    		ajaxController.ajax({
+				type: "post",
+				processing: true,
+				message: "添加中，请等待...",
+				url: _base+"/storage/addStorage",
+				data:{"storGroupId":storGroupId,"priorityNumber":priorityNumber,"storageName":storageName,
+					"productCatId":productCatId,"totalNum":totalNum,"warnNum":warnNum},
+				success: function(data){
+					if(data != null && data != 'undefined' && data.length>0){
+	            		var template = $.templates("#storageTemple");
+	            	    var htmlOutput = template.render(data);
+	            	    $("#"+storGroupId+priorityNumber+number).after(htmlOutput);
+					}else{
+						_this._showMsg("添加库存失败:"+data.statusInfo);
+	            	}
+				}
+			});
     	},
     	//增加优先级
     	_addPriorityNumber:function(groupId){
@@ -74,10 +102,12 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 				url: _base+"/storage/addStorGroup",
 				data:{"standedProdId":standedProdId,"storageGroupName":storageGroupName},
 				success: function(data){
-					if("1"===data.statusCode){
-						window.history.go(0);
+					if(data != null && data != 'undefined' && data.length>0){
+	            		var template = $.templates("#storGroupTemple");
+	            	    var htmlOutput = template.render(data);
+	            	    $("#"+storGroupMarked).before(htmlOutput);
 					}else{
-						_this._showMsg("添加库存组失败:"+data.statusInfo);
+						_this._showMsg("添加库存失败:"+data.statusInfo);
 	            	}
 				}
 			});
