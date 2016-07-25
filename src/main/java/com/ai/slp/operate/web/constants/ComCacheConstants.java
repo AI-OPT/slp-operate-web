@@ -4,6 +4,16 @@ package com.ai.slp.operate.web.constants;
  * Created by jackieliu on 16/6/17.
  */
 public final class ComCacheConstants {
+	/**
+	 * 标准品TYPE
+	 * @author Gavin
+	 *
+	 */
+	public final class NormProduct{
+		public static final String CODE = "STANDEDPRODUCT";
+		
+		public static final String STATUS = "STATE";
+	}
 
     /**
      * 商品TYPE

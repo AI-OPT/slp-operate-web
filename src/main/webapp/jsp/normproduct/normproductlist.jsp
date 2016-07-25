@@ -93,6 +93,18 @@
                 </li>
             </ul> 
             <ul>
+                <li>
+                    <p class="word">标准品类型</p>
+                    <p>
+                    	<select id="state" class="select select-medium">
+		                   	<option value="1">可使用</option>
+		                   	<option value="2">不可用</option>
+                    		<option value="0">废弃</option>
+                    	</select>
+                    </p>
+                </li>
+            </ul> 
+            <ul>
                 <li class="width-xlag">
                     <p class="word">操作时间</p>
                     <p><input type="text" class="int-text int-medium" id="operStartTime"><a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
@@ -114,6 +126,31 @@
                   <ul>
                     <li>标准品列表</li>
                   </ul>
+                   <div class="nav-tplist-title nav-tplist-title-border">
+                  <ul>
+                   <!--  <div class="title-right">
+                    <p class="plus"><a href="#"><i class="icon-download-alt"></i></a></p>
+                    <p class="plus-word"><a href="#">下载模板</a></p>
+                    </div>
+                    <div class="title-right">
+                    <p class="plus"><a href="#"><i class="icon-folder-open-alt"></i></a></p>
+                    <p class="plus-word"><a href="#">批量导入</a></p>
+                    </div>
+                    <div class="title-right">
+                    <p class="plus"><a href="#"><i class="icon-share"></i></a></p>
+                    <p class="plus-word"><a href="#">导出商品</a></p>
+                    </div>
+                    <div class="title-right">
+                    <p class="plus"><a href="#"><i class="icon-search"></i></a></p>
+                    <p class="plus-word"><a href="#">查看废弃标准品</a></p>
+                    </div> -->
+                    <div class="title-right">
+                    <p class="plus"><a href="#"><i class="icon-plus"></i></a></p>
+                    <p class="plus-word"><a href="${_base}/normprodedit/add">新增</a></p>
+                    </div>
+                    
+                  </ul>
+              </div>
              </div>
          <!--结果表格-->
         <div class="table table-border table-bordered table-bg table-hover mt-10">

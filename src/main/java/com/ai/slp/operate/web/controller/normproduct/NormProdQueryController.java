@@ -2,6 +2,7 @@ package com.ai.slp.operate.web.controller.normproduct;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,7 @@ import com.ai.slp.operate.web.constants.ComCacheConstants;
 import com.ai.slp.operate.web.constants.ProductCatConstants;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
 import com.ai.slp.operate.web.util.AdminUtil;
+import com.ai.slp.operate.web.util.DateUtil;
 import com.ai.slp.operate.web.vo.ProdQueryCatVo;
 import com.ai.slp.product.api.normproduct.interfaces.INormProductSV;
 import com.ai.slp.product.api.normproduct.param.NormProdRequest;
@@ -80,33 +82,6 @@ public class NormProdQueryController {
 			//查询条件
 			queryBuilder(request, productRequest);
 			
-			// 设置状态
-			productRequest.setState("1");
-			PageInfoResponse<NormProdResponse> result = queryProductByState(productRequest);
-			responseData = new ResponseData<PageInfoResponse<NormProdResponse>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
-					result);
-		} catch (Exception e) {
-			responseData = new ResponseData<PageInfoResponse<NormProdResponse>>(ResponseData.AJAX_STATUS_FAILURE,
-					"获取信息异常");
-			LOG.error("获取信息出错：", e);
-		}
-		return responseData;
-	}
-	/**
-	 * 点击查询按钮调用方法-查询标准库存
-	 * @return
-	 */
-	@RequestMapping("/getNormProductList2")
-	@ResponseBody
-	private ResponseData<PageInfoResponse<NormProdResponse>> queryNormProductList(HttpServletRequest request,NormProdRequest productRequest){
-		ResponseData<PageInfoResponse<NormProdResponse>> responseData = null;
-		try {
-			//查询条件
-			queryBuilder(request, productRequest);
-			
-			// 设置状态
-			productRequest.setState("1");
-			productRequest.setState("2");
 			PageInfoResponse<NormProdResponse> result = queryProductByState(productRequest);
 			responseData = new ResponseData<PageInfoResponse<NormProdResponse>>(ResponseData.AJAX_STATUS_SUCCESS, "查询成功",
 					result);
@@ -203,7 +178,7 @@ public class NormProdQueryController {
 				// 获取状态
 				String state = normProdResponse.getState();
 				sysParamSingleCond = new SysParamSingleCond(SysCommonConstants.COMMON_TENANT_ID,
-						ComCacheConstants.TypeProduct.CODE, "STATE", state);
+						ComCacheConstants.NormProduct.CODE, ComCacheConstants.NormProduct.STATUS, state);
 				String stateName = cacheSV.getSysParamSingle(sysParamSingleCond).getColumnDesc();
 				normProdResponse.setState(stateName);
 			}
@@ -218,18 +193,24 @@ public class NormProdQueryController {
 	private void queryBuilder(HttpServletRequest request,NormProdRequest productRequest) {
 		productRequest.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
 		productRequest.setProductCatId(request.getParameter("productCatId"));
-		if(!request.getParameter("productType").isEmpty())
-			productRequest.setProductType(request.getParameter("productType"));
+		
+		if (StringUtils.isNotBlank(request.getParameter("state")))
+			productRequest.setState(request.getParameter("state"));
 		if(!request.getParameter("productId").isEmpty())
 			productRequest.setStandedProdId(request.getParameter("productId"));
 		if(!request.getParameter("productName").isEmpty())
 			productRequest.setStandedProductName(request.getParameter("productName"));
 		
-		if(!request.getParameter("operStartTimeStr").isEmpty())
-			productRequest.setOperStartTime(Timestamp.valueOf(request.getParameter("operStartTimeStr")+"00:00:00"));
-		if(!request.getParameter("operEndTimeStr").isEmpty())
-			productRequest.setOperStartTime(Timestamp.valueOf(request.getParameter("operEndTimeStr")+"23:59:59"));
-	
+		
+		if (StringUtils.isNotBlank(request.getParameter("operStartTimeStr"))) {
+			String startTime = request.getParameter("operStartTimeStr")+" 00:00:00";
+			productRequest.setOperStartTime(DateUtil.getTimestamp(startTime, "yyyy-MM-dd HH:mm:ss"));
+		}
+		
+		if (StringUtils.isNotBlank(request.getParameter("operEndTimeStr"))) {
+				String endTime = request.getParameter("operEndTimeStr")+" 23:59:59";
+				productRequest.setOperStartTime(DateUtil.getTimestamp(endTime, "yyyy-MM-dd HH:mm:ss"));
+			}
 		
 	}
 	

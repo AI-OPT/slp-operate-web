@@ -10,6 +10,7 @@
 	<link href="${_slpres }/styles/frame.css" rel="stylesheet" type="text/css">
 	<link href="${_slpres }/styles/global.css" rel="stylesheet" type="text/css">
 	<link href="${_slpres }/styles/modular.css" rel="stylesheet" type="text/css">
+	
 </head>
 
 <body>
@@ -31,8 +32,8 @@
         <ul>
            <li>
 	           <p class="none">您现在的位置：</p>
-	           <p><a href="#">库存管理</a> > </p>  
-	           <p>生成虚拟库存</p>
+	           <p><a href="#">标准品管理</a> > </p>  
+	           <p>标准品列表</p>
            </li>
         </ul>  
     </div>
@@ -45,22 +46,23 @@
                     <li class="width-xlag">
                         <p class="word">所属类目</p>
                         <c:forEach var="map" items="${catInfoMap}" varStatus="status">
-                         <p id="productCat${status.index}">
-                             <select class="select select-small" onChange="pager._selectChange(this);">
-	                             <c:forEach var="info" items="${map.value}">
-	                                 <option value="${info.productCatId}">${info.productCatName}</option>
-	                             </c:forEach>
-                             </select>
-                         </p>
-                        </c:forEach>
-                        <script id="prodCatTemple" type="text/template">
-                            <p id="productCat{{:level}}">
-								<select class="select select-small" onChange="pager._selectChange(this);">
-									{{for prodCatList}}
-                                   		<option value="{{:productCatId}}">{{:productCatName}}</option>
-									{{/for}}
-                               	</select>
+							<p id="productCat${status.index}">
+								<select class="select select-small"
+									onChange="pager._selectChange(this);">
+									<c:forEach var="info" items="${map.value}">
+									<option value="${info.productCatId}">${info.productCatName}</option>   	
+									</c:forEach>
+								</select>
 							</p>
+						</c:forEach> 
+                        <script id="prodCatTemple" type="text/template">
+                                	 <p id="productCat{{:level}}">
+										<select class="select select-small" onChange="pager._selectChange(this);">
+											{{for prodCatList}}
+                                   			 	<option value="{{:productCatId}}">{{:productCatName}}</option>
+											{{/for}}
+                               			</select>
+									</p>
 						</script>
                     </li>
                 </ul>
@@ -92,12 +94,22 @@
             </ul> 
             <ul>
                 <li>
+                    <p class="word">标准品类型</p>
+                    <p>
+                    	<select id="state" class="select select-medium">
+		                   	<option value="1">可使用</option>
+		                   	<option value="2">不可用</option>
+                    		<option value="0">废弃</option>
+                    	</select>
+                    </p>
+                </li>
+            </ul> 
+            <ul>
+                <li class="width-xlag">
                     <p class="word">操作时间</p>
-                    <p><input type="text" class="int-text int-medium" id="operStartTime">
-                        <a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
+                    <p><input type="text" class="int-text int-medium" id="operStartTime"><a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
                     <p>~</p>
-                    <p><input type="text" class="int-text int-medium" id="operEndTime">
-                        <a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
+                    <p><input type="text" class="int-text int-medium" id="operEndTime"><a href="#" class="ccc"><i class="icon-calendar"></i></a></p>
                 </li>
             </ul>
             </div>  
@@ -115,7 +127,7 @@
                     <li>标准品列表</li>
                   </ul>
              </div>
-           <!--结果表格-->
+         <!--结果表格-->
         <div class="table table-border table-bordered table-bg table-hover mt-10">
 			<table width="100%" border="0">
               <tr class="bj">  
@@ -141,43 +153,20 @@
                                 <td>{{:productType}}</td>
                                 <td>{{:state}}</td>
 								<td>{{:~timesToFmatter(operTime)}}</td>
-                       <%--        <td>{{:operId}}</td> 
+                       <%--        <td>{{:operId}}</td>
                                 <td><a href="#" class="blue">查看详情</a><a href="#" class="red">编辑</a><a href="＃" class="blue">废弃</a></td>
-                                --%> 
-                                <td><a href="${_base}/storage/{{:productId}}" class="blue-border">编辑</a></td>
- 						
+ 						--%> 
+								<td><a href="${_base}/storage/{{:productId}}" class="blue-border">编辑</a></td>
                             </tr>
 			</script>
           </div> 
-		<%--	<tr>
-                <td>1</td>
-                <td>{{:productId}}</td>
-                <td>{{:productName}}</td>
-                <td>{{:catName}}</td>
-                <td>{{:productTypeName}}</td>
-                <td>{{:~timesToFmatter(operTime)}}</td>
-                <td>hesuan</td>
-                <td><a href="#" class="blue">编辑</a></td>
-              </tr>
-                                <td>{{:totalNum}}</td>
-                                <td>{{:stateName}}</td>
-                                <td>{{:~timesToFmatter(createTime)}}</td>
-                                <td>
-                                    <div>
-                                        <p><a href="${_base}/prodedit/{{:prodId}}" class="blue-border">编辑商品</a></p>
-                                        <p><a href="#" class="blue">查看商品</a></p>
-					</script>
-          </div> 	--%>
-          
-          
-          
           <!--分页-->
-			 <div>
+		  	<div>
 				 <nav style="text-align: right">
-					<ul id="pagination-ul">
-					</ul>
-				</nav>
-			  </div>
+				<ul id="pagination-ul">
+				</ul>
+			</nav>
+		  </div>
 		 <!--分页-->
         <!--结果表格结束-->
          </div> 
@@ -192,6 +181,7 @@
 </html>
 <script src="${_slpres }/scripts/metismenu.js"></script>
  <script type="text/javascript"> 
+ 
 window.onload = function(){	
 	var timer;
 	var elem = document.getElementById('elem');
@@ -217,27 +207,45 @@ window.onload = function(){
 <script type="text/javascript">
 		var pager;
 		var count = '${count}';
+		var prodInfoList = '${prodInfoList}';
+		var productEditInfo = '${productEditInfo}';
 		(function () {
-           <%--展示日历 --%>
+            <%-- 展示日历 --%>
             $('#selectDiv').delegate('.icon-calendar','click',function(){
                 var calInput = $(this).parent().prev();
                 var timeId = calInput.attr('id');
                 console.log("click calendar "+timeId);
                 WdatePicker({el:timeId,readOnly:true});
-                
             });
-			seajs.use('app/jsp/storage/prodstorage', function (ProdStoragePager) {
-				pager = new ProdStoragePager({element: document.body});
-				pager.render();
-			});
+            seajs.use('app/jsp/storage/prodstorage', function(
+    				normproductlistPager) {
+    			pager = new normproductlistPager({
+    				element : document.body
+    			});
+    			pager.render();
+    		});
 		})();
 </script>
 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
  
  

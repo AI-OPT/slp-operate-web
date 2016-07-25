@@ -34,10 +34,6 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
     	events: {
     		//查询在售商品
             "click #selectNormProductList":"_selectNormProductList",
-        //   "click #upConfirm":"_prodToInStore"
-        //	"click #selectProductInSale":"_selectProductInSale",
-        //	"click #upConfirm":"_prodToInStore"
-
             },
     	//重写父类
     	setup: function () {
@@ -98,6 +94,7 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
     		var productId = $("#standedProdId").val().trim();
     		var productName = $("#standedProductName").val().trim();
     		
+    		var state = $("#state").val().trim();
     		var operStartTime = $("#operStartTime").val().trim();
     		var operEndTime = $("#operEndTime").val().trim();
     		
@@ -113,7 +110,7 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
 	           /* data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
 	            */
 	 			data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName,
-		 			"operStartTimeStr":operStartTime,"operEndTimeStr":operEndTime
+		 			"operStartTimeStr":operStartTime,"operEndTimeStr":operEndTime,"state":state
 		 			},
 	 			
 	           	pageSize: normproductlistPager.DEFAULT_PAGE_SIZE,
