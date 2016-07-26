@@ -118,7 +118,7 @@ public class StorageController {
 	     * @param session
 	     * @return
 	     */
-	    @RequestMapping("/addStorGroup")
+	    @RequestMapping("/addGroup")
 	    @ResponseBody
 	    public ResponseData<String> addStorGroup(HttpServletRequest request, HttpSession session){
 	    	ResponseData<String> responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_SUCCESS, "添加成功");

@@ -430,7 +430,7 @@
                 WdatePicker({el:timeId,readOnly:true});
             });
             //弹出添加库存窗口储存数据
-            $('.setup-sku').delegate('[name="addStorageShow"]','click',function(){
+            $('#storAndStorGroup').delegate('input[name="addStorageShow"]','click',function(){
                 var storGroupId = $(this).attr('storGroupId');
             	var priorityNum = $(this).attr('priorityNum');
             	var storageNum = $(this).attr('storageNum');
@@ -445,7 +445,7 @@
 				$(".eject-mask").show();
             });
             //增加优先级
-            $('#storAndStorGroup').delegate('[name="addPriorityNumber"]','click',function(){
+            $('.setup-sku').delegate('input[name="addPriorityNumber"]','click',function(){
             	var groupId = $(this).attr('storGroupId');
             	var priorityNum = $(this).attr('priorityNum');
                 console.log("groupId: "+groupId+",priorityNum:"+priorityNum);
