@@ -17,6 +17,8 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     
     //实例化AJAX控制处理对象
     var ajaxController = new AjaxController();
+    //优先级重复添加控制
+    var priorityString = "";
     //定义页面组件类
     var StorageEditPager = Widget.extend({
     	
@@ -87,11 +89,14 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     	//增加优先级
     	_addPriorityNumber:function(groupId,number){
     		number = parseInt(number)+1;
+    		if(priorityString == groupId+number){
+    			this._showMsg("请不要重复添加优先级");
+    		}
     		var data = {"storageGroupId":groupId,"number":number};
     		var template = $.templates("#priorityNumTemple");
     	    var htmlOutput = template.render(data);
     	    $("#"+groupId+"priorityDemo").before(htmlOutput);
-    		
+    	    priorityString = groupId+number;
     		//查库存组下有没有优先级-通过库存组value值取
     		//优先级为当前库存组下的最大优先级+1,并更新库存组value值
     		//把新增优先级放到库存组的最后
