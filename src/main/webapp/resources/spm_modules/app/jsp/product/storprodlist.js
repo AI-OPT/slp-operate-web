@@ -112,7 +112,7 @@ define('app/jsp/product/storprodlist', function (require, exports, module) {
 				type: "post",
 				processing: false,
 				// message: "加载中，请等待...",
-				url: _base+"/prodquery/getCat",
+				url: _base+"/cat/query/child",
 				data:{"prodCatId":prodCatId},
 				success: function(data){
 					if(data != null && data != 'undefined' && data.length>0){
