@@ -92,16 +92,8 @@
                    	</p>
                 </li>
             </ul> 
-            <ul>
-                <li>
-                    <!-- <p class="word">标准品状态</p> -->
-                    <p hidden="hidden">
-                    	<select id="state" class="select select-medium">
-		                   	<option value="1">可使用</option>
-                    	</select>
-                    </p>
-                </li>
-            </ul> 
+            <input type="hidden" id="state" value="1" />
+            
             <ul>
                 <li class="width-xlag">
                     <p class="word">操作时间</p>
