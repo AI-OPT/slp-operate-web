@@ -101,7 +101,7 @@ define('app/jsp/storage/prodstorage', function (require, exports, module) {
     		$("#pagination-ul").runnerPagination({
     			
 	 			/*url: _base+"/normprodquery/getNormProductList",*/
-	 			url: _base+"/storage/getNormProductList",
+	 			url: _base+"/normprodquery/getNormProductList",
 	 			
 	 			method: "POST",
 	 			dataType: "json",
