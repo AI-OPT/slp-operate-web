@@ -77,15 +77,15 @@
             <ul>
                 <li class="width-xlag">
                     <p class="word"><span>*</span>库存名称:</p>
-                    <p><input id="storageName" type="text" class="int-text int-medium"></p>
+                    <p><input id="newStorageName" type="text" class="int-text int-medium"></p>
                 </li>
                 <li class="width-xlag">
                     <p class="word"><span>*</span>虚拟库存量:</p>
-                    <p><input id="totalNum" type="text" class="int-text int-medium"></p>
+                    <p><input id="newTotalNum" type="text" class="int-text int-medium"></p>
                 </li>
                 <li class="width-xlag">
                     <p class="word"><span>*</span>最低预警库存值:</p>
-                    <p><input id="warnNum" type="text" class="int-text int-medium"></p>
+                    <p><input id="newWarnNum" type="text" class="int-text int-medium"></p>
                 </li>
                 <li class="width-xlag">
                     <p class="word">有效期:</p>
