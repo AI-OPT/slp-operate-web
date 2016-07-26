@@ -15,12 +15,11 @@ import com.ai.slp.operate.web.constants.ComCacheConstants;
 import com.ai.slp.operate.web.constants.ProductCatConstants;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
 import com.ai.slp.operate.web.model.product.ProductEditInfo;
+import com.ai.slp.operate.web.service.AttrAndValService;
 import com.ai.slp.operate.web.util.AdminUtil;
 import com.ai.slp.product.api.normproduct.interfaces.INormProductSV;
 import com.ai.slp.product.api.normproduct.param.AttrMap;
 import com.ai.slp.product.api.normproduct.param.AttrQuery;
-import com.ai.slp.product.api.normproduct.param.AttrValInfo;
-import com.ai.slp.product.api.normproduct.param.ProdCatAttrInfo;
 import com.ai.slp.product.api.product.interfaces.IProductManagerSV;
 import com.ai.slp.product.api.product.interfaces.IProductSV;
 import com.ai.slp.product.api.product.param.*;
@@ -33,6 +32,7 @@ import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +50,8 @@ import java.util.*;
 @RequestMapping("/prodedit")
 public class ProdEditController {
     private static Logger logger = LoggerFactory.getLogger(ProdEditController.class);
+    @Autowired
+    private AttrAndValService attrAndValService;
     IProductManagerSV productManagerSV;
     IProductSV productSV;
     ICacheSV cacheSV;
@@ -102,7 +104,7 @@ public class ProdEditController {
         attrQuery.setProductId(productInfo.getStandedProdId());
         attrQuery.setAttrType(ProductCatConstants.ProductCatAttr.AttrType.ATTR_TYPE_KEY);
         AttrMap attrMap = normProductSV.queryAttrByNormProduct(attrQuery);
-        uiModel.addAttribute("attrAndVal",getAttrAndVals(attrMap));
+        uiModel.addAttribute("attrAndVal",attrAndValService.getAttrAndVals(attrMap));
         //商品非关键属性
         ProdNoKeyAttr noKeyAttr = productManagerSV.queryNoKeyAttrOfProd(infoQuery);
         uiModel.addAttribute("noKeyAttr",noKeyAttr.getAttrInfoForProdList());
@@ -202,21 +204,6 @@ public class ProdEditController {
             responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "更新失败:"+header.getResultMessage());
         }
         return responseData;
-    }
-
-    private Map<ProdCatAttrInfo,List<AttrValInfo>> getAttrAndVals(AttrMap attrMap){
-        Map<ProdCatAttrInfo,List<AttrValInfo>> attrAndValMap = new HashMap<>();
-        Set<Map.Entry<Long,List<Long>>> entrySet = attrMap.attrAndVal.entrySet();
-        for (Map.Entry<Long,List<Long>> mapEntry:entrySet){
-            ProdCatAttrInfo attrInfo = attrMap.getAttrDefMap().get(mapEntry.getKey());
-            List<AttrValInfo> valInfoList = new ArrayList<AttrValInfo>();
-            List<Long> valIds = mapEntry.getValue();
-            for (Long valId:valIds){
-                valInfoList.add(attrMap.getAttrValDefMap().get(valId));
-            }
-            attrAndValMap.put(attrInfo, valInfoList);
-        }
-        return attrAndValMap;
     }
 
     public void setProdDetail(String fileId,Model uiModel){

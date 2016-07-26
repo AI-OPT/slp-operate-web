@@ -40,13 +40,26 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     	},
     	//添加库存
     	_addStorage:function(){
+    		var _this = this;
     		var storGroupId = $("#saveCache").attr('storGroupId');
         	var priorityNumber = $("#saveCache").attr('priorityNum');
         	//number用于判断当前库存组下库存数量
         	var number = $("#saveCache").attr('number');
-    		var storageName = $("#storageName");
-    		var totalNum = $("#totalNum");
-    		var warnNum = $("#warnNum");
+    		var storageName = $("#newStorageName").val();
+    		var totalNum = $("#newTotalNum").val();
+    		var warnNum = $("#newWarnNum").val();
+    		//判断库存名称
+    		if(storageName==null || storageName=='undefined' || storageName.length==0){
+    			_this._showMsg("库存名称不能为空");
+    		}
+    		//判断库存量
+    		if(totalNum==null || totalNum=='undefined' || totalNum.length==0 || isNaN(totalNum)){
+    			_this._showMsg("库存量不能为空且必须是数字");
+    		}
+    		//判断预警库存值
+    		if(warnNum==null || warnNum=='undefined' || warnNum.length==0 || isNaN(warnNum) || warnNum>=totalNum){
+    			_this._showMsg("预警库存量为不为空的数字且必须小于库存量");
+    		}
     		//隐藏添加库存窗口
     		$(".eject-big").hide();
     		$("#eject-samll-2").hide();
