@@ -1,23 +1,5 @@
 package com.ai.slp.operate.web.controller.storage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.ai.opt.base.vo.BaseResponse;
 import com.ai.opt.base.vo.PageInfoResponse;
 import com.ai.opt.base.vo.ResponseHeader;
@@ -37,25 +19,26 @@ import com.ai.slp.operate.web.util.AdminUtil;
 import com.ai.slp.operate.web.util.DateUtil;
 import com.ai.slp.operate.web.vo.ProdQueryCatVo;
 import com.ai.slp.product.api.normproduct.interfaces.INormProductSV;
-import com.ai.slp.product.api.normproduct.param.AttrMap;
-import com.ai.slp.product.api.normproduct.param.AttrQuery;
-import com.ai.slp.product.api.normproduct.param.AttrValInfo;
-import com.ai.slp.product.api.normproduct.param.NormProdInfoResponse;
-import com.ai.slp.product.api.normproduct.param.NormProdRequest;
-import com.ai.slp.product.api.normproduct.param.NormProdResponse;
-import com.ai.slp.product.api.normproduct.param.NormProdUniqueReq;
-import com.ai.slp.product.api.normproduct.param.ProdCatAttrInfo;
+import com.ai.slp.product.api.normproduct.param.*;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProdCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatQuery;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
 import com.ai.slp.product.api.storage.interfaces.IStorageSV;
-import com.ai.slp.product.api.storage.param.STOStorage;
-import com.ai.slp.product.api.storage.param.STOStorageGroup;
-import com.ai.slp.product.api.storage.param.StorageGroupQuery;
-import com.ai.slp.product.api.storage.param.StorageGroupRes;
-import com.ai.slp.product.api.storage.param.StorageRes;
+import com.ai.slp.product.api.storage.param.*;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 @Controller
 @RequestMapping("/storage")

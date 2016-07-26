@@ -99,7 +99,7 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 				type: "post",
 				processing: true,
 				message: "添加中，请等待...",
-				url: _base+"/storage/addStorGroup",
+				url: _base+"/storage/addGroup",
 				data:{"standedProdId":standedProdId,"storageGroupName":storageGroupName},
 				success: function(data){
 //					if(data != null && data != 'undefined' && data.length>0){

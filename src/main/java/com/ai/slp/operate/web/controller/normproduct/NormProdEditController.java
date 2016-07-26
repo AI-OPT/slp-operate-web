@@ -1,26 +1,10 @@
 package com.ai.slp.operate.web.controller.normproduct;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.operate.web.constants.ProductCatConstants;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
-import com.ai.slp.operate.web.controller.product.ProdEditController;
 import com.ai.slp.operate.web.vo.ProdQueryCatVo;
 import com.ai.slp.product.api.normproduct.interfaces.INormProductSV;
 import com.ai.slp.product.api.product.interfaces.IProductManagerSV;
@@ -30,6 +14,18 @@ import com.ai.slp.product.api.productcat.param.ProdCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatQuery;
 import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 对标准品进行操作
@@ -132,8 +128,7 @@ public class NormProdEditController {
 	}
     
     /**
-     * 跳转页面
-     * @param normprodId
+     * 显示添加页面
      * @return
      */
     @RequestMapping("/addinfo")
