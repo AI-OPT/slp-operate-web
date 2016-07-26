@@ -7,7 +7,7 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
 	    AjaxController = require('opt-ajax/1.0.0/index');
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
-    require("My97DatePicker/WdatePicker");
+    require("my97DatePicker/WdatePicker");
     require("bootstrap-paginator/bootstrap-paginator.min");
     require("app/util/jsviews-ext");
     require("opt-paging/aiopt.pagination");
