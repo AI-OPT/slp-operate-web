@@ -299,7 +299,7 @@
              	</c:forEach>
              <tr id="${storGroup.storageGroupId }priorityDemo"></tr>
              </c:forEach>
-		   <c:if test="${storGroupList.size() == 0 }">  
+		   <c:if test="${storGroup.storageList.size() == 0 }">  
 		       <tr id="${storGroup.storageGroupId }priorityDemo"></tr>
 		   </c:if>
           </tbody>
