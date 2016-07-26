@@ -32,7 +32,7 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
             "click #addStorGroup":"_addStorGroup",
             "click #goBack":"_goBack",
             "click #addStorage":"_addStorage",
-            "click #addStorageShow":"_addStorageShow",
+            "click #addStorageShow":"_addStorageShow"
         },
     	//重写父类
     	setup: function () {
@@ -95,7 +95,7 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 				type: "post",
 				processing: true,
 				message: "添加中，请等待...",
-				url: _base+"/storage/addStorGroup",
+				url: _base+"/storage/addGroup",
 				data:{"standedProdId":standedProdId,"storageGroupName":storageGroupName},
 				success: function(data){
 					if(data != null && data != 'undefined' && data.length>0){
