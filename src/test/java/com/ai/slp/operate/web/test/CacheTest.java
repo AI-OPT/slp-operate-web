@@ -1,14 +1,13 @@
 package com.ai.slp.operate.web.test;
 
-import java.util.List;
-
-import org.junit.Test;
-
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
 import com.ai.slp.common.api.cache.param.SysParamMultiCond;
 import com.alibaba.fastjson.JSON;
+import org.junit.Test;
+
+import java.util.List;
 
 public class CacheTest {
 	@Test
