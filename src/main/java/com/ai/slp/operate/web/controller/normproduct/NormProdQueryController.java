@@ -209,7 +209,7 @@ public class NormProdQueryController {
 		
 		if (StringUtils.isNotBlank(request.getParameter("operEndTimeStr"))) {
 				String endTime = request.getParameter("operEndTimeStr")+" 23:59:59";
-				productRequest.setOperStartTime(DateUtil.getTimestamp(endTime, "yyyy-MM-dd HH:mm:ss"));
+				productRequest.setOperEndTime(DateUtil.getTimestamp(endTime, "yyyy-MM-dd HH:mm:ss"));
 			}
 		
 	}
