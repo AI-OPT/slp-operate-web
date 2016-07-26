@@ -94,12 +94,12 @@
             </ul> 
             <ul>
                 <li>
-                    <p class="word">标准品类型</p>
+                    <p class="word">标准品状态</p>
                     <p>
                     	<select id="state" class="select select-medium">
+		                   	<option value="">全部</option>
 		                   	<option value="1">可使用</option>
 		                   	<option value="2">不可用</option>
-                    		<option value="0">废弃</option>
                     	</select>
                     </p>
                 </li>

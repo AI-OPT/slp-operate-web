@@ -32,7 +32,7 @@
         <ul>
            <li>
 	           <p class="none">您现在的位置：</p>
-	           <p><a href="#">标准品管理</a> > </p>  
+	           <p><a href="#">库存管理</a> > </p>  
 	           <p>标准品列表</p>
            </li>
         </ul>  
@@ -94,12 +94,10 @@
             </ul> 
             <ul>
                 <li>
-                    <p class="word">标准品类型</p>
-                    <p>
+                    <!-- <p class="word">标准品状态</p> -->
+                    <p hidden="hidden">
                     	<select id="state" class="select select-medium">
 		                   	<option value="1">可使用</option>
-		                   	<option value="2">不可用</option>
-                    		<option value="0">废弃</option>
                     	</select>
                     </p>
                 </li>
