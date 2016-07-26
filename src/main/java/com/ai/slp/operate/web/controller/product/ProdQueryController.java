@@ -8,17 +8,16 @@ import com.ai.paas.ipaas.image.IImageClient;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParamSingleCond;
 import com.ai.slp.operate.web.constants.ComCacheConstants;
-import com.ai.slp.operate.web.constants.ProductCatConstants;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
+import com.ai.slp.operate.web.service.ProdCatService;
 import com.ai.slp.product.api.product.interfaces.IProductManagerSV;
 import com.ai.slp.product.api.product.param.ProductEditQueryReq;
 import com.ai.slp.product.api.product.param.ProductEditUp;
-import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProdCatInfo;
-import com.ai.slp.product.api.productcat.param.ProductCatQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,32 +35,17 @@ import java.util.Map;
 @RequestMapping("/prodquery")
 public class ProdQueryController {
 	private static final Logger LOG = LoggerFactory.getLogger(ProdQueryController.class);
-
+	@Autowired
+	private ProdCatService prodCatService;
 	/**
 	 * 进入页面调用-加载类目
 	 */
 	@RequestMapping("/add")
 	public String editQuery(Model uiModel) {
-		loadCat(uiModel);
-		return "product/addlist";
-	}
-
-	private void loadCat(Model uiModel) {
-		IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
-		ProductCatQuery catQuery = new ProductCatQuery();
-		catQuery.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
-		Map<Short, List<ProdCatInfo>> productCatMap = new HashMap<>();
-		ProdCatInfo prodCatInfo = null;
-		do {
-			// 查询同一级的类目信息
-			List<ProdCatInfo> productCatInfos = productCatSV.queryCatByNameOrFirst(catQuery);
-			prodCatInfo = productCatInfos.get(0);
-			// 把类目信息按照类目等级放入集合
-			productCatMap.put(prodCatInfo.getCatLevel(), productCatInfos);
-			catQuery.setParentProductCatId(prodCatInfo.getProductCatId());
-		} while (prodCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD));
+		Map<Short, List<ProdCatInfo>> productCatMap = prodCatService.loadCat();
 		uiModel.addAttribute("count", productCatMap.size() - 1);
 		uiModel.addAttribute("catInfoMap", productCatMap);
+		return "product/addlist";
 	}
 
 	/**
@@ -70,7 +53,9 @@ public class ProdQueryController {
 	 */
 	@RequestMapping("/storprod")
 	public String storProdQuery(Model uiModel) {
-		loadCat(uiModel);
+		Map<Short, List<ProdCatInfo>> productCatMap = prodCatService.loadCat();
+		uiModel.addAttribute("count", productCatMap.size() - 1);
+		uiModel.addAttribute("catInfoMap", productCatMap);
 		return "product/storprodlist";
 	}
 	
@@ -80,7 +65,9 @@ public class ProdQueryController {
 	 */
 	@RequestMapping("/insale")
 	public String inSalelistQuery(Model uiModel) {
-		loadCat(uiModel);
+		Map<Short, List<ProdCatInfo>> productCatMap = prodCatService.loadCat();
+		uiModel.addAttribute("count", productCatMap.size() - 1);
+		uiModel.addAttribute("catInfoMap", productCatMap);
 		return "product/insalelist";
 	}
 
