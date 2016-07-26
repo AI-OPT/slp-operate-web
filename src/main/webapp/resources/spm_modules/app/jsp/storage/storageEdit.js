@@ -32,7 +32,6 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
             "click #addStorGroup":"_addStorGroup",
             "click #goBack":"_goBack",
             "click #addStorage":"_addStorage",
-            "click #addStorageShow":"_addStorageShow",
         },
     	//重写父类
     	setup: function () {
@@ -43,12 +42,6 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     	_addPriorityNumber:function(storGroupId){
     		alert(storGroupId);
     	},
-    	//打开添加库存弹窗时储存隐藏数据
-    	_addStorageShow:function(){
-    		$("#saveCache").attr('storGroupId',$(this).attr('storGroupId'));
-    		$("#saveCache").attr('priorityNum',$(this).attr('priorityNum'));
-    		$("#saveCache").attr('number',$(this).attr('number'));
-    	},
     	//添加库存
     	_addStorage:function(){
     		var storGroupId = $("#saveCache").attr('storGroupId');
@@ -58,6 +51,10 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     		var storageName = $("#storageName");
     		var totalNum = $("#totalNum");
     		var warnNum = $("#warnNum");
+    		//隐藏添加库存窗口
+    		$(".eject-big").hide();
+    		$("#eject-samll-2").hide();
+    		$(".eject-mask").hide();
     		ajaxController.ajax({
 				type: "post",
 				processing: true,
@@ -66,10 +63,12 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 				data:{"storGroupId":storGroupId,"priorityNumber":priorityNumber,"storageName":storageName,
 					"productCatId":productCatId,"totalNum":totalNum,"warnNum":warnNum},
 				success: function(data){
-					if(data != null && data != 'undefined' && data.length>0){
-	            		var template = $.templates("#storageTemple");
-	            	    var htmlOutput = template.render(data);
-	            	    $("#"+storGroupId+priorityNumber+number).after(htmlOutput);
+//					if(data != null && data != 'undefined' && data.length>0){
+//	            		var template = $.templates("#storageTemple");
+//	            	    var htmlOutput = template.render(data);
+//	            	    $("#"+storGroupId+priorityNumber+number).after(htmlOutput);
+					if("1"===data.statusCode){
+						window.history.go(0);
 					}else{
 						_this._showMsg("添加库存失败:"+data.statusInfo);
 	            	}
@@ -77,8 +76,13 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 			});
     	},
     	//增加优先级
-    	_addPriorityNumber:function(groupId){
-    		alert(groupId);
+    	_addPriorityNumber:function(groupId,number){
+    		number = parseInt(number)+1;
+    		var data = {"storageGroupId":groupId,"number":number};
+    		var template = $.templates("#priorityNumTemple");
+    	    var htmlOutput = template.render(data);
+    	    $("#"+groupId+"priorityDemo").before(htmlOutput);
+    		
     		//查库存组下有没有优先级-通过库存组value值取
     		//优先级为当前库存组下的最大优先级+1,并更新库存组value值
     		//把新增优先级放到库存组的最后
@@ -102,10 +106,13 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 				url: _base+"/storage/addStorGroup",
 				data:{"standedProdId":standedProdId,"storageGroupName":storageGroupName},
 				success: function(data){
-					if(data != null && data != 'undefined' && data.length>0){
-	            		var template = $.templates("#storGroupTemple");
-	            	    var htmlOutput = template.render(data);
-	            	    $("#"+storGroupMarked).before(htmlOutput);
+//					if(data != null && data != 'undefined' && data.length>0){
+//						window.history.go(0);
+//	            		var template = $.templates("#storGroupTemple");
+//	            	    var htmlOutput = template.render(data);
+//	            	    $("#"+storGroupMarked).before(htmlOutput);
+					if("1"===data.statusCode){
+						window.history.go(0);
 					}else{
 						_this._showMsg("添加库存失败:"+data.statusInfo);
 	            	}
@@ -125,16 +132,16 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     	_goBack:function(){
     		window.history.go(-1);
     	},
-    	//显示库存组的库存信息
-		_showCheckAudi:function(audiMap){
-			var audNum = Object.keys(audiMap).length;
-			$('#audiNum').text(audNum);
-			//删除原来受众信息
-			$('#audiSelectedDiv').html("");
-			for (var key in audiMap) {
-				$('#audiSelectedDiv').append("<p>"+audiMap[key]+"<a href=\"javascript:void(0);\"><i class=\"icon-remove-sign\" userId='"+key+"'></i></a></p>");
-			}
-		},
+//    	//显示库存组的库存信息
+//		_showCheckAudi:function(audiMap){
+//			var audNum = Object.keys(audiMap).length;
+//			$('#audiNum').text(audNum);
+//			//删除原来受众信息
+//			$('#audiSelectedDiv').html("");
+//			for (var key in audiMap) {
+//				$('#audiSelectedDiv').append("<p>"+audiMap[key]+"<a href=\"javascript:void(0);\"><i class=\"icon-remove-sign\" userId='"+key+"'></i></a></p>");
+//			}
+//		},
     	// 改变商品类目
     	_selectChange:function(osel){
     		var _this = this;
@@ -196,7 +203,6 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 	            	    var htmlOutput = template.render(data);
 	            	    $("#searchStanProdData").html(htmlOutput);
 	            	}
-	            	_this._returnTop();
 	            }
     		});
     	},

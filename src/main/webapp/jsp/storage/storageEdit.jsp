@@ -250,43 +250,43 @@
     <div class="table table-border table-bordered table-bg table-hover mt-10">
     		<!-- value值储存当前标准品下的库存组数量 -->
           <table id="storAndStorGroup" width="100%" border="0" value="${storGroupList.size()}">
-          <c:forEach var="storGroupList" items="${storGroupList}" varStatus="storGroupNum">
+          <c:forEach var="storGroup" items="${storGroupList}" varStatus="storGroupNum">
           		<!-- value值储存当前库存组的最大优先级 -->
-              <tbody  id="${storGroupList.storageGroupId }${storGroupNum.index+1 }" value="${storGroupList.storageList.size()}">
-              	<tr>
+              <tbody  id="${storGroup.storageGroupId }${storGroupNum.index+1 }" value="${storGroup.storageList.size()}">
+              	<tr id="${storGroup.storageGroupId }_0">
                 		<td colspan="9">
 	                		<div class="setup-sku mg-0">
 				         	<ul>
 				         		<li>
-				         			<p>库存组名称: ${storGroupList.storageGroupName }</p>
+				         			<p>库存组名称: ${storGroup.storageGroupName }</p>
 				         			<p id="small-eject2"><input type="button"class="biu-btn btn-blue stock-btn" value="编辑名称 "></p>
-				         			<p>总库存量:${storGroupList.storageTotal }</p>
-				         			<p><input id="${storGroupList.storageGroupId }priority" name="addPriorityNumber" type="button" class="biu-btn btn-blue stock-btn" value="增加优先级 "></p>
+				         			<p>总库存量:${storGroup.storageTotal }</p>
+				         			<p><input  name="addPriorityNumber" type="button" class="biu-btn btn-blue stock-btn" value="增加优先级 " storGroupId="${storGroup.storageGroupId }" priorityNum="${storGroup.storageList.size()}"></p>
 				         			<p><input type="button"class="biu-btn btn-blue stock-btn" value="启动 "></p>
 				         			<p id="small-eject4"><input type="button"class="biu-btn btn-blue stock-btn" value="废弃 "></p>
-				         			<p>状态:${storGroupList.stateName }</p>
+				         			<p>状态:${storGroup.stateName }</p>
 				         		</li>
 				         	</ul>
 	         			</div>
                 		</td>
               	</tr> 
-              <c:forEach var="priority" items="${storGroupList.storageList}">
-              	<tr>
+              <c:forEach var="priority" items="${storGroup.storageList}">
+              	<tr id="${storGroup.storageGroupId }_${priority.key}">
                 		<td colspan="9">
-                			<div id="selectDiv" class="setup-sku mg-0">
+                			<div class="setup-sku mg-0">
 				         	<ul>
 				         		<li>
 				         			<p>优先级 ${priority.key}</p>
 				         			<p><a href="javascript:void(0);"><img src="${_slpres }/images/down.png" /></a></p>
 				         			<p><a href="javascript:void(0);"><img src="${_slpres }/images/up.png" /></a></p>
-				         			<p><input id="addStorageShow" type="button" class="biu-btn btn-blue stock-btn" id="small-eject3" value="增加库存" storGroupId="${storGroupList.storageGroupId }" priorityNum="${priority.key}" number="${priority.size()}"></p>
+				         			<p><input name="addStorageShow" type="button" class="biu-btn btn-blue stock-btn" id="small-eject3" value="增加库存" storGroupId="${storGroup.storageGroupId }" priorityNum="${priority.key}" storageNum="${priority.value.size()}"></p>
 				         			<p>
 				         				<span><input type="checkbox" class="checkbox-medium" /></span>
 				         				<span>促销活动</span>
 				         			</p>
-				         			<p class="eject-int"><input id="${storGroupList.storageGroupId }${priority.key}activeTime" type="input" class="int-text int-mini"><a href="javascript:void(0);"><i class="icon-calendar"></i></a></p>
+				         			<p class="eject-int"><input type="input" class="int-text int-mini"><a href="javascript:void(0);"><i class="icon-calendar"></i></a></p>
 				         			<p class="eject-int">~</p>
-				         			<p class="eject-int"><input id="${storGroupList.storageGroupId }${priority.key}inactiveTime" type="input" class="int-text int-mini"><a href="javascript:void(0);"><i class="icon-calendar"></i></a></p>
+				         			<p class="eject-int"><input type="input" class="int-text int-mini"><a href="javascript:void(0);"><i class="icon-calendar"></i></a></p>
 				         			<p class="word">(没有结束时间可不填)</p>
 				         		</li>
 				         	</ul>
@@ -305,7 +305,7 @@
 		                <td>操作</td> 
 	              </tr> 
 	             <c:forEach var="storage" items="${priority.value}" varStatus="status">
-	              <tr id="${storGroupList.storageGroupId }${priority.key}${status.index+1 }" >
+	              <tr id="${storGroup.storageGroupId }${priority.key}${status.index+1 }" >
 		                <td>${status.index+1 }</td>
 		                <td>${storage.storageId }</td>
 		                <td>${storage.storageName }</td>
@@ -324,10 +324,14 @@
 						</c:choose>
 	              </tr> 
              	</c:forEach>
+             <tr id="${storGroup.storageGroupId }priorityDemo"></tr>
              </c:forEach>
+		   <c:if test="${storGroupList.size() == 0 }">  
+		       <tr id="${storGroup.storageGroupId }priorityDemo"></tr>
+		   </c:if>
           </tbody>
           </c:forEach>
-          <input id="storGroupMarked" type="hidden" >
+          <tbody id="storGroupMarked" ></tbody>
           </table>
           </div>
           <script id="storageTemple" type="text/template">
@@ -357,7 +361,7 @@
 				         			<p>库存组名称:{{:storageGroupName }}</p>
 				         			<p id="small-eject2"><input type="button"class="biu-btn btn-blue stock-btn" value="编辑名称 "></p>
 				         			<p>总库存量:{{:storageTotal }}</p>
-				         			<p><input id="${attr.storageGroupId }addPriorityNumber" name="addPriorityNumber" type="button" class="biu-btn btn-blue stock-btn" value="增加优先级 "></p>
+				         			<p><input name="addPriorityNumber" type="button" class="biu-btn btn-blue stock-btn" value="增加优先级 "storGroupId="{{:storageGroupId }}" priorityNum="0"></p>
 				         			<p><input type="button"class="biu-btn btn-blue stock-btn" value="启动 "></p>
 				         			<p id="small-eject4"><input type="button"class="biu-btn btn-blue stock-btn" value="废弃 "></p>
 				         			<p>状态:{{:stateName }}</p>
@@ -366,12 +370,47 @@
 	         			</div>
                 		</td>
               	</tr> 
+				<tr id="{{:storageGroupId }}priorityDemo"></tr>
 			  </tbody>
 			</script>
    		<div class="pst-bttton">
 	        <input id="goBack" type="button" class="biu-btn btn-blue btn-large mr-10" value="返  回">
         </div>
-     
+        <script id="priorityNumTemple" type="text/template">
+        		<tr id="{{:storageGroupId }}_{{:number }}">
+                		<td colspan="9">
+                			<div class="setup-sku mg-0">
+				         	<ul>
+				         		<li>
+				         			<p>优先级 {{:number }}</p>
+				         			<p><a href="javascript:void(0);"><img src="${_slpres }/images/down.png" /></a></p>
+				         			<p><a href="javascript:void(0);"><img src="${_slpres }/images/up.png" /></a></p>
+				         			<p><input name="addStorageShow" type="button" class="biu-btn btn-blue stock-btn" id="small-eject3" value="增加库存" storGroupId="{{:storageGroupId }}" priorityNum="{{:number }}" storageNum="0"></p>
+									<p>
+				         				<span><input type="checkbox" class="checkbox-medium" /></span>
+				         				<span>促销活动</span>
+				         			</p>
+				         			<p class="eject-int"><input type="input" class="int-text int-mini"><a href="javascript:void(0);"><i class="icon-calendar"></i></a></p>
+				         			<p class="eject-int">~</p>
+				         			<p class="eject-int"><input type="input" class="int-text int-mini"><a href="javascript:void(0);"><i class="icon-calendar"></i></a></p>
+				         			<p class="word">(没有结束时间可不填)</p>
+				         		</li>
+				         	</ul>
+	         			</div>
+                		</td>
+              	</tr> 
+	              	<tr class="bj">  
+		                <td>序号</td>                                                                                                      
+		                <td>库存ID</td>
+		                <td>库存名称</td>
+		                <td><span>*</span>虚拟库存量</td>
+		                <td>生效时间</td>
+		                <td>失效时间</td>
+		                <td><span>*</span>最低预警库存量</td>
+		                <td>状态</td>
+		                <td>操作</td> 
+	              </tr> 
+     </script>
     </div>
    <!--查询区域结束-->
 
@@ -415,25 +454,33 @@ window.onload = function(){
 		var productCatId = "${productCatId}";
 		(function () {
 			<%-- 展示日历 --%>
-            $('#selectDiv').delegate('.icon-calendar','click',function(){
+            $('.setup-sku mg-0').delegate('.icon-calendar','click',function(){
                 var calInput = $(this).parent().prev();
                 var timeId = calInput.attr('id');
                 console.log("click calendar "+timeId);
                 WdatePicker({el:timeId,readOnly:true});
             });
-            $('#selectDiv').delegate('#small-eject3','click',function(){
+            //弹出添加库存窗口储存数据
+            $('.setup-sku').delegate('[name="addStorageShow"]','click',function(){
                 var storGroupId = $(this).attr('storGroupId');
             	var priorityNum = $(this).attr('priorityNum');
-                console.log("storGroupId"+storGroupId,"priorityNum"+priorityNum,);
+            	var storageNum = $(this).attr('storageNum');
+                console.log("storGroupId"+storGroupId+",priorityNum"+priorityNum+",storageNum:"+storageNum);
                 //把当前点击对象数据储存到隐藏域
                 $('#saveCache').attr("storGroupId",storGroupId);
                 $('#saveCache').attr("priorityNum",priorityNum);
+                $('#saveCache').attr("number",storageNum);
+                //打开添加库存窗口
+                $(".eject-big").show();
+				$("#eject-samll-2").show();
+				$(".eject-mask").show();
             });
+            //增加优先级
             $('#storAndStorGroup').delegate('[name="addPriorityNumber"]','click',function(){
-            	var id = $(this).attr('id');
-            	var groupId = id.substring(0,id.length-8);
-                console.log("click groupId: "+groupId);
-                pager._addPriorityNumber(groupId);
+            	var groupId = $(this).attr('storGroupId');
+            	var priorityNum = $(this).attr('priorityNum');
+                console.log("groupId: "+groupId+",priorityNum:"+priorityNum);
+                pager._addPriorityNumber(groupId,priorityNum);
             });
 			seajs.use('app/jsp/storage/storageEdit', function (StorageEditPager) {
 				pager = new StorageEditPager({element: document.body});
