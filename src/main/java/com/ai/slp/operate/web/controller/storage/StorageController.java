@@ -11,10 +11,14 @@ import com.ai.slp.operate.web.constants.ComCacheConstants;
 import com.ai.slp.operate.web.constants.ProductCatConstants;
 import com.ai.slp.operate.web.constants.SysCommonConstants;
 import com.ai.slp.operate.web.controller.product.ProdQueryController;
+import com.ai.slp.operate.web.service.AttrAndValService;
 import com.ai.slp.operate.web.service.ProdCatService;
 import com.ai.slp.operate.web.util.AdminUtil;
 import com.ai.slp.product.api.normproduct.interfaces.INormProductSV;
-import com.ai.slp.product.api.normproduct.param.*;
+import com.ai.slp.product.api.normproduct.param.AttrMap;
+import com.ai.slp.product.api.normproduct.param.AttrQuery;
+import com.ai.slp.product.api.normproduct.param.NormProdInfoResponse;
+import com.ai.slp.product.api.normproduct.param.NormProdUniqueReq;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.ProdCatInfo;
 import com.ai.slp.product.api.productcat.param.ProductCatInfo;
@@ -32,7 +36,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/storage")
@@ -41,6 +46,8 @@ public class StorageController {
 
     @Autowired
     private ProdCatService prodCatService;
+    @Autowired
+    private AttrAndValService attrAndValService;
 
     /**
      * 显示标准品库存编辑页面
@@ -82,7 +89,7 @@ public class StorageController {
         attrQuery.setProductId(normProdInfoResponse.getProductId());
         attrQuery.setAttrType(ProductCatConstants.ProductCatAttr.AttrType.ATTR_TYPE_KEY);
         AttrMap attrMap = normProductSV.queryAttrByNormProduct(attrQuery);
-        uiModel.addAttribute("attrAndVal", getAttrAndVals(attrMap));
+        uiModel.addAttribute("attrAndVal", attrAndValService.getAttrAndVals(attrMap));
         //查询库存组和库存信息
         StorageGroupQuery storageGroupQuery = new StorageGroupQuery();
         storageGroupQuery.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
@@ -197,22 +204,6 @@ public class StorageController {
 //			storageInfo.setStateName(storStateName);
 //	    	return new ResponseData<StorageInfo>(ResponseData.AJAX_STATUS_SUCCESS, "更新成功:"+header.getResultMessage(),storageInfo);
     }
-
-    private Map<ProdCatAttrInfo, List<AttrValInfo>> getAttrAndVals(AttrMap attrMap) {
-        Map<ProdCatAttrInfo, List<AttrValInfo>> attrAndValMap = new HashMap<>();
-        Set<Map.Entry<Long, List<Long>>> entrySet = attrMap.attrAndVal.entrySet();
-        for (Map.Entry<Long, List<Long>> mapEntry : entrySet) {
-            ProdCatAttrInfo attrInfo = attrMap.getAttrDefMap().get(mapEntry.getKey());
-            List<AttrValInfo> valInfoList = new ArrayList<AttrValInfo>();
-            List<Long> valIds = mapEntry.getValue();
-            for (Long valId : valIds) {
-                valInfoList.add(attrMap.getAttrValDefMap().get(valId));
-            }
-            attrAndValMap.put(attrInfo, valInfoList);
-        }
-        return attrAndValMap;
-    }
-
 
     /**
      * 进入页面调用-加载类目
