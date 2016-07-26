@@ -6,7 +6,6 @@ import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.util.BeanUtils;
 import com.ai.opt.sdk.web.model.ResponseData;
-import com.ai.paas.ipaas.util.JSonUtil;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
 import com.ai.slp.common.api.cache.param.SysParamSingleCond;
@@ -17,7 +16,6 @@ import com.ai.slp.operate.web.controller.product.ProdQueryController;
 import com.ai.slp.operate.web.model.storage.StorageInfo;
 import com.ai.slp.operate.web.util.AdminUtil;
 import com.ai.slp.operate.web.util.DateUtil;
-import com.ai.slp.operate.web.vo.ProdQueryCatVo;
 import com.ai.slp.product.api.normproduct.interfaces.INormProductSV;
 import com.ai.slp.product.api.normproduct.param.*;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
@@ -260,49 +258,6 @@ public class StorageController {
         } while (prodCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD));
         uiModel.addAttribute("count", productCatMap.size() - 1);
         uiModel.addAttribute("catInfoMap", productCatMap);
-    }
-
-
-    /**
-     * 类目联动调用方法
-     *
-     * @return
-     */
-    @RequestMapping("/getCat")
-    @ResponseBody
-    public List<ProdQueryCatVo> changeCat(HttpServletRequest request) {
-        List<ProdQueryCatVo> prodQueryCatVoList = new ArrayList<>();
-        try {
-            IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
-            //通过id查询当前类目信息
-            ProductCatUniqueReq productCatUniqueReq = new ProductCatUniqueReq();
-            productCatUniqueReq.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
-            String prodCatId = request.getParameter("prodCatId");
-            productCatUniqueReq.setProductCatId(prodCatId);
-            ProductCatInfo productCatInfo = productCatSV.queryByCatId(productCatUniqueReq);
-            ProductCatQuery catQuery = new ProductCatQuery();
-            ProdCatInfo prodCatInfo = null;
-            catQuery.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
-            //如果当前类目有子类则查询下一级类目
-            if (productCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD)) {
-                catQuery.setParentProductCatId(prodCatId);
-                do {
-                    // 查询同一级的类目信息
-                    List<ProdCatInfo> productCatInfos = productCatSV.queryCatByNameOrFirst(catQuery);
-                    prodCatInfo = productCatInfos.get(0);
-                    ProdQueryCatVo prodQueryCatVo = new ProdQueryCatVo();
-                    prodQueryCatVo.setLevel((short) (prodCatInfo.getCatLevel() - 1));
-                    prodQueryCatVo.setProdCatList(productCatInfos);
-                    prodQueryCatVoList.add(prodQueryCatVo);
-                    catQuery.setParentProductCatId(prodCatInfo.getProductCatId());
-                } while (prodCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD));
-            }
-            LOG.debug("获取类目信息出参:" + JSonUtil.toJSon(prodQueryCatVoList));
-        } catch (Exception e) {
-            prodQueryCatVoList = null;
-            LOG.error("获取类目信息出错", e);
-        }
-        return prodQueryCatVoList;
     }
 
     /**

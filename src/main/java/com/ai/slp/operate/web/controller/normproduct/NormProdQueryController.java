@@ -1,56 +1,32 @@
 package com.ai.slp.operate.web.controller.normproduct;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import com.ai.opt.base.vo.PageInfoResponse;
+import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
+import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.slp.common.api.cache.interfaces.ICacheSV;
+import com.ai.slp.common.api.cache.param.SysParamSingleCond;
+import com.ai.slp.operate.web.constants.ComCacheConstants;
+import com.ai.slp.operate.web.constants.ProductCatConstants;
+import com.ai.slp.operate.web.constants.SysCommonConstants;
+import com.ai.slp.operate.web.util.DateUtil;
+import com.ai.slp.product.api.normproduct.interfaces.INormProductSV;
+import com.ai.slp.product.api.normproduct.param.NormProdRequest;
+import com.ai.slp.product.api.normproduct.param.NormProdResponse;
+import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
+import com.ai.slp.product.api.productcat.param.ProdCatInfo;
+import com.ai.slp.product.api.productcat.param.ProductCatQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ai.opt.base.exception.BusinessException;
-import com.ai.opt.base.exception.SystemException;
-import com.ai.opt.base.vo.BaseResponse;
-import com.ai.opt.base.vo.PageInfoResponse;
-import com.ai.opt.base.vo.ResponseHeader;
-import com.ai.opt.sdk.components.idps.IDPSClientFactory;
-import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
-import com.ai.opt.sdk.web.model.ResponseData;
-import com.ai.paas.ipaas.image.IImageClient;
-import com.ai.paas.ipaas.util.JSonUtil;
-import com.ai.slp.common.api.cache.interfaces.ICacheSV;
-import com.ai.slp.common.api.cache.param.SysParamSingleCond;
-import com.ai.slp.operate.web.constants.ComCacheConstants;
-import com.ai.slp.operate.web.constants.ProductCatConstants;
-import com.ai.slp.operate.web.constants.SysCommonConstants;
-import com.ai.slp.operate.web.util.AdminUtil;
-import com.ai.slp.operate.web.util.DateUtil;
-import com.ai.slp.operate.web.vo.ProdQueryCatVo;
-import com.ai.slp.product.api.normproduct.interfaces.INormProductSV;
-import com.ai.slp.product.api.normproduct.param.NormProdRequest;
-import com.ai.slp.product.api.normproduct.param.NormProdResponse;
-import com.ai.slp.product.api.product.interfaces.IProductManagerSV;
-import com.ai.slp.product.api.product.param.ProductEditQueryReq;
-import com.ai.slp.product.api.product.param.ProductEditUp;
-import com.ai.slp.product.api.product.param.ProductInfoQuery;
-import com.ai.slp.product.api.product.param.ProductStorageSale;
-import com.ai.slp.product.api.product.param.ProductStorageSaleParam;
-import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
-import com.ai.slp.product.api.productcat.param.ProdCatInfo;
-import com.ai.slp.product.api.productcat.param.ProductCatInfo;
-import com.ai.slp.product.api.productcat.param.ProductCatQuery;
-import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 标准品查询
@@ -109,49 +85,6 @@ public class NormProdQueryController {
 		} while (prodCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD));
 		uiModel.addAttribute("count", productCatMap.size() - 1);
 		uiModel.addAttribute("catInfoMap", productCatMap);
-	}
-	
-
-	/**
-	 * 类目联动调用方法
-	 * 
-	 * @return
-	 */
-	@RequestMapping("/getCat")
-	@ResponseBody
-	public List<ProdQueryCatVo> changeCat(HttpServletRequest request) {
-		List<ProdQueryCatVo> prodQueryCatVoList = new ArrayList<>();
-		try {
-			IProductCatSV productCatSV = DubboConsumerFactory.getService("iProductCatSV");
-			//通过id查询当前类目信息
-			ProductCatUniqueReq productCatUniqueReq = new ProductCatUniqueReq();
-			productCatUniqueReq.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
-			String prodCatId = request.getParameter("prodCatId");
-			productCatUniqueReq.setProductCatId(prodCatId);
-			ProductCatInfo productCatInfo = productCatSV.queryByCatId(productCatUniqueReq);
-			ProductCatQuery catQuery = new ProductCatQuery();
-			ProdCatInfo prodCatInfo = null;
-			catQuery.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
-			//如果当前类目有子类则查询下一级类目
-			if(productCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD)){
-				catQuery.setParentProductCatId(prodCatId);
-				do{
-					// 查询同一级的类目信息
-					List<ProdCatInfo> productCatInfos = productCatSV.queryCatByNameOrFirst(catQuery);
-					prodCatInfo = productCatInfos.get(0);
-					ProdQueryCatVo prodQueryCatVo = new ProdQueryCatVo();
-					prodQueryCatVo.setLevel((short)(prodCatInfo.getCatLevel()-1));
-					prodQueryCatVo.setProdCatList(productCatInfos);
-					prodQueryCatVoList.add(prodQueryCatVo);
-					catQuery.setParentProductCatId(prodCatInfo.getProductCatId());
-				}while(prodCatInfo.getIsChild().equals(ProductCatConstants.ProductCat.IsChild.HAS_CHILD));
-			}
-			LOG.debug("获取类目信息出参:" + JSonUtil.toJSon(prodQueryCatVoList));
-	    } catch (Exception e) {
-	    	prodQueryCatVoList = null;
-	        LOG.error("获取类目信息出错", e);
-	    }
-		return prodQueryCatVoList;
 	}
 	
 	/**

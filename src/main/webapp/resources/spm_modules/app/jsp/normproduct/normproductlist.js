@@ -61,7 +61,7 @@ define('app/jsp/normproduct/normproductlist', function (require, exports, module
 				type: "post",
 				processing: false,
 				// message: "加载中，请等待...",
-				url: _base+"/normprodquery/getCat",
+				url: _base+"/cat/query/child",
 				data:{"prodCatId":prodCatId},
 				success: function(data){
 					if(data != null && data != 'undefined' && data.length>0){
