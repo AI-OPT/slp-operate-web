@@ -225,14 +225,4 @@
 			});
 		})();
 	</script>
-	
-<!-- 	<script type="text/javascript">
-		function inStore()
-		{
-		 if (!confirm("确认要手动下架？")) { 
-	            window.event.returnValue = false; 
-	        } 
-		}
-	</script> -->
-	
 </html>
