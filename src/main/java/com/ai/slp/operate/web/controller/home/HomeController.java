@@ -115,6 +115,11 @@ public class HomeController {
 		return responseData;
 	}
 
+	/**
+	 * 获取文件扩展名
+	 * @param fileName
+	 * @return
+     */
 	private String getFileExtName(String fileName){
 		String extName = "";
 		if (StringUtils.isNotBlank(fileName)){
@@ -124,6 +129,10 @@ public class HomeController {
 		return extName;
 	}
 
+	/**
+	 * 打印参数
+	 * @param request
+     */
 	private void printParams(HttpServletRequest request){
 		Map<String,String[]> paramMap = request.getParameterMap();
 		for (Map.Entry<String,String[]> entry:paramMap.entrySet()){
