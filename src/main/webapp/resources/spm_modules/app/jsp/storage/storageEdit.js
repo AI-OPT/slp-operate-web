@@ -7,7 +7,7 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 	    AjaxController = require('opt-ajax/1.0.0/index');
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
-	require("My97DatePicker/WdatePicker");
+	require("my97DatePicker/WdatePicker");
     require("bootstrap-paginator/bootstrap-paginator.min");
     require("app/util/jsviews-ext");
     
@@ -38,10 +38,6 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     	setup: function () {
     		StorageEditPager.superclass.setup.call(this);
 //    		this._selectStandProd();
-    	},
-    	//增加优先级
-    	_addPriorityNumber:function(storGroupId){
-    		alert(storGroupId);
     	},
     	//打开添加库存弹窗时储存隐藏数据
     	_addStorageShow:function(){
