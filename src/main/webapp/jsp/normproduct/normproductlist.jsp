@@ -100,6 +100,7 @@
 		                   	<option value="">全部</option>
 		                   	<option value="1">可使用</option>
 		                   	<option value="2">不可用</option>
+		                   	<option value="0">废弃</option>
                     	</select>
                     </p>
                 </li>
