@@ -92,6 +92,7 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     		number = parseInt(number)+1;
     		if(priorityString == groupId+number){
     			this._showMsg("请不要重复添加优先级");
+    			return;
     		}
     		var data = {"storageGroupId":groupId,"number":number};
     		var template = $.templates("#priorityNumTemple");
