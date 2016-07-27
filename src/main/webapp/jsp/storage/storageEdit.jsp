@@ -10,7 +10,6 @@
     <link href="${_slpres }/styles/frame.css" rel="stylesheet" type="text/css">
     <link href="${_slpres }/styles/global.css" rel="stylesheet" type="text/css">
     <link href="${_slpres }/styles/modular.css" rel="stylesheet" type="text/css">
-
 </head>
 
 <body>
@@ -232,7 +231,7 @@
                             <div class="setup-sku mg-0">
                                 <ul>
                                     <li>
-                                        <p>库存组名称: ${storGroup.storageGroupName }</p>
+                                        <p width="200px">库存组名称: ${storGroup.storageGroupName }</p>
                                         <p id="small-eject2"><input type="button" class="biu-btn btn-blue stock-btn"
                                                                     value="编辑名称 "></p>
                                         <p>总库存量:${storGroup.storageTotal }</p>
@@ -324,7 +323,15 @@
                 <tbody id="storGroupMarked"></tbody>
             </table>
         </div>
-        <script id="storageTemple" type="text/template">
+        
+        <div class="pst-bttton">
+            <input id="goBack" type="button" class="biu-btn btn-blue btn-large mr-10" value="返  回">
+        </div>
+    </div>
+</div>
+<!-- footer -->
+</body>
+<script id="storageTemple" type="text/template">
             <tr id="{{:storageGroupId }}{{:priorityNumber }}{{:number }}">
                 <td>{{:number }}</td>
                 <td>{{:storageId }}</td>
@@ -370,9 +377,6 @@
             <tr id="{{:storageGroupId }}priorityDemo"></tr>
             </tbody>
         </script>
-        <div class="pst-bttton">
-            <input id="goBack" type="button" class="biu-btn btn-blue btn-large mr-10" value="返  回">
-        </div>
         <script id="priorityNumTemple" type="text/template">
             <tr id="{{:storageGroupId }}_{{:number }}">
                 <td colspan="9">
@@ -414,11 +418,6 @@
                 <td>操作</td>
             </tr>
         </script>
-    </div>
-</div>
-<!-- footer -->
-<div class="footer">版权所有 © SLP版权归运营家所有</div>
-</body>
 </html>
 <script src="${_slpres }/scripts/frame.js" type="text/javascript"></script>
 <script src="${_slpres }/scripts/metismenu.js"></script>
@@ -437,7 +436,6 @@
                 elem.scrollTop += 1;
             }
         }
-
         elem.onmouseover = function () {
             clearInterval(timer);
         }

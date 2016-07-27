@@ -79,7 +79,8 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 //	            	    var htmlOutput = template.render(data);
 //	            	    $("#"+storGroupId+priorityNumber+number).after(htmlOutput);
 					if("1"===data.statusCode){
-						window.history.go(0);
+						window.location.reload();
+//						window.history.go(0);
 					}else{
 						_this._showMsg("添加库存失败:"+data.statusInfo);
 	            	}
@@ -91,6 +92,7 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     		number = parseInt(number)+1;
     		if(priorityString == groupId+number){
     			this._showMsg("请不要重复添加优先级");
+    			return;
     		}
     		var data = {"storageGroupId":groupId,"number":number};
     		var template = $.templates("#priorityNumTemple");
@@ -105,7 +107,7 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     	_addStorGroup:function(){
     		var _this = this;
     		var storageGroupName = $("#storageGroupName").val();
-    		var length = this._getLen(storageGroupName);
+    		var length = _this._getLen(storageGroupName);
     		if(length == 0 || length>30){
     			_this._showMsg("请输入库存组名称或库存组名称过长");
     			return;
@@ -126,7 +128,8 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 //	            	    var htmlOutput = template.render(data);
 //	            	    $("#"+storGroupMarked).before(htmlOutput);
 					if("1"===data.statusCode){
-						window.history.go(0);
+						window.location.reload();
+//						window.history.go(0);
 					}else{
 						_this._showMsg("添加库存失败:"+data.statusInfo);
 	            	}
