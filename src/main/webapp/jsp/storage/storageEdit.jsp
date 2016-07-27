@@ -3,6 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
     <title>生成虚拟库存-编辑（无销售属性）</title>
     <%@ include file="/inc/inc.jsp" %>
     <link href="${_slpres }/styles/bootstrap.css" rel="stylesheet" type="text/css">
@@ -10,7 +11,6 @@
     <link href="${_slpres }/styles/frame.css" rel="stylesheet" type="text/css">
     <link href="${_slpres }/styles/global.css" rel="stylesheet" type="text/css">
     <link href="${_slpres }/styles/modular.css" rel="stylesheet" type="text/css">
-
 </head>
 
 <body>
