@@ -14,6 +14,7 @@ import com.ai.slp.product.api.normproduct.param.NormProdRequest;
 import com.ai.slp.product.api.normproduct.param.NormProdResponse;
 import com.ai.slp.product.api.productcat.param.ProdCatInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,6 +122,9 @@ public class NormProdQueryController {
 		
 		if (StringUtils.isNotBlank(request.getParameter("operStartTimeStr"))) {
 			String startTime = request.getParameter("operStartTimeStr")+" 00:00:00";
+			//必须为yyyy-MM-dd格式的日期
+			DateTime dateTime = new DateTime(request.getParameter("operStartTimeStr"));
+			dateTime.withTimeAtStartOfDay();
 			productRequest.setOperStartTime(DateUtil.getTimestamp(startTime, "yyyy-MM-dd HH:mm:ss"));
 		}
 		
