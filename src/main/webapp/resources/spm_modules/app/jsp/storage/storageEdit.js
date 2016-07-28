@@ -64,7 +64,7 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     			return;
     		}
     		if(length>30){
-    			_this._showMsg("请库存名称过长");
+    			_this._showMsg("库存名称最大长度为15个字（30个字符）");
     			return;
     		}
     		//判断库存量
@@ -98,13 +98,9 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 				data:{"storGroupId":storGroupId,"priorityNumber":priorityNumber,"storageName":storageName,
 					"productCatId":productCatId,"totalNum":totalNum,"warnNum":warnNum},
 				success: function(data){
-//					if(data != null && data != 'undefined' && data.length>0){
-//	            		var template = $.templates("#storageTemple");
-//	            	    var htmlOutput = template.render(data);
-//	            	    $("#"+storGroupId+priorityNumber+number).after(htmlOutput);
 					if("1"===data.statusCode){
 //						var template = $.templates("#storageTemple");
-//	            	    var htmlOutput = template.render(data);
+//	            	    var htmlOutput = template.render(data.data);
 //	            	    $("#"+storGroupId+priorityNumber+number).after(htmlOutput);
 						window.location.reload();
 //						window.history.go(0);
@@ -133,7 +129,7 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     		var storageGroupName = $("#storageGroupName").val();
     		var length = _this._getLen(storageGroupName);
     		if(length == 0 || length>30){
-    			_this._showMsg("请输入库存组名称或库存组名称过长");
+    			_this._showMsg("库存组名称不能为空且最大长度为15个字（30个字符）");
     			return;
     		}
     		$(".eject-big").hide();
@@ -146,19 +142,14 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 				url: _base+"/storage/addGroup",
 				data:{"standedProdId":standedProdId,"storageGroupName":storageGroupName},
 				success: function(data){
-//					if(data != null && data != 'undefined' && data.length>0){
-//						window.history.go(0);
-//	            		var template = $.templates("#storGroupTemple");
-//	            	    var htmlOutput = template.render(data);
-//	            	    $("#"+storGroupMarked).before(htmlOutput);
 					if("1"===data.statusCode){
 //	            		var template = $.templates("#storGroupTemple");
-//	            	    var htmlOutput = template.render(data);
-//	            	    $("#"+storGroupMarked).before(htmlOutput);
+//	            	    var htmlOutput = template.render(data.data);
+//	            	    $("#storGroupMarked").before(htmlOutput);
 						window.location.reload();
 //						window.history.go(0);
 					}else{
-						_this._showMsg("添加库存失败:"+data.statusInfo);
+						_this._showMsg("添加库存组失败:"+data.statusInfo);
 	            	}
 				}
 			});

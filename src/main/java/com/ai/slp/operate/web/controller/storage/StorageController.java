@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.opt.base.exception.BusinessException;
 import com.ai.opt.base.vo.BaseListResponse;
 import com.ai.opt.base.vo.BaseResponse;
 import com.ai.opt.base.vo.ResponseHeader;
 import com.ai.opt.sdk.dubbo.util.DubboConsumerFactory;
 import com.ai.opt.sdk.web.model.ResponseData;
+import com.ai.paas.ipaas.util.JSonUtil;
+import com.ai.runner.base.exception.SystemException;
 import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
 import com.ai.slp.common.api.cache.param.SysParamSingleCond;
@@ -149,9 +152,28 @@ public class StorageController {
             responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "更新失败:" + header.getResultMessage());
         }
         return responseData;
-//	    	if (header!=null && !header.isSuccess()){
-//	    		return new ResponseData<StorageGroupRes>(ResponseData.AJAX_STATUS_FAILURE, "添加失败:"+header.getResultMessage());
-//	        }
+    }
+    
+    /**
+     * 注释部分为上面方式的替换方式，加了渲染，上面的为刷新页面
+     */
+//    @RequestMapping("/addGroup")
+//    @ResponseBody
+//    public ResponseData<StorageGroupRes> addStorGroup(HttpServletRequest request, HttpSession session) {
+//    	ResponseData<StorageGroupRes> responseData = null;
+//    	try{
+//	    	IStorageSV storageSV = DubboConsumerFactory.getService(IStorageSV.class);
+//	    	STOStorageGroup storageGroup = new STOStorageGroup();
+//	    	storageGroup.setCreateId(AdminUtil.getAdminId(session));
+//	    	storageGroup.setStandedProdId(request.getParameter("standedProdId"));
+//	    	storageGroup.setStorageGroupName(request.getParameter("storageGroupName"));
+//	    	storageGroup.setTenantId(SysCommonConstants.COMMON_TENANT_ID);
+//	    	
+//	    	BaseResponse baseResponse = storageSV.createStorageGroup(storageGroup);
+//	    	ResponseHeader header = baseResponse.getResponseHeader();
+//	    	if (header != null && !header.isSuccess()) {
+//	    		throw new SystemException(ResponseData.AJAX_STATUS_FAILURE, "更新失败:" + header.getResultMessage());
+//	    	}
 //	    	//通过ID查询库存组信息
 //	    	StorageGroupQuery storageGroupQuery = new StorageGroupQuery();
 //	    	storageGroupQuery.setGroupId(header.getResultMessage());
@@ -164,8 +186,12 @@ public class StorageController {
 //	    			ComCacheConstants.StateStorage.STORAGEGROUP_TYPR_CODE, ComCacheConstants.StateStorage.PARAM_CODE,storGroupState);
 //			String storGroupStateName = cacheSV.getSysParamSingle(paramSingleCond).getColumnDesc();
 //			storageGroupRes.setStateName(storGroupStateName);
-//	    	return new ResponseData<StorageGroupRes>(ResponseData.AJAX_STATUS_FAILURE, "更新成功:"+header.getResultMessage(),storageGroupRes);
-    }
+//			responseData = new ResponseData<StorageGroupRes>(ResponseData.AJAX_STATUS_SUCCESS, "更新成功:"+header.getResultMessage(),storageGroupRes);
+//    	}catch(Exception e){
+//    		responseData = new ResponseData<StorageGroupRes>(ResponseData.AJAX_STATUS_FAILURE, "添加失败");
+//    	}
+//    	return responseData;
+//    }
 
     /**
      * 添加库存
@@ -194,22 +220,6 @@ public class StorageController {
             responseData = new ResponseData<String>(ResponseData.AJAX_STATUS_FAILURE, "更新失败:" + header.getResultMessage());
         }
         return responseData;
-//	    	String storageId = header.getResultMessage();
-//	    	if (header!=null && !header.isSuccess()){
-//	    		return new ResponseData<StorageInfo>(ResponseData.AJAX_STATUS_FAILURE, "更新失败:"+header.getResultMessage());
-//	        }
-//	    	int number = Integer.parseInt(request.getParameter("number"));
-//	    	StorageRes storageRes = storageSV.queryStorageById(storageId);
-//	    	StorageInfo storageInfo = new StorageInfo();
-//	    	BeanUtils.copyProperties(storageInfo, storageRes);
-//	    	storageInfo.setNumber(number);
-//	    	ICacheSV cacheSV = DubboConsumerFactory.getService(ICacheSV.class);
-//	    	String storState = storageInfo.getState();
-//	    	SysParamSingleCond paramSingleCond = new SysParamSingleCond(SysCommonConstants.COMMON_TENANT_ID,
-//					ComCacheConstants.StateStorage.STORAGE_TYPR_CODE, ComCacheConstants.StateStorage.PARAM_CODE, storState);
-//			String storStateName = cacheSV.getSysParamSingle(paramSingleCond).getColumnDesc();
-//			storageInfo.setStateName(storStateName);
-//	    	return new ResponseData<StorageInfo>(ResponseData.AJAX_STATUS_SUCCESS, "更新成功:"+header.getResultMessage(),storageInfo);
     }
 
     /**

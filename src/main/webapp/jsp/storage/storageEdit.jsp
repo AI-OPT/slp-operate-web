@@ -231,7 +231,7 @@
                             <div class="setup-sku mg-0">
                                 <ul>
                                     <li>
-                                        <p width="200px">库存组名称: ${storGroup.storageGroupName }</p>
+                                        <p>库存组名称: ${storGroup.storageGroupName }</p>
                                         <p id="small-eject2"><input type="button" class="biu-btn btn-blue stock-btn"
                                                                     value="编辑名称 "></p>
                                         <p>总库存量:${storGroup.storageTotal }</p>
