@@ -207,7 +207,39 @@
                 </li>
             </ul>
         </div>
-
+	   <!--标签结束-->
+    <div class="form-wrapper"><!--白底内侧-->
+    <div class="nav-tplist-wrapper"><!--白底内侧-->
+    	      <div class="nav-form-title">所属类目：
+					<c:forEach var="catInfo" items="${catLinkList}"
+					 varStatus="stat">${catInfo.productCatName}<c:if test="${!stat.last}">&gt;</c:if></c:forEach>
+			  </div>
+        <div class="form-label nav-form-border">
+           	<ul>
+                <li class="width-xlag">
+                    <p class="word">标准品名称:</p>
+                    <p>${normProdInfo.productName}</p>
+                </li>
+                <li class="width-xlag">
+                    <p class="word">标准品类型:</p>
+                    <p>${prodType}</p>
+                </li>  
+            </ul>  
+        </div>
+       
+        <div class="nav-form-title">标准品关键属性</div>
+        <div class="form-label nav-form-border">
+	        <c:forEach var="aav" items="${attrAndVal}">
+				<ul>
+					<li class="width-xlag">
+						<p class="word">${aav.key.attrName}:</p>
+							<c:forEach var="attrVal" items="${aav.value}">
+								<p>${attrVal.attrVal}</p>
+							</c:forEach>
+					</li>
+				</ul>
+			</c:forEach>
+        </div>
     	<div class="nav-tplist-title">
             <ul>
                 <li>库存设置</li>
