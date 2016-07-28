@@ -40,6 +40,13 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     		StorageEditPager.superclass.setup.call(this);
 //    		this._selectStandProd();
     	},
+    	//判断是否是正整数
+    	_isNum : function(str){
+    		if(/^\d+$/.test(str)){    
+    			return true;   
+    		}
+    		return false;
+    	},
     	//添加库存
     	_addStorage:function(){
     		var _this = this;
@@ -50,17 +57,34 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     		var storageName = $("#newStorageName").val();
     		var totalNum = $("#newTotalNum").val();
     		var warnNum = $("#newWarnNum").val();
+    		var length = _this._getLen(storageName);
     		//判断库存名称
-    		if(storageName==null || storageName=='undefined' || storageName.length==0){
+    		if(storageName==null || storageName=='undefined' || length==0){
     			_this._showMsg("库存名称不能为空");
+    			return;
+    		}
+    		if(length>30){
+    			_this._showMsg("请库存名称过长");
+    			return;
     		}
     		//判断库存量
-    		if(totalNum==null || totalNum=='undefined' || totalNum.length==0 || isNaN(totalNum)){
-    			_this._showMsg("库存量不能为空且必须是数字");
+    		if(totalNum==null || totalNum=='undefined' || totalNum.length==0 ){
+    			_this._showMsg("库存量不能为空");
+    			return;
     		}
     		//判断预警库存值
-    		if(warnNum==null || warnNum=='undefined' || warnNum.length==0 || isNaN(warnNum) || warnNum>=totalNum){
-    			_this._showMsg("预警库存量为不为空的数字且必须小于库存量");
+    		if(warnNum==null || warnNum=='undefined' || warnNum.length==0){
+    			_this._showMsg("预警库存量为不为空");
+    			return;
+    		}
+    		//判断库存量和预警库存量是否为正整数
+    		if(!_this._isNum(totalNum) || !_this._isNum(warnNum)){
+    			_this._showMsg("库存必须为正整数");
+    			return;
+    		}
+    		if(Number(totalNum) <= Number(warnNum)){
+    			_this._showMsg("预警库存量必须小于库存量");
+    			return;
     		}
     		//隐藏添加库存窗口
     		$(".eject-big").hide();
@@ -79,6 +103,9 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 //	            	    var htmlOutput = template.render(data);
 //	            	    $("#"+storGroupId+priorityNumber+number).after(htmlOutput);
 					if("1"===data.statusCode){
+//						var template = $.templates("#storageTemple");
+//	            	    var htmlOutput = template.render(data);
+//	            	    $("#"+storGroupId+priorityNumber+number).after(htmlOutput);
 						window.location.reload();
 //						window.history.go(0);
 					}else{
@@ -99,9 +126,6 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
     	    var htmlOutput = template.render(data);
     	    $("#"+groupId+"priorityDemo").before(htmlOutput);
     	    priorityString = groupId+number;
-    		//查库存组下有没有优先级-通过库存组value值取
-    		//优先级为当前库存组下的最大优先级+1,并更新库存组value值
-    		//把新增优先级放到库存组的最后
     	},
     	//添加库存组
     	_addStorGroup:function(){
@@ -128,6 +152,9 @@ define('app/jsp/storage/storageEdit', function (require, exports, module) {
 //	            	    var htmlOutput = template.render(data);
 //	            	    $("#"+storGroupMarked).before(htmlOutput);
 					if("1"===data.statusCode){
+//	            		var template = $.templates("#storGroupTemple");
+//	            	    var htmlOutput = template.render(data);
+//	            	    $("#"+storGroupMarked).before(htmlOutput);
 						window.location.reload();
 //						window.history.go(0);
 					}else{
