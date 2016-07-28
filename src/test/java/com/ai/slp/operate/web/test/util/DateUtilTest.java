@@ -23,4 +23,12 @@ public class DateUtilTest {
         System.out.println("The start time of month is :"+DateUtil.getTimeThisMonthFirstSec(timestamp));
         System.out.println("The end time of month is :"+DateUtil.getTimeThisMonthLastSec(timestamp));
     }
+
+    @Test
+    public void getTimeNextMonthFirstSec(){
+        System.out.println(DateUtil.getCurYM()+":"+DateUtil.getDates());
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        System.out.println(DateUtil.getTimeNextMonthFirstSec(timestamp));
+        System.out.println(DateUtil.getTimeLastMonthLastSec(timestamp));
+    }
 }
