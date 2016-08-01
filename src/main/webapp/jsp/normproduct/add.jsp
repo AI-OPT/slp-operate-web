@@ -2,97 +2,66 @@
 <!doctype html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>运营管理</title>
-	<%@ include file="/inc/inc.jsp" %>
-	<link href="${_slpres }/styles/bootstrap.css"rel="stylesheet" type="text/css">
-	<link href="${_slpres }/styles/font-awesome.css" rel="stylesheet" type="text/css">
-	<link href="${_slpres }/styles/frame.css" rel="stylesheet" type="text/css">
-	<link href="${_slpres }/styles/global.css" rel="stylesheet" type="text/css">
-	<link href="${_slpres }/styles/modular.css" rel="stylesheet" type="text/css">
-	
+    <meta charset="UTF-8">
+    <title>运营管理</title>
+    <%@ include file="/inc/inc.jsp" %>
+    <link href="${_slpres }/styles/bootstrap.css"rel="stylesheet" type="text/css">
+    <link href="${_slpres }/styles/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="${_slpres }/styles/global.css" rel="stylesheet" type="text/css">
+    <link href="${_slpres }/styles/frame.css" rel="stylesheet" type="text/css">
+    <link href="${_slpres }/styles/modular.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-
-	<!--顶部菜单-->
-	<%@ include file="/inc/top-menu.jsp" %>
-	<!--顶部菜单结束-->
-	<!-- 左侧菜单 -->
-	<%@ include file="/inc/left-menu.jsp" %>
-	<!-- 左侧菜单结束 -->
-
+<!--顶部菜单-->
+<%@ include file="/inc/top-menu.jsp" %>
+<!--顶部菜单结束-->
+<!-- 左侧菜单 -->
+<%@ include file="/inc/left-menu.jsp" %>
+<!-- 左侧菜单结束 -->
 
 <div class="wrapper"><!--外围框架-->
-<!--右侧框架-->
- <div class="wrapper-right">
-    <!--公告位置-->
-        <div class="right-topnav">
-            <p class="gongg"><A href="#">［公告］:</A></p>
-            <div  id="elem">
-            <ul id="elem1">
-                <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-                <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-                <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-                <li><A href="#">公告位置！比如说系统维护，哪些功能在什么时间段可能不可用之类的，针对后台</A></li>
-            </ul>
-            <ul id="elem2">
-            </ul>
-            </div>
-             <p class="dclose"><A href="#"><i class="icon-remove"></i></A></p>
-        </div>
-    <!--公告位置结束-->   
-    <!--标签-->
-    <div class="right-tags">
-        <ul>
-           <li>
-	           <p class="none">您现在的位置：</p>
-	           <p><a href="#">标准商品库管理</a></p>  
-	           <p>></p>  
-	           <p>添加商品</p>
-           </li>
-        </ul>  
-    </div>
-    
-   <!--标签结束-->
-      <!--查询区域-->
-     
-  		
-    <div class="form-wrapper"><!--白底内侧-->
-    <div class="nav-tplist-wrapper"><!--白底内侧-->
-    
-       <div class="nav-form-title">选择类目</div>
+    <!--右侧框架-->
+    <div class="wrapper-right">
+        <!--公告位置-->
+        <%@ include file="/inc/public-msg.jsp" %>
+        <!--公告位置结束-->
+        
+        <!--查询结果-->
+        <div class="form-wrapper"><!--白底内侧-->
+
+            <div class="nav-tplist-wrapper"><!--白底内侧-->
+            <div class="nav-form-title">选择类目</div>
            	<div class="add-commodity-title">
            		<ul>
            			<li>您当前选择的是：<a href="#">登山野营/旅行装备</a>><a href="#">户外露营/野炊装备</a>><a href="#">帐篷/天幕/帐篷配件</a></li>
            			<li class="color-word">（标准品一旦生成，类目信息不可更改，请谨慎选择类目信息）</li>
            		</ul>
            	</div>
-           	
-
-
-
-
-
-
-
-           	
-           	
-           	
-              <div class="form-label">
-	            <ul id="data1ProdCat">
-                    <li class="width-xlag">
-                        <p class="word">所属类目</p>
-                        <c:forEach var="map" items="${catInfoMap}" varStatus="status">
-							<p id="productCat${status.index}">
-								<select class="select select-small"onChange="pager._selectChange(this);">
-									<c:forEach var="info" items="${map.value}">
-									<option value="${info.productCatId}">${info.productCatName}</option>   	
-									</c:forEach>
-								</select>
-							</p>
-						</c:forEach> 
-                        <script id="prodCatTemple" type="text/template">
+            
+                <!--结果标题-->
+                <div id="date1">
+                    <div class="form-label">
+                        <ul id="data1ProdCat">
+                            <li class="width-xlag">
+                            
+                                <c:forEach var="map" items="${catInfoMap}" varStatus="status">
+									<p id="productCat${status.index}">
+										<div class="add-ctn-list">
+											<div class="add-ctn-list-title"><input type="text" class="int-large" placeholder="输入名称/拼音首字母"><a href="#"><i class="icon-search"></i></a></div>
+							           			<div class="add-ctn-list-table">
+							           				<ul>
+							           					<c:forEach var="info" items="${map.value}">
+							           						<li><a href="#" value="${info.productCatId}">${info.productCatName}</a></li>
+															<%-- <option value="${info.productCatId}">${info.productCatName}</option>  --%>  	
+														</c:forEach>
+							           				</ul>
+							           			</div>
+						           		</div>
+									</p>
+								</c:forEach> 
+                                
+                                <script id="prodCatTemple" type="text/template">
                                 	 <p id="productCat{{:level}}">
 										<select class="select select-small" onChange="pager._selectChange(this);">
 											{{for prodCatList}}
@@ -100,36 +69,29 @@
 											{{/for}}
                                			</select>
 									</p>
-						</script>
-                    </li>
-                </ul>
-
-
-       
-        <div class="nav-form">
+								</script>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="nav-form">
             <ul>
                 <li class="width-xlag">
-             <%--    <p><input href="${_base}/normprodedit/addinfo" type="button" class="blling-btn add-btn" value="下一步，填写详细信息"></p> --%>
-             
-                <p><a class="blling-btn add-btn"  href="${_base}/normprodedit/addinfo">下一步，填写详细信息</a></p>
+                <%-- <p><input type="button" class="blling-btn add-btn" value="下一步，填写详细信息"></p>
+                 --%>
+                 
+                 <p class="blling-btn add-btn"><a href="${_base}/normprodedit/addinfo">下一步，填写详细信息</a></p>
             </ul>   
         </div>
+        </div>
+        <!--查询结果结束-->
 
     </div>
-   <!--查询区域结束-->
-
-
-    </div>
-    </div>
-</div>	
-<!-- footer -->
-<div class="footer">版权所有 © SLP版权归运营家所有</div>
+</div>
 </body>
-</html>
-<script src="../scripts/jquery-1.11.1.min.js"></script>
-<script src="../scripts/frame.js"  type="text/javascript" ></script>
-<script src="../scripts/metismenu.js"></script>
- <script type="text/javascript"> 
+<script type="text/javascript"> 
 window.onload = function(){	
 	var timer;
 	var elem = document.getElementById('elem');
@@ -153,17 +115,10 @@ window.onload = function(){
 }
 </script>
 <script type="text/javascript">
-		var pager;
-		var count = '${count}';
-		var prodInfoList = '${prodInfoList}';
-		var productEditInfo = '${productEditInfo}';
-		(function () {
-            seajs.use('app/jsp/normproduct/add', function(
-    				normproductlistPager) {
-    			pager = new normproductlistPager({
-    				element : document.body
-    			});
-    			pager.render();
-    		});
-		})();
+	(function () {
+		seajs.use('app/jsp/product/addlist', function (AddlistPager) {
+			pager = new AddlistPager({element: document.body});
+		});
+	})();
 </script>
+</html>

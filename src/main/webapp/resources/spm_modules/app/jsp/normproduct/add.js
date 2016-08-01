@@ -1,4 +1,4 @@
-define('app/jsp/normproduct/add', function (require, exports, module) {
+define('app/jsp/product/addlist', function (require, exports, module) {
     'use strict';
     var $=require('jquery'),
 	    Widget = require('arale-widget/1.2.0/widget'),
@@ -7,7 +7,6 @@ define('app/jsp/normproduct/add', function (require, exports, module) {
 	    AjaxController = require('opt-ajax/1.0.0/index');
     require("jsviews/jsrender.min");
     require("jsviews/jsviews.min");
-    require("My97DatePicker/WdatePicker");
     require("bootstrap-paginator/bootstrap-paginator.min");
     require("app/util/jsviews-ext");
     require("opt-paging/aiopt.pagination");
@@ -20,7 +19,7 @@ define('app/jsp/normproduct/add', function (require, exports, module) {
     var ajaxController = new AjaxController();
     var clickId = "";
     //定义页面组件类
-    var normproductlistPager = Widget.extend({
+    var AddlistPager = Widget.extend({
     	
     	Implements:SendMessageUtil,
     	//属性，使用时由类的构造函数传入
@@ -32,14 +31,13 @@ define('app/jsp/normproduct/add', function (require, exports, module) {
     	},
     	//事件代理
     	events: {
-    		//查询在售商品
-            "click #selectNormProductList":"_selectNormProductList",
-
+    		//跳转下一步
+    		"click #next":"_next",
             },
     	//重写父类
     	setup: function () {
-    		normproductlistPager.superclass.setup.call(this);
-    		this._selectNormProductList();
+    		AddlistPager.superclass.setup.call(this);
+
     	},
     	
     	// 改变商品类目
@@ -62,7 +60,7 @@ define('app/jsp/normproduct/add', function (require, exports, module) {
 				type: "post",
 				processing: false,
 				// message: "加载中，请等待...",
-				url: _base+"/normprodedit/getCat",
+				url: _base+"/cat/query/child",
 				data:{"prodCatId":prodCatId},
 				success: function(data){
 					if(data != null && data != 'undefined' && data.length>0){
@@ -85,35 +83,29 @@ define('app/jsp/normproduct/add', function (require, exports, module) {
     	},
     	
     	
-    	//查询标准品列表
-    	_selectNormProductList:function(){
+    	//跳转下一步
+    	_next:function(){
     		var _this = this;
     		var div = document.getElementById("data1ProdCat");
-    		var length = document.getElementsByTagName("select").length-2;
-    		var productCatId = $("#productCat"+length+" option:selected").val();
+    		var length = document.getElementsByTagName("select").length-3;
+    	//	var productCatId = $("#productCat"+length+" option:selected").val();
+    		var productCatId = $("#productCat").val();
     		var productType = $("#productType").val().trim();
     		var productId = $("#standedProdId").val().trim();
     		var productName = $("#standedProductName").val().trim();
-    		
-    		var operStartTime = $("#operStartTime").val().trim();
-    		var operEndTime = $("#operEndTime").val().trim();
-    		
+    		var state = $("#state").val().trim();
     		$("#pagination-ul").runnerPagination({
     			
-	 			url: _base+"/normprodedit/getNormProductList",
+	 			url: _base+"/normprodedit/addinfo",
 	 			
 	 			method: "POST",
 	 			dataType: "json",
 	 			renderId:"searchNormProductData",
 	 			messageId:"showMessageDiv",
 	 			
-	           /* data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
-	            */
-	 			data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName,
-		 			"operStartTimeStr":operStartTime,"operEndTimeStr":operEndTime
-		 			},
+	            data: {"productCatId":productCatId,"productType":productType,"productId":productId,"productName":productName},
 	 			
-	           	pageSize: normproductlistPager.DEFAULT_PAGE_SIZE,
+	           	pageSize: AddlistPager.DEFAULT_PAGE_SIZE,
 	           	visiblePages:5,
 	            render: function (data) {
 	            	if(data != null && data != 'undefined' && data.length>0){
@@ -133,6 +125,6 @@ define('app/jsp/normproduct/add', function (require, exports, module) {
     	
     });
     
-    module.exports = normproductlistPager
+    module.exports = AddlistPager
 });
 
