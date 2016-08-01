@@ -2,6 +2,7 @@ package com.ai.slp.operate.web.util;
 
 import com.ai.opt.base.exception.SystemException;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -271,14 +272,8 @@ public final class DateUtil {
      * @author zhangchao
      */
     public static Timestamp getTheDayFirstSecond(Timestamp sysDate) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(sysDate);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.add(Calendar.SECOND, 0);
-        return new Timestamp(calendar.getTimeInMillis());
+        DateTime dateTime = new DateTime(sysDate);
+        return new Timestamp(dateTime.withTimeAtStartOfDay().getMillis());
     }
 
     /**
@@ -289,15 +284,8 @@ public final class DateUtil {
      * @author zhangchao
      */
     public static Timestamp getTheDayLastSecond(Timestamp sysDate) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(sysDate);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.add(Calendar.SECOND, -1);
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
-        return new Timestamp(calendar.getTimeInMillis());
+        DateTime dateTime = new DateTime(sysDate);
+        return new Timestamp(dateTime.millisOfDay().withMaximumValue().getMillis());
     }
 
     /**
@@ -312,7 +300,8 @@ public final class DateUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(sysDate);
         calendar.add(Calendar.DAY_OF_MONTH, offsetDays);
-        return new Timestamp(calendar.getTimeInMillis());
+        DateTime dateTime = new DateTime(sysDate);
+        return new Timestamp(dateTime.plusDays(offsetDays).getMillis());
     }
 
     /**
@@ -353,16 +342,10 @@ public final class DateUtil {
      * @author zhangchao
      */
     public static Timestamp getTimeThisMonthLastSec(Timestamp sysDate) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(sysDate);
-        calendar.add(Calendar.MONTH, 1);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.add(Calendar.SECOND, -1);
-        return new Timestamp(calendar.getTimeInMillis());
+        DateTime dateTime = new DateTime(sysDate);
+        dateTime = dateTime.dayOfMonth().withMaximumValue()//本月最后一天
+                .millisOfDay().withMaximumValue();//一天中最后一毫秒
+        return new Timestamp(dateTime.getMillis());
     }
 
     /**
@@ -373,16 +356,10 @@ public final class DateUtil {
      * @author zhangchao
      */
     public static Timestamp getTimeThisMonthFirstSec(Timestamp sysDate) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(sysDate);
-        calendar.add(Calendar.MONTH, 0);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.add(Calendar.SECOND, 0);
-        return new Timestamp(calendar.getTimeInMillis());
+        DateTime dateTime = new DateTime(sysDate);
+        dateTime = dateTime.withDayOfMonth(1)//本月第一天
+                .withTimeAtStartOfDay();//一天中最后一毫秒
+        return new Timestamp(dateTime.getMillis());
     }
 
     /**
@@ -393,16 +370,11 @@ public final class DateUtil {
      * @author zhangchao
      */
     public static Timestamp getTimeNextMonthFirstSec(Timestamp sysDate) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(sysDate);
-        calendar.add(Calendar.MONTH, 1);
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.add(Calendar.SECOND, 0);
-        return new Timestamp(calendar.getTimeInMillis());
+        DateTime dateTime = new DateTime(sysDate);
+        dateTime = dateTime.plusMonths(1)//设置下一个月
+                .withDayOfMonth(1)//月份第一天
+                .withTimeAtStartOfDay();//一天中最后一毫秒
+        return new Timestamp(dateTime.getMillis());
     }
 
     /**
@@ -516,10 +488,7 @@ public final class DateUtil {
      * @author shanxf
      */
     public static int getDates() {
-        Timestamp currTimestamp = DateUtil.getSysDate();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currTimestamp);
-        return calendar.get(Calendar.DATE);
+        return DateTime.now().getDayOfMonth();
     }
 
     /**
@@ -660,9 +629,7 @@ public final class DateUtil {
      * 获取系统年月
      */
     public static String getCurYM() {
-        SimpleDateFormat df = new SimpleDateFormat(YYYYMM);// 设置日期格式
-        Calendar calender = Calendar.getInstance();
-        return df.format(calender.getTime());
+        return DateTime.now().toString("yyyyMM");
     }
 
     /**
@@ -789,10 +756,8 @@ public final class DateUtil {
      * @author guorf
      */
     public static Timestamp getBeforeMonth(Timestamp currentDate) {
-        Calendar calender = Calendar.getInstance();
-        calender.setTime(currentDate);
-        calender.add(Calendar.MONTH, -1);
-        return new Timestamp(calender.getTimeInMillis());
+        DateTime dateTime = new DateTime(currentDate);
+        return new Timestamp(dateTime.minusMonths(1).getMillis());
     }
 
     /**
@@ -802,15 +767,9 @@ public final class DateUtil {
      * @author zhangxd7
      */
     public static Timestamp getTimeLastMonthLastSec(Timestamp sysDate) {
-        // 获取当前时间
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(sysDate);
-        // 调到上个月
-        cal.add(Calendar.MONTH, -1);
-        // 得到一个月最最后一天日期(31/30/29/28)
-        int maxDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        // 设置时间
-        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), maxDay, 23, 59, 59);
-        return new Timestamp(cal.getTimeInMillis());
+        DateTime dateTime = new DateTime(sysDate);
+        dateTime = dateTime.minusMonths(1).dayOfMonth().withMaximumValue()//上月最后一天
+                .millisOfDay().withMaximumValue();//一天中最后一毫秒
+        return new Timestamp(dateTime.getMillis());
     }
 }
