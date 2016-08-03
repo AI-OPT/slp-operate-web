@@ -13,11 +13,13 @@ import com.ai.slp.product.api.productcat.param.ProductCatUniqueReq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 类目查询
@@ -68,4 +70,15 @@ public class CatQueryController {
         }
         return prodQueryCatVoList;
     }
+    
+    
+    
+    /**
+     * 类目分页查询
+     */
+    @RequestMapping("/catList")
+	public String inSalelistQuery(Model uiModel) {
+    	
+		return "productcat/catlist";
+	}
 }
