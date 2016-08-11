@@ -43,11 +43,13 @@
                     <a href="${_base}/#">属性及属性值管理</a>
                 </li>
             </ul>
+            <!--
             <ul>
                 <li>
                     <a href="${_base}/#">类目属性分组管理</a>
                 </li>
             </ul>
+            -->
         </li>
         <li>
             <A href="#">库存管理<span><img src="${_slpres}/images/left-sj.png"></span></A>
