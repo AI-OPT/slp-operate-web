@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="header"><!--头部-->
-    <div class="logo"><a href="#"><img src="${_slpres}/images/logo.png"></a></div>
+    <div class="logo"><a href="#"><img src="${_slpres}/images/hlogo.png"></a></div>
     <div class="right"><!--头部右侧-->
         <div class="date">今天是2015-12-01 15：46 星期二</div>
         <div class="Bubble msg"><a href="#"><img src="${_slpres}/images/qipao.png"></a><span>4</span></div>

@@ -15,11 +15,11 @@ configurations.all {
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 repositories {
-    //mavenLocal()
+//    mavenLocal()
 //    mavenCentral()
     maven { url "http://10.1.228.199:18081/nexus/content/groups/public/" }
 //    maven { url "http://maven.oschina.net/content/groups/public/" }
-    //maven { url "http://maven.oschina.net/content/repositories/thirdparty/"}
+//    maven { url "http://maven.oschina.net/content/repositories/thirdparty/"}
 }
 
 dependencies {
@@ -44,7 +44,6 @@ dependencies {
     compile "org.apache.zookeeper:zookeeper:3.4.6"
     compile	'org.apache.commons:commons-email:1.4'
     compile 'org.apache.commons:commons-compress:1.9'
-    compile 'org.dom4j:dom4j:1.6.1'
     compile 'joda-time:joda-time:2.9.4'
     //compile 'org.quartz-scheduler:quartz:2.2.1'
     //providedCompile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
