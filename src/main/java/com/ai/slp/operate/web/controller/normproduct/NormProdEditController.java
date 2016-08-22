@@ -8,22 +8,14 @@ import com.ai.slp.common.api.cache.interfaces.ICacheSV;
 import com.ai.slp.common.api.cache.param.SysParam;
 import com.ai.slp.common.api.cache.param.SysParamMultiCond;
 import com.ai.slp.operate.web.constants.ComCacheConstants;
-import com.ai.slp.operate.web.constants.ProductCatConstants;
-import com.ai.slp.operate.web.constants.SysCommonConstants;
-import com.ai.slp.operate.web.model.product.ProductEditInfo;
 import com.ai.slp.operate.web.service.AttrAndValService;
 import com.ai.slp.operate.web.service.ProdCatService;
 import com.ai.slp.product.api.normproduct.interfaces.INormProductSV;
-import com.ai.slp.product.api.normproduct.param.AttrMap;
-import com.ai.slp.product.api.normproduct.param.AttrQuery;
 import com.ai.slp.product.api.normproduct.param.NormProdSaveRequest;
-import com.ai.slp.product.api.normproduct.param.ProdCatAttrInfo;
 import com.ai.slp.product.api.product.interfaces.IProductManagerSV;
 import com.ai.slp.product.api.product.interfaces.IProductSV;
 import com.ai.slp.product.api.productcat.interfaces.IProductCatSV;
 import com.ai.slp.product.api.productcat.param.AttrQueryForCat;
-import com.ai.slp.product.api.productcat.param.AttrValInfo;
-import com.ai.slp.product.api.productcat.param.ProdCatAttrDef;
 import com.ai.slp.product.api.productcat.param.ProdCatInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +25,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 对标准品进行操作
@@ -99,8 +90,8 @@ public class NormProdEditController {
     		
     		IProductCatSV iProductCatSV = DubboConsumerFactory.getService(IProductCatSV.class);
     	//	Map<ProdCatAttrDef, List<AttrValInfo>> attrMap = iProductCatSV.queryAttrByCatAndType(attrqueryforcat);
-    		AttrMap attrMap = (AttrMap) iProductCatSV.queryAttrByCatAndType(attrqueryforcat);
-    		uiModel.addAttribute("attrAndVal", attrAndValService.getAttrAndVals(attrMap));
+//    		AttrMap attrMap = (AttrMap) iProductCatSV.queryAttrByCatAndType(attrqueryforcat);
+//    		uiModel.addAttribute("attrAndVal", attrAndValService.getAttrAndVals(attrMap));
 	        
 	        
     	//标准品的状态 --缓存中进行查询
